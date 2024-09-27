@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="/views/index.html">Inicio</a></li>
+          <li><a href="/views/buscar.html">Buscar</a></li>
+          <li><a href="/views/login.html">Inicio sesion</a></li>
+          <li><a href="/views/registro.html">Registro</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <form id="registration-form">
+        <h3>Registrar Usuario</h3>
+        <label for="usu">Nombre de usuario:</label>
+        <input
+          type="text"
+          id="usu"
+          name="usu"
+          autofocus
+          required
+          pattern="^[A-Za-z][A-Za-z0-9]{3,19}$"
+          maxlength="20"
+          title="No se permiten espacios en blanco, una longitud de 4 a 20 caracteres y solo se podrán usar números y letras (mayusculas y minùsculas), además de que no se puede iniciar con números."
+        />
+        <br />
+
+        <label for="email">Correo electrónico:</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          title="Falta el @."
+        />
+        <br />
+        <label for="pwd">Contraseña:</label>
+        <input
+          type="password"
+          id="pwd"
+          name="pwd"
+          required
+          pattern="^[A-Za-z0-9_\-\.]{4,20}$"
+          maxlength="20"
+          title="No debe tener espacios en blanco y sólo se pueden utilizar letras mayúsculas, minúsculas, números y los caracteres “_”, “-” y “.”. Su longitud no puede ser menor de 4 ni mayor de 20 caracteres."
+        />
+        <br />
+        <label for="pwd2">Confirmar contraseña:</label>
+        <input type="password" id="pwd2" name="pwd2" required />
+        <br />
+        <button type="submit" id="btnEnviarRegistro">Registrarse</button>
+      </form>
+    </main>
+
+    <footer>Todos los derechos reservados ©</footer>
+  </body>
+</html>
