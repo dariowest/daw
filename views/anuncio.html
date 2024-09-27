@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inicio</title>
+    <title>Detalle del Anuncio</title>
   </head>
   <body>
     <header>
@@ -11,11 +11,99 @@
         <ul>
             <li><a href="/views/index.html">Inicio</a></li>
             <li><a href="/views/buscar.html">Buscar</a></li>
-            <li><a href="/views/login.html">Inicio sesion</a></li>
+            <li><a href="/views/login.html">Inicio sesión</a></li>
             <li><a href="/views/registro.html">Registro</a></li>
         </ul>
       </nav>
     </header>
+
+    <main>
+      <!-- Foto principal -->
+      <figure>
+        <img src="foto-principal.jpg" alt="Foto principal del anuncio" />
+        <figcaption>Foto principal del anuncio</figcaption>
+      </figure>
+
+      <!-- Título del anuncio -->
+      <section>
+        <h1>Título del anuncio</h1>
+      </section>
+
+      <!-- Precio -->
+      <section>
+        <h2>Precio: €1,200/mes</h2>
+      </section>
+
+      <!-- Descripción del anuncio -->
+      <section>
+        <p>
+          Este es el texto del anuncio. Aquí se describe la propiedad, las características principales, el estado del inmueble, etc.
+        </p>
+      </section>
+
+      <!-- Fecha de publicación -->
+      <section>
+        <p><strong>Publicado el:</strong> 28 de septiembre de 2024</p>
+      </section>
+
+      <!-- Ubicación: ciudad y país -->
+      <section>
+        <p><strong>Ciudad:</strong> Madrid</p>
+        <p><strong>País:</strong> España</p>
+      </section>
+
+      <!-- Características del inmueble -->
+      <section>
+        <h3>Características</h3>
+        <ul>
+          <li>3 habitaciones</li>
+          <li>2 baños</li>
+          <li>120 m²</li>
+          <li>Aire acondicionado</li>
+          <li>Terraza</li>
+        </ul>
+      </section>
+
+      <!-- Galería de fotos adicionales -->
+      <section>
+        <h3>Fotos adicionales</h3>
+        <figure>
+          <img src="foto1.jpg" alt="Foto 1" />
+          <figcaption>Foto de la sala</figcaption>
+        </figure>
+        <figure>
+          <img src="foto2.jpg" alt="Foto 2" />
+          <figcaption>Foto de la cocina</figcaption>
+        </figure>
+        <figure>
+          <img src="foto3.jpg" alt="Foto 3" />
+          <figcaption>Foto del dormitorio principal</figcaption>
+        </figure>
+      </section>
+
+      <!-- Usuario que publicó el anuncio -->
+      <section>
+        <p><strong>Publicado por:</strong> Juan Pérez</p>
+      </section>
+
+      <!-- Mensaje de contacto -->
+      <section>
+        <h3>Enviar mensaje</h3>
+        <form action="/enviar-mensaje" method="post">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" required />
+          <br />
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+          <br />
+          <label for="mensaje">Mensaje:</label>
+          <textarea id="mensaje" name="mensaje" required></textarea>
+          <br />
+          <button type="submit">Enviar</button>
+        </form>
+      </section>
+    </main>
+
     <footer>
         Todos los derechos reservados ©
     </footer>
