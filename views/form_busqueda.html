@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inicio</title>
+    <title>Buscar Anuncio</title>
   </head>
   <body>
     <header>
@@ -11,11 +11,68 @@
         <ul>
             <li><a href="/views/index.html">Inicio</a></li>
             <li><a href="/views/buscar.html">Buscar</a></li>
-            <li><a href="/views/login.html">Inicio sesion</a></li>
+            <li><a href="/views/login.html">Inicio sesión</a></li>
             <li><a href="/views/registro.html">Registro</a></li>
         </ul>
       </nav>
     </header>
+
+    <main>
+      <h1>Buscar Anuncios</h1>
+
+      <form action="/buscar-anuncio" method="get">
+        <!-- Tipo de anuncio (obligatorio) -->
+        <label for="tipo-anuncio">Tipo de anuncio:</label>
+        <select id="tipo-anuncio" name="tipo-anuncio" required>
+          <option value="">Seleccione una opción</option>
+          <option value="venta">Venta</option>
+          <option value="alquiler">Alquiler</option>
+        </select>
+        <br /><br />
+
+        <!-- Tipo de vivienda (no obligatorio) -->
+        <label for="tipo-vivienda">Tipo de vivienda:</label>
+        <select id="tipo-vivienda" name="tipo-vivienda">
+          <option value="">Seleccione una opción</option>
+          <option value="obra-nueva">Obra nueva</option>
+          <option value="vivienda">Vivienda</option>
+          <option value="oficina">Oficina</option>
+          <option value="local">Local</option>
+          <option value="garaje">Garaje</option>
+        </select>
+        <br /><br />
+
+        <!-- Ciudad (no obligatorio) -->
+        <label for="ciudad">Ciudad:</label>
+        <input type="text" id="ciudad" name="ciudad" placeholder="Ingrese la ciudad" />
+        <br /><br />
+
+        <!-- País (no obligatorio) -->
+        <label for="pais">País:</label>
+        <input type="text" id="pais" name="pais" placeholder="Ingrese el país" />
+        <br /><br />
+
+        <!-- Rango de precios (no obligatorio) -->
+        <label for="precio-min">Precio mínimo:</label>
+        <input type="number" id="precio-min" name="precio-min" min="0" placeholder="€" />
+        <br /><br />
+        <label for="precio-max">Precio máximo:</label>
+        <input type="number" id="precio-max" name="precio-max" min="0" placeholder="€" />
+        <br /><br />
+
+        <!-- Fecha de publicación (no obligatorio) -->
+        <label for="fecha-inicio">Fecha desde:</label>
+        <input type="date" id="fecha-inicio" name="fecha-inicio" />
+        <br /><br />
+        <label for="fecha-fin">Fecha hasta:</label>
+        <input type="date" id="fecha-fin" name="fecha-fin" />
+        <br /><br />
+
+        <!-- Botón de búsqueda -->
+        <button type="submit">Buscar</button>
+      </form>
+    </main>
+
     <footer>
         Todos los derechos reservados ©
     </footer>

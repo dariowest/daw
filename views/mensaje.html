@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inicio</title>
+    <title>Enviar Mensaje</title>
   </head>
   <body>
     <header>
@@ -11,11 +11,36 @@
         <ul>
             <li><a href="/views/index.html">Inicio</a></li>
             <li><a href="/views/buscar.html">Buscar</a></li>
-            <li><a href="/views/login.html">Inicio sesion</a></li>
+            <li><a href="/views/login.html">Inicio sesión</a></li>
             <li><a href="/views/registro.html">Registro</a></li>
         </ul>
       </nav>
     </header>
+
+    <main>
+      <h1>Enviar un Mensaje al Propietario</h1>
+
+      <form action="/enviar-mensaje" method="post">
+        <!-- Tipo de mensaje -->
+        <label for="tipo-mensaje">Tipo de mensaje:</label>
+        <select id="tipo-mensaje" name="tipo-mensaje" required>
+          <option value="">Seleccione el tipo de mensaje</option>
+          <option value="consulta">Consulta</option>
+          <option value="oferta">Oferta</option>
+          <option value="otro">Otro</option>
+        </select>
+        <br /><br />
+
+        <!-- Texto del mensaje -->
+        <label for="mensaje">Escriba su mensaje:</label>
+        <textarea id="mensaje" name="mensaje" rows="6" cols="50" placeholder="Escriba aquí su mensaje" required></textarea>
+        <br /><br />
+
+        <!-- Botón de envío -->
+        <button type="submit">Enviar mensaje</button>
+      </form>
+    </main>
+
     <footer>
         Todos los derechos reservados ©
     </footer>
