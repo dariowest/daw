@@ -8,6 +8,7 @@
   <body>
     <header>
       <nav>
+        <img src="../img/small_logo.png" alt="logo">
         <ul>
           <li><a href="index_logeado.html">Inicio</a></li>
           <li><a href="form_busqueda.html">Buscar</a></li>
@@ -77,7 +78,7 @@
         <p>Rellena el siguiente formulario blablabla</p>
         <p>Los campos marcados con asterisco(*) son obligatorios</p>
 
-        <form method="get">
+        <form method="get" action="folleto.html">
           <p>
             <label
               >Texto adicional:
@@ -105,26 +106,43 @@
           <p>
             <label
               >Email:
-              <input type="email" placeholder="Ingrese su correo electrónico"/>
+              <input type="email" placeholder="Ingrese su correo electrónico" />
             </label>
           </p>
 
           <p>
-            <label>Dirección: 
-                <input type="text" name="calle" id="calle" placeholder="Calle"/>
-                <input type="text" name="numero" id="numero" placeholder="Número">
-                <input type="text" name="cp" id="cp" placeholder="Código postal">
-                <select name="localidad" id="localidad">
-                    <option value="">Elija una opción</option>
-                    <option value="Murcia">Murcia</option>
-                    <option value="Barcelona">Barcelona</option>
-                    <option value="Barcelona">Alicante</option>
-                    <option value="Malaga">Málaga</option>
-                </select></label>
+            <label
+              >Dirección:
+              <input type="text" name="calle" id="calle" placeholder="Calle" />
+              <input
+                type="text"
+                name="numero"
+                id="numero"
+                placeholder="Número"
+              />
+              <input
+                type="text"
+                name="cp"
+                id="cp"
+                placeholder="Código postal"
+              />
+              <select name="localidad" id="localidad">
+                <option value="">Elija una opción</option>
+                <option value="Murcia">Murcia</option>
+                <option value="Barcelona">Barcelona</option>
+                <option value="Barcelona">Alicante</option>
+                <option value="Malaga">Málaga</option>
+              </select></label
+            >
           </p>
           <p>
             <label for="telefono"
-              >Telf: <input type="tel" name="telefono" id="telefono" placeholder="Teléfono"
+              >Telf:
+              <input
+                type="tel"
+                name="telefono"
+                id="telefono"
+                placeholder="Teléfono"
             /></label>
           </p>
 
@@ -134,7 +152,10 @@
             /></label>
           </p>
           <p>
-            <label>Número de copias: <input type="number" name="copias" id="copias" min="0" value="1"></label>
+            <label
+              >Número de copias:
+              <input type="number" name="copias" id="copias" min="0" value="1"
+            /></label>
           </p>
           <p>
             <label for="reso"
@@ -149,6 +170,24 @@
                 value="150"
               /><output id="valor">150</output></label
             >
+          </p>
+
+          <p>
+            Seleccione el anuncio:
+            <select name="anuncio">
+              <option value="anuncio1">Anuncio 1</option>
+              <option value="anuncio2">Anuncio 2</option>
+              <option value="anuncio3">Anuncio 3</option>
+            </select>
+          </p>
+          <p>
+            <label>Fecha de recepción: <input type="date" /></label>
+          </p>
+
+          <p>
+            Modo de impresión:
+            <input type="radio" name="modo_impresion" value="1" />Color
+            <input type="radio" name="modo_impresion" value="2" />Blanco y negro
           </p>
 
           <input type="submit" value="¡Solicitar!" />
