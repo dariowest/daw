@@ -12,9 +12,7 @@ a{
     text-decoration: none;
 }
 body{
-    >header{
-        background-color: #dcfb44;
-    }
+    
     >header>nav{
 
         a:hover{
