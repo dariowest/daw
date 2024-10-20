@@ -4,13 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
+    <link rel="stylesheet" href="../styles/global.css" title="Estilo principal">
+    <link rel="alternative stylesheet" href="../styles/oscuro.css" title="Modo oscuro">
+    <link rel="stylesheet" href="../styles/form-buscar.css">
+    <link rel="alternative stylesheet" href="../styles/contraste.css" title="Estilo alto contraste">
+    <link rel="alternative stylesheet" href="../styles/letra-mayor.css" title="Estilo letra mayor">
+    <link rel="alternative stylesheet" href="../styles/contraste-letra.css" title="Estilo letra mayor y alto contraste">
   </head>
   <body>
     <header>
       <nav>
         <img src="../img/small_logo.png" alt="logo">
         <ul>
-          <li><a href="index.html">Inicio</a></li>
+          <li><a href="../index.html">Inicio</a></li>
           <li><a href="form_busqueda.html">Buscar</a></li>
           <li><a href="login.html">Inicio sesión</a></li>
           <li><a href="registro.html">Registro</a></li>
@@ -18,37 +24,49 @@
       </nav>
     </header>
 
-    <form id="registration-form">
-      <h3>Iniciar Sesión</h3>
-      <label for="usu">Nombre de usuario:</label>
-      <input
-        type="text"
-        id="usu"
-        name="usu"
-        required
-        autofocus
-        maxlength="20"
-        pattern="^[A-Za-z][A-Za-z0-9]{3,19}$"
-        title="No se permiten espacios en blanco, una longitud de 
-          4 a 20 caracteres y solo se podrán usar números y letras (mayusculas y minùsculas), además de que no se puede iniciar con números."
-      /> <br>
-      <label for="pwd">Contraseña:</label>
-      <input
-        type="password"
-        id="pwd"
-        name="pwd"
-        required
-        pattern="^[A-Za-z0-9_\-\.]{4,20}$"
-        maxlength="20"
-        title="No debe tener espacios en blanco y sólo se pueden
-          utilizar letras mayúsculas, minúsculas, números y los caracteres “_”, “-” y “.”. Su longitud no puede ser menor de 4 ni mayor de 20 caracteres."
-      />
+    <main>
+      <form id="registration-form" action="index_logeado.html">
+        <h3>Iniciar Sesión</h3>
+        <div class="form-alineado">
+          <label for="usu">Nombre de usuario:</label>
+          <input
+            type="text"
+            id="usu"
+            name="usu"
+            required
+            autofocus
+            maxlength="20"
+            pattern="^[A-Za-z][A-Za-z0-9]{3,19}$"
+            title="No se permiten espacios en blanco, una longitud de 
+              4 a 20 caracteres y solo se podrán usar números y letras (mayusculas y minùsculas), además de que no se puede iniciar con números."
+          />
+        </div>
+  
+        <div class="form-alineado">
+          <label for="pwd">Contraseña:</label>
+          <input
+            type="password"
+            id="pwd"
+            name="pwd"
+            required
+            pattern="^[A-Za-z0-9_\-\.]{4,20}$"
+            maxlength="20"
+            title="No debe tener espacios en blanco y sólo se pueden
+              utilizar letras mayúsculas, minúsculas, números y los caracteres “_”, “-” y “.”. Su longitud no puede ser menor de 4 ni mayor de 20 caracteres."
+          />
+        </div>
+  
+        <div class="form-alineado">
+          <input type="submit" value="Iniciar sesion">
+        </div>
+  
+        <div class="form-alineado">
+          <p>¿No tienes una cuenta? <a href="registro.html">Registrate</a></p>
+        </div>
+      </form>
 
-      <!--Cambiarlo por un botón cuando se pueda-->
-      <!--<button href="index_logeado.html">Iniciar Sesion</button>-->
-      <a href="index_logeado.html">Inicia sesión</a>
-      <p>¿No tienes una cuenta? <a href="registro.html">Registrate</a></p>
-    </form>
+    </main>
+
     <footer>Todos los derechos reservados ©</footer>
   </body>
 </html>

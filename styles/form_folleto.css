@@ -1,0 +1,30 @@
+main{
+    margin: 40px;
+    h2{
+        text-align: center;
+    }
+    section{
+        display: grid;
+        article{
+            margin: 30px auto;
+            max-width: 500px;
+            border-style: solid;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+    }
+}
+
+table{
+    th, td{
+        border-style: solid;
+        padding: 5px;
+    }
+}
+
+@media only screen and (min-width: 900px){
+    section{
+        grid-template-columns: auto auto;
+    }
+}

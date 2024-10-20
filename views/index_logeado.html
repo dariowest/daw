@@ -3,6 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/global.css" title="Estilo principal">
+    <link rel="alternative stylesheet" href="../styles/oscuro.css" title="Modo oscuro">
+    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="alternative stylesheet" href="../styles/contraste.css" title="Estilo alto contraste">
+    <link rel="alternative stylesheet" href="../styles/letra-mayor.css" title="Estilo letra mayor">
+    <link rel="stylesheet" href="../styles/imprime-index.css" media="print">
+    <link rel="alternative stylesheet" href="../styles/contraste-letra.css" title="Estilo letra mayor y alto contraste">
     <title>Inicio</title>
   </head>
   <body>
@@ -12,79 +19,89 @@
         <ul>
           <li><a href="index_logeado.html">Inicio</a></li>
           <li><a href="form_busqueda.html">Buscar</a></li>
-          <li><a href="perfil.html">Juan Dario Gomez Ardila</a></li>
-          <li><a href="index.html">Cerrar sesión</a></li>
+          <li><a href="perfil.html">Juan Dario</a></li>
+          <li><a href="../index.html">Cerrar sesión</a></li>
         </ul>
       </nav>
     </header>
     <main>
       <header>
         <h3>Buscar</h2>
-        <form action="">
-          <input type="text" name="" id="" />
+        <form action="res_busqueda.html">
+          <input type="text" name="" id="buscar" />
           <input type="submit" value="Buscar" />
         </form>
         <h3>Últimas publicaciones</h3>
       </header>
       <section>
         <article>
-          <!-- Foto del anuncio -->
           <figure>
-            <img src="foto1.jpg" alt="Foto del anuncio 1" width="200" />
-            <figcaption>Foto del anuncio 1</figcaption>
+            <img src="../img/foto-principal.jpg" alt="Foto del anuncio 1" width="200" />
           </figure>
-
-          <!-- Título del anuncio con enlace a la página de detalles -->
-          <h2><a href="anuncio.html">Título del anuncio 1</a></h2>
-
-          <!-- Fecha de publicación -->
-          <p><strong>Fecha:</strong> 20 de septiembre de 2024</p>
-
-          <!-- Ciudad -->
-          <p><strong>Ciudad:</strong> Madrid</p>
-
-          <!-- Precio -->
-          <p><strong>Precio:</strong> €1,200/mes</p>
-        </article>
-        <article>
-          <!-- Foto del anuncio -->
-          <figure>
-            <img src="foto2.jpg" alt="Foto del anuncio 2" width="200" />
-            <figcaption>Foto del anuncio 1</figcaption>
-          </figure>
-
-          <!-- Título del anuncio con enlace a la página de detalles -->
-          <h2><a href="anuncio.html">Título del anuncio 2</a></h2>
-
-          <!-- Fecha de publicación -->
-          <p><strong>Fecha:</strong> 20 de septiembre de 2024</p>
-
-          <!-- Ciudad -->
-          <p><strong>Ciudad:</strong> Madrid</p>
-
-          <!-- Precio -->
-          <p><strong>Precio:</strong> €1,200/mes</p>
-        </article>
-        <article>
-          <!-- Foto del anuncio -->
-          <figure>
-            <img src="foto3.jpg" alt="Foto del anuncio 3" width="200" />
-            <figcaption>Foto del anuncio 1</figcaption>
-          </figure>
-
-          <!-- Título del anuncio con enlace a la página de detalles -->
-          <h2><a href="anuncio.html">Título del anuncio 3</a></h2>
-
-          <!-- Fecha de publicación -->
-          <p><strong>Fecha:</strong> 20 de septiembre de 2024</p>
-
-          <!-- Ciudad -->
-          <p><strong>Ciudad:</strong> Madrid</p>
-
-          <!-- Precio -->
-          <p><strong>Precio:</strong> €1,200/mes</p>
-        </article>
+          <aside>
+            <h2><a href="anuncio.html">Título</a></h2>
+            <p>Madrid</p>
+            <p>€1,200/mes</p>
+            <p>Piso</p>
+            <p>Alquiler</p>
+            <p>20/9/2024</p>
+          </aside>
+      </article>
+      <article>
+        <figure>
+          <img src="../img/foto-principal.jpg" alt="Foto del anuncio 1" width="200" />
+        </figure>
+        <aside>
+          <h2><a href="anuncio.html">Título</a></h2>
+          <p>Madrid</p>
+          <p>€1,200/mes</p>
+          <p>Piso</p>
+          <p>Alquiler</p>
+          <p>20/9/2024</p>
+        </aside>
+    </article>
+    <article>
+      <figure>
+        <img src="../img/foto-principal.jpg" alt="Foto del anuncio 1" width="200" />
+      </figure>
+      <aside>
+        <h2><a href="anuncio.html">Título</a></h2>
+        <p>Madrid</p>
+        <p>€1,200/mes</p>
+        <p>Piso</p>
+        <p>Alquiler</p>
+        <p>20/9/2024</p>
+      </aside>
+  </article>
+  <article>
+    <figure>
+      <img src="../img/foto-principal.jpg" alt="Foto del anuncio 1" width="200" />
+    </figure>
+    <aside>
+      <h2><a href="anuncio.html">Título</a></h2>
+      <p>Madrid</p>
+      <p>€1,200/mes</p>
+      <p>Piso</p>
+      <p>Alquiler</p>
+      <p>20/9/2024</p>
+    </aside>
+</article>
+<article>
+  <figure>
+    <img src="../img/foto-principal.jpg" alt="Foto del anuncio 1" width="200" />
+  </figure>
+  <aside>
+    <h2><a href="anuncio.html">Título</a></h2>
+    <p>Madrid</p>
+    <p>€1,200/mes</p>
+    <p>Piso</p>
+    <p>Alquiler</p>
+    <p>20/9/2024</p>
+  </aside>
+</article>
+      
       </section>
+      
     </main>
     <footer>
         Todos los derechos reservados ©
