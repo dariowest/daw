@@ -194,4 +194,4 @@ function establecerTiposFormulario() {
 }
 
 // Ejecutar la función cuando el DOM esté completamente cargado
-document.addEventListener("DOMContentLoaded", establecerTiposFormulario);
+
