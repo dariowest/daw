@@ -135,7 +135,6 @@
               <label
                 >Texto adicional:
                 <input
-                  type="text"
                   name="texto_adicional"
                   size="50"
                   maxlength="100"
@@ -147,7 +146,6 @@
               <label
                 >Nombre:
                 <input
-                  type="text"
                   name="Nombre"
                   id="nombre"
                   maxlength="200"
@@ -158,7 +156,6 @@
               <label
                 >Email:
                 <input
-                  type="email"
                   placeholder="Ingrese su correo electrónico"
                 />
               </label>
@@ -168,19 +165,16 @@
               <label
                 >Dirección:
                 <input
-                  type="text"
                   name="calle"
                   id="calle"
                   placeholder="Calle"
                 />
                 <input
-                  type="number"
                   name="numero"
                   id="numero"
                   placeholder="Número"
                 />
                 <input
-                  type="number"
                   name="cp"
                   id="cp"
                   placeholder="Código postal"
@@ -198,7 +192,6 @@
               <label for="telefono"
                 >Telf:
                 <input
-                  type="tel"
                   name="telefono"
                   id="telefono"
                   placeholder="Teléfono"
@@ -214,7 +207,6 @@
               <label
                 >Número de copias:
                 <input
-                  type="number"
                   name="copias"
                   id="copias"
               /></label>
@@ -223,7 +215,6 @@
               <label for="reso"
                 >Resolucion:
                 <input
-                  type="range"
                   name="reso"
                   id="reso"
                 /><output id="valor">150</output></label
@@ -244,8 +235,8 @@
 
             <p>
               Modo de impresión:
-              <input type="radio" name="modo_impresion" value="1" />Color
-              <input type="radio" name="modo_impresion" value="2" />Blanco y
+              <input name="modo_impresion"/>Color
+              <input name="modo_impresion"/>Blanco y
               negro
             </p>
 

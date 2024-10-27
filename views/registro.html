@@ -73,12 +73,9 @@
         <div class="form-alineado">
           <label for="usu">Nombre de usuario:</label>
           <input
-            type="text"
             id="usu"
             name="usu"
             autofocus
-            required
-            pattern="^[A-Za-z][A-Za-z0-9]{3,19}$"
             maxlength="20"
             title="No se permiten espacios en blanco, una longitud de 4 a 20 caracteres y solo se podrán usar números y letras (mayusculas y minùsculas), además de que no se puede iniciar con números."
           />
@@ -86,17 +83,14 @@
         <div class="form-alineado">
           <label for="email">Correo electrónico:</label>
           <input
-            type="email"
             id="email"
             name="email"
-            required
             title="Falta el @."
           />
         </div>
         <div class="form-alineado">
           <label for="pwd">Contraseña:</label>
           <input
-            type="password"
             id="pwd"
             name="pwd"
             maxlength="20"
@@ -105,7 +99,7 @@
         </div>
         <div class="form-alineado">
           <label for="pwd2">Confirmar contraseña:</label>
-          <input type="password" id="pwd2" name="pwd2"/>
+          <input id="pwd2" name="pwd2"/>
         </div>
         <div class="form-alineado">
           <label for="sexo">Sexo:</label>
@@ -119,7 +113,6 @@
         <div class="form-alineado">
           <label for="fecha_nacimiento">Fecha de nacimiento:</label>
           <input
-            type="date"
             id="fecha_nacimiento"
             name="fecha_nacimiento"
           />
@@ -127,7 +120,6 @@
         <div class="form-alineado">
           <label for="ciudad">Ciudad de residencia:</label>
           <input
-            type="text"
             id="ciudad"
             name="ciudad"
             title="Solo se permiten letras y espacios. Mínimo 2 caracteres."
@@ -136,7 +128,6 @@
         <div class="form-alineado">
           <label for="pais">País de residencia:</label>
           <input
-            type="text"
             id="pais"
             name="pais"
             required
@@ -146,7 +137,6 @@
         <div class="form-alineado">
           <label for="foto_perfil">Foto de perfil:</label>
           <input
-            type="file"
             id="foto_perfil"
             name="foto_perfil"
             accept="image/*"
