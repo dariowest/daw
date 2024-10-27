@@ -1,5 +1,5 @@
 body{
     >header{
-        background-color: #dcfb44;
+        background-color: var(--color-amarillo);
     }
 }

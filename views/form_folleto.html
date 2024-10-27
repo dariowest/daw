@@ -4,23 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mi Perfil</title>
-    <link rel="stylesheet" href="../styles/form_folleto.css">
-    <link rel="stylesheet" href="../styles/global.css">
-    <link rel="stylesheet" href="../styles/estilo-estandar.css" title="Estilo principal">
-    <link rel="alternative stylesheet" href="../styles/oscuro.css" title="Modo oscuro">
-    <link rel="alternative stylesheet" href="../styles/contraste.css" title="Estilo alto contraste">
-    <link rel="alternative stylesheet" href="../styles/letra-mayor.css" title="Estilo letra mayor">
-    <link rel="alternative stylesheet" href="../styles/contraste-letra.css" title="Estilo letra mayor y alto contraste">
+    <link rel="stylesheet" href="../styles/form_folleto.css" />
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link
+      rel="stylesheet"
+      href="../styles/estilo-estandar.css"
+      title="Estilo principal"
+    />
+    <link
+      rel="alternative stylesheet"
+      href="../styles/oscuro.css"
+      title="Modo oscuro"
+    />
+    <link
+      rel="alternative stylesheet"
+      href="../styles/contraste.css"
+      title="Estilo alto contraste"
+    />
+    <link
+      rel="alternative stylesheet"
+      href="../styles/letra-mayor.css"
+      title="Estilo letra mayor"
+    />
+    <link
+      rel="alternative stylesheet"
+      href="../styles/contraste-letra.css"
+      title="Estilo letra mayor y alto contraste"
+    />
+    <!-- Enlace a Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
   </head>
   <body>
     <header>
       <nav>
         <img src="../img/small_logo.png" alt="logo" />
         <ul>
-          <li><a href="index_logeado.html">Inicio</a></li>
-          <li><a href="form_busqueda.html">Buscar</a></li>
-          <li><a href="perfil.html">Juan Dario</a></li>
-          <li><a href="../index.html">Cerrar sesión</a></li>
+          <li>
+            <a href="index_logeado.html"
+              ><i class="fas fa-home"></i> <span>Inicio</span></a
+            >
+          </li>
+          <li>
+            <a href="form_busqueda.html"
+              ><i class="fas fa-search"></i> <span>Buscar</span></a
+            >
+          </li>
+          <li>
+            <a href="perfil.html"
+              ><i class="fas fa-user"></i>
+              <span>Juan Dario Gomez Ardila</span></a
+            >
+          </li>
+          <li>
+            <a href="../index.html"
+              ><i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span></a
+            >
+          </li>
         </ul>
       </nav>
     </header>
@@ -81,13 +123,13 @@
             </tbody>
           </table>
         </article>
-  
+
         <!--Formulario-->
         <article>
           <h2>Formulario de solicitud</h2>
           <p>Rellena el siguiente formulario blablabla</p>
           <p>Los campos marcados con asterisco(*) son obligatorios</p>
-  
+
           <form method="get" action="folleto.html">
             <p>
               <label
@@ -116,14 +158,22 @@
             <p>
               <label
                 >Email:
-                <input type="email" placeholder="Ingrese su correo electrónico" />
+                <input
+                  type="email"
+                  placeholder="Ingrese su correo electrónico"
+                />
               </label>
             </p>
-  
+
             <p>
               <label
                 >Dirección:
-                <input type="text" name="calle" id="calle" placeholder="Calle" />
+                <input
+                  type="text"
+                  name="calle"
+                  id="calle"
+                  placeholder="Calle"
+                />
                 <input
                   type="number"
                   name="numero"
@@ -155,7 +205,7 @@
                   placeholder="Teléfono"
               /></label>
             </p>
-  
+
             <p>
               <label for="color"
                 >Color portada: <input type="color" name="color" id="color"
@@ -164,7 +214,12 @@
             <p>
               <label
                 >Número de copias:
-                <input type="number" name="copias" id="copias" min="0" value="1"
+                <input
+                  type="number"
+                  name="copias"
+                  id="copias"
+                  min="0"
+                  value="1"
               /></label>
             </p>
             <p>
@@ -181,7 +236,7 @@
                 /><output id="valor">150</output></label
               >
             </p>
-  
+
             <p>
               Seleccione el anuncio:
               <select name="anuncio">
@@ -193,17 +248,17 @@
             <p>
               <label>Fecha de recepción: <input type="date" /></label>
             </p>
-  
+
             <p>
               Modo de impresión:
               <input type="radio" name="modo_impresion" value="1" />Color
-              <input type="radio" name="modo_impresion" value="2" />Blanco y negro
+              <input type="radio" name="modo_impresion" value="2" />Blanco y
+              negro
             </p>
-  
+
             <input type="submit" value="¡Solicitar!" />
           </form>
         </article>
-
       </section>
     </main>
 

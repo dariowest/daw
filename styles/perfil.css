@@ -12,7 +12,7 @@ section{
 #mis_anuncios{
     display: grid;
     article:hover{
-        background-color: bisque;
+        background-color: var(--color-bisque);
     }
     >article{
         width: 300px;

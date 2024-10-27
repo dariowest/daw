@@ -1,19 +1,27 @@
-
-*{
-
-    color: white;
+* {
+  color: var(--color-blanco);
 }
-input, button, select, option, textarea{
-    color: #000000;
+input,
+button,
+select,
+option,
+textarea {
+  color: var(--color-negro);
 }
 
-a{
-    color: white;
+a {
+  color: var(--color-blanco);
 }
-body{
-    background-color: #000000;
-    >header{
-        background-color: #000000;
-    }
+body {
+  background-color: var(--color-negro);
+  > header {
+    background-color: var(--color-negro);
+  }
+}
 
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  img {
+    filter: invert(1) hue-rotate(180deg); /* Invertir los colores de la imagen */
+  }
 }
