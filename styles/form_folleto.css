@@ -22,7 +22,19 @@ table{
         padding: 5px;
     }
 }
+#tabla{
+    >table{
+        margin: 0 auto;
+    }
+}
 
+#mostrar{
+    display: flex;
+    justify-content: center;
+    >button{
+        margin: 10px;
+    }
+}
 @media only screen and (min-width: 900px){
     section{
         grid-template-columns: auto auto;
