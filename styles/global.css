@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+/*variables globales*/
+:root {
+    --color-negro: #000000;
+    --color-blanco: #FFFFFF;
+    --color-amarillo: #dcfb44;
+    --color-celeste: #81DADA;
+    --color-bisque: #ffe4c4;
+}
+
+body { min-height: 100vh; }
+
+*{
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    color: var(--color-negro);
+    text-decoration: none;
+}
+body{
+    >header{
+        background-color: var(--color-amarillo);
+    }
+    
+    >header>nav{
+
+        a:hover{
+            font-weight: 500;
+        }
+        
+        img{
+            display: block;
+            margin: 0 auto;
+            width: 100px;
+        }
+        ul{
+            margin-top: 20px;
+            display: flex;
+            list-style: none;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            li{
+                margin: 15px;
+            }
+        }
+        
+    }
+
+    >footer{
+        text-align: center;
+        
+    }
+
+}
+
+/* Estilos base para la navegación */
+nav ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 15px;
+}
+
+nav ul li a {
+    display: flex;
+    align-items: center;
+    color: var(--color-negro);
+    text-decoration: none;
+}
+
+nav ul li a i {
+    margin-right: 8px; /* Espacio entre el ícono y el texto */
+}
+
+/* Media query: cuando el ancho de la ventana sea menor a 600px, solo mostrar íconos */
+@media (max-width: 600px) {
+    nav ul li a span {
+        display: none; /* Ocultar el texto */
+    }
+
+    nav ul li a i {
+        font-size: 24px; /* Ajustar el tamaño de los íconos si es necesario */
+        margin-right: 0; /* Eliminar el margen entre el ícono y el texto */
+    }
+}
+

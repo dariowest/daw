@@ -1,0 +1,16 @@
+
+main{
+    >h1, >h3{
+        text-align: center;
+    }
+}
+form{
+    width: 350px;
+    margin: 20px auto;
+    padding: 15px;
+    border-style: solid;
+    border-radius: 10px;
+}
+textarea{
+    max-width: 300px;
+}

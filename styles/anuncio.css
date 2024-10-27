@@ -1,0 +1,36 @@
+section{
+        display: grid;
+        grid-template-columns: auto;
+        margin: 20px;
+        article{
+            padding: 20px;
+        }
+
+    
+}
+img{
+    margin: 0 auto;
+}
+main{
+    >h3, >p{
+        text-align: center;
+        margin: 7px;
+    }
+
+
+}
+
+#informacion{
+    border-style: solid;
+    border-radius: 10px;
+}
+
+
+@media only screen and (min-width: 1000px){
+    section{
+        grid-template-columns: auto auto;
+    }
+
+
+}
+

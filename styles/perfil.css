@@ -1,0 +1,70 @@
+
+h2{
+    text-align: center;
+}
+
+section{
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    border-style: solid;
+}
+#mis_anuncios{
+    display: grid;
+    article:hover{
+        background-color: var(--color-bisque);
+    }
+    >article{
+        width: 300px;
+        display: flex;
+        margin: 20px auto;
+        padding: 20px;
+        border-style: solid;
+        border-radius: 10px;
+    
+            >figure{
+                margin: auto;
+            }
+            >aside{
+                    margin-left: 8px;
+                
+                p{
+                    margin-top: 10px;
+                }
+            }
+    
+    }
+
+}
+
+#modificar_datos{
+    display: grid;
+    article{
+        margin: 20px;
+    }
+}
+
+#nuevo{
+    text-align: center;
+}
+
+.boton{
+    text-align: center;
+}
+
+
+
+
+@media only screen and (min-width: 750px){
+    #mis_anuncios, #modificar_datos{
+        grid-template-columns: auto auto;
+    }
+
+}
+
+@media only screen and (min-width: 1200px){
+    #mis_anuncios{
+        grid-template-columns: auto auto auto;
+    }
+
+}

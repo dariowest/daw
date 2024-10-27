@@ -1,0 +1,15 @@
+p, label, li{
+    font-size: 20px;
+}
+h2{
+    font-size: 1.7em;
+}
+h3{
+    font-size: 1.3em;
+}
+
+body{
+    >header{
+        background-color: var(--color-blanco);
+    }
+}

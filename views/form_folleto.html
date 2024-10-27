@@ -4,16 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mi Perfil</title>
+    <link rel="stylesheet" href="../styles/form_folleto.css" />
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link
+      rel="stylesheet"
+      href="../styles/estilo-estandar.css"
+      title="Estilo principal"
+    />
+    <link
+      rel="alternative stylesheet"
+      href="../styles/oscuro.css"
+      title="Modo oscuro"
+    />
+    <link
+      rel="alternative stylesheet"
+      href="../styles/contraste.css"
+      title="Estilo alto contraste"
+    />
+    <link
+      rel="alternative stylesheet"
+      href="../styles/letra-mayor.css"
+      title="Estilo letra mayor"
+    />
+    <link
+      rel="alternative stylesheet"
+      href="../styles/contraste-letra.css"
+      title="Estilo letra mayor y alto contraste"
+    />
+    <!-- Enlace a Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
   </head>
   <body>
     <header>
       <nav>
-        <img src="../img/small_logo.png" alt="logo">
+        <img src="../img/small_logo.png" alt="logo" />
         <ul>
-          <li><a href="index_logeado.html">Inicio</a></li>
-          <li><a href="form_busqueda.html">Buscar</a></li>
-          <li><a href="perfil.html">Juan Dario Gomez Ardila</a></li>
-          <li><a href="index.html">Cerrar sesión</a></li>
+          <li>
+            <a href="index_logeado.html"
+              ><i class="fas fa-home"></i> <span>Inicio</span></a
+            >
+          </li>
+          <li>
+            <a href="form_busqueda.html"
+              ><i class="fas fa-search"></i> <span>Buscar</span></a
+            >
+          </li>
+          <li>
+            <a href="perfil.html"
+              ><i class="fas fa-user"></i>
+              <span>Juan Dario</span></a
+            >
+          </li>
+          <li>
+            <a href="../index.html"
+              ><i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span></a
+            >
+          </li>
         </ul>
       </nav>
     </header>
@@ -29,169 +78,180 @@
       </p>
       <!--Tabla de precios-->
       <section>
-        <h2>Tarifas</h2>
-        <thead>
-          <tr>
-            <th>Concepto</th>
-            <th>Tarifa</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Coste procesamiento y envío</td>
-            <td>10€</td>
-          </tr>
-          <tr>
-            <td>< 5 páginas</td>
-            <td>2€ por página</td>
-          </tr>
-          <tr>
-            <td>Entre 5 y 10 páginas</td>
-            <td>1.8€ por página</td>
-          </tr>
-          <tr>
-            <td>> 10 páginas</td>
-            <td>1.6€ por página</td>
-          </tr>
-          <tr>
-            <td>Blanco y negro</td>
-            <td>0€</td>
-          </tr>
-          <tr>
-            <td>Color</td>
-            <td>0.5 por foto del anuncio</td>
-          </tr>
-          <tr>
-            <td>Resolución <= 300 dpi</td>
-            <td>0€ por foto de anuncio</td>
-          </tr>
-          <tr>
-            <td>Resolución > 300 dpi</td>
-            <td>0.2€ por foto de anuncio</td>
-          </tr>
-        </tbody>
-      </section>
+        <article>
+          <h2>Tarifas</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th>Tarifa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Coste procesamiento y envío</td>
+                <td>10€</td>
+              </tr>
+              <tr>
+                <td>< 5 páginas</td>
+                <td>2€ por página</td>
+              </tr>
+              <tr>
+                <td>Entre 5 y 10 páginas</td>
+                <td>1.8€ por página</td>
+              </tr>
+              <tr>
+                <td>> 10 páginas</td>
+                <td>1.6€ por página</td>
+              </tr>
+              <tr>
+                <td>Blanco y negro</td>
+                <td>0€</td>
+              </tr>
+              <tr>
+                <td>Color</td>
+                <td>0.5 por foto del anuncio</td>
+              </tr>
+              <tr>
+                <td>Resolución <= 300 dpi</td>
+                <td>0€ por foto de anuncio</td>
+              </tr>
+              <tr>
+                <td>Resolución > 300 dpi</td>
+                <td>0.2€ por foto de anuncio</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
 
-      <!--Formulario-->
-      <section>
-        <h3>Formulario de solicitud</h3>
-        <p>Rellena el siguiente formulario blablabla</p>
-        <p>Los campos marcados con asterisco(*) son obligatorios</p>
+        <!--Formulario-->
+        <article>
+          <h2>Formulario de solicitud</h2>
+          <p>Rellena el siguiente formulario blablabla</p>
+          <p>Los campos marcados con asterisco(*) son obligatorios</p>
 
-        <form method="get" action="folleto.html">
-          <p>
-            <label
-              >Texto adicional:
-              <input
-                type="text"
-                name="texto_adicional"
-                size="50"
-                maxlength="100"
-                placeholder="ingrese el texto que considere pertinente para el folleto o envío."
-              />
-            </label>
-          </p>
-          <p>
-            <label
-              >Nombre:
-              <input
-                type="text"
-                name="Nombre"
-                id="nombre"
-                maxlength="200"
-                required
-                placeholder="Escribe tu nombre"
-            /></label>
-          </p>
-          <p>
-            <label
-              >Email:
-              <input type="email" placeholder="Ingrese su correo electrónico" />
-            </label>
-          </p>
+          <form method="get" action="folleto.html">
+            <p>
+              <label
+                >Texto adicional:
+                <input
+                  type="text"
+                  name="texto_adicional"
+                  size="50"
+                  maxlength="100"
+                  placeholder="ingrese el texto que considere pertinente para el folleto o envío."
+                />
+              </label>
+            </p>
+            <p>
+              <label
+                >Nombre:
+                <input
+                  type="text"
+                  name="Nombre"
+                  id="nombre"
+                  maxlength="200"
+                  placeholder="Escribe tu nombre"
+              /></label>
+            </p>
+            <p>
+              <label
+                >Email:
+                <input
+                  type="email"
+                  placeholder="Ingrese su correo electrónico"
+                />
+              </label>
+            </p>
 
-          <p>
-            <label
-              >Dirección:
-              <input type="text" name="calle" id="calle" placeholder="Calle" />
-              <input
-                type="text"
-                name="numero"
-                id="numero"
-                placeholder="Número"
-              />
-              <input
-                type="text"
-                name="cp"
-                id="cp"
-                placeholder="Código postal"
-              />
-              <select name="localidad" id="localidad">
-                <option value="">Elija una opción</option>
-                <option value="Murcia">Murcia</option>
-                <option value="Barcelona">Barcelona</option>
-                <option value="Barcelona">Alicante</option>
-                <option value="Malaga">Málaga</option>
-              </select></label
-            >
-          </p>
-          <p>
-            <label for="telefono"
-              >Telf:
-              <input
-                type="tel"
-                name="telefono"
-                id="telefono"
-                placeholder="Teléfono"
-            /></label>
-          </p>
+            <p>
+              <label
+                >Dirección:
+                <input
+                  type="text"
+                  name="calle"
+                  id="calle"
+                  placeholder="Calle"
+                />
+                <input
+                  type="number"
+                  name="numero"
+                  id="numero"
+                  placeholder="Número"
+                />
+                <input
+                  type="number"
+                  name="cp"
+                  id="cp"
+                  placeholder="Código postal"
+                />
+                <select name="localidad" id="localidad">
+                  <option value="">Seleccione una localidad</option>
+                  <option value="Murcia">Murcia</option>
+                  <option value="Barcelona">Barcelona</option>
+                  <option value="Barcelona">Alicante</option>
+                  <option value="Malaga">Málaga</option>
+                </select></label
+              >
+            </p>
+            <p>
+              <label for="telefono"
+                >Telf:
+                <input
+                  type="tel"
+                  name="telefono"
+                  id="telefono"
+                  placeholder="Teléfono"
+              /></label>
+            </p>
 
-          <p>
-            <label for="color"
-              >Color portada: <input type="color" name="color" id="color"
-            /></label>
-          </p>
-          <p>
-            <label
-              >Número de copias:
-              <input type="number" name="copias" id="copias" min="0" value="1"
-            /></label>
-          </p>
-          <p>
-            <label for="reso"
-              >Resolucion:
-              <input
-                type="range"
-                name="reso"
-                id="reso"
-                min="150"
-                max="900"
-                step="150"
-                value="150"
-              /><output id="valor">150</output></label
-            >
-          </p>
+            <p>
+              <label for="color"
+                >Color portada: <input type="color" name="color" id="color"
+              /></label>
+            </p>
+            <p>
+              <label
+                >Número de copias:
+                <input
+                  type="number"
+                  name="copias"
+                  id="copias"
+              /></label>
+            </p>
+            <p>
+              <label for="reso"
+                >Resolucion:
+                <input
+                  type="range"
+                  name="reso"
+                  id="reso"
+                /><output id="valor">150</output></label
+              >
+            </p>
 
-          <p>
-            Seleccione el anuncio:
-            <select name="anuncio">
-              <option value="anuncio1">Anuncio 1</option>
-              <option value="anuncio2">Anuncio 2</option>
-              <option value="anuncio3">Anuncio 3</option>
-            </select>
-          </p>
-          <p>
-            <label>Fecha de recepción: <input type="date" /></label>
-          </p>
+            <p>
+              Seleccione el anuncio:
+              <select name="anuncio">
+                <option value="anuncio1">Anuncio 1</option>
+                <option value="anuncio2">Anuncio 2</option>
+                <option value="anuncio3">Anuncio 3</option>
+              </select>
+            </p>
+            <p>
+              <label>Fecha de recepción: <input type="date" /></label>
+            </p>
 
-          <p>
-            Modo de impresión:
-            <input type="radio" name="modo_impresion" value="1" />Color
-            <input type="radio" name="modo_impresion" value="2" />Blanco y negro
-          </p>
+            <p>
+              Modo de impresión:
+              <input type="radio" name="modo_impresion" value="1" />Color
+              <input type="radio" name="modo_impresion" value="2" />Blanco y
+              negro
+            </p>
 
-          <input type="submit" value="¡Solicitar!" />
-        </form>
+            <input type="submit" value="¡Solicitar!" />
+          </form>
+        </article>
       </section>
     </main>
 

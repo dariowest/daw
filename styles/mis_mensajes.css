@@ -1,0 +1,22 @@
+h1, h2{
+    text-align: center;
+    margin-top: 30px;
+}
+
+
+
+table{
+    margin: 20px auto;
+    border-style: solid;
+    
+    td, th{
+        padding: 5px;
+        border-style: solid;
+    }
+    th{
+        background-color: bisque;
+    }
+    td{
+        background-color:var(--color-celeste);
+    }
+}

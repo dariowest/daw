@@ -1,0 +1,25 @@
+main{
+    >h1, h3{
+        text-align: center;
+    }
+    h3{
+        margin-bottom: 15px;
+    }
+    form{
+        margin: 20px auto;
+        width: 300px;
+        padding: 20px;
+        border-style: solid;
+        border-radius: 10px;
+        .tipo-busqueda, .form-alineado{
+            margin:5px;
+        }
+        .form-alineado{
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+    }
+}
+
