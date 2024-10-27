@@ -1,2 +1,0 @@
-//soy juanjo
-//hola mundo
