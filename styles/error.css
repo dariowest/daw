@@ -1,0 +1,10 @@
+.error {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+
+/* Estilo para campos con error */
+.error-input {
+  border: 2px solid red; /* Contorno rojo */
+}

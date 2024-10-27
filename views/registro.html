@@ -2,9 +2,11 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <script src="../js/script.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registro</title>
     <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/error.css" />
     <link
       rel="stylesheet"
       href="../styles/estilo-estandar.css"
@@ -66,7 +68,10 @@
       </nav>
     </header>
     <main>
-      <form id="registration-form" action="index_logeado.html">
+      <form
+        id="registration-form"
+        action="index_logeado.html"
+        onsubmit="validarFormularioRegistro(event)">
         <h3>Registrar Usuario</h3>
 
         <!-- Nombre de usuario -->
@@ -82,11 +87,7 @@
         </div>
         <div class="form-alineado">
           <label for="email">Correo electrónico:</label>
-          <input
-            id="email"
-            name="email"
-            title="Falta el @."
-          />
+          <input id="email" name="email" title="Falta el @." />
         </div>
         <div class="form-alineado">
           <label for="pwd">Contraseña:</label>
@@ -99,7 +100,7 @@
         </div>
         <div class="form-alineado">
           <label for="pwd2">Confirmar contraseña:</label>
-          <input id="pwd2" name="pwd2"/>
+          <input id="pwd2" name="pwd2" />
         </div>
         <div class="form-alineado">
           <label for="sexo">Sexo:</label>
@@ -112,10 +113,7 @@
         </div>
         <div class="form-alineado">
           <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-          <input
-            id="fecha_nacimiento"
-            name="fecha_nacimiento"
-          />
+          <input id="fecha_nacimiento" name="fecha_nacimiento" />
         </div>
         <div class="form-alineado">
           <label for="ciudad">Ciudad de residencia:</label>
@@ -130,20 +128,15 @@
           <input
             id="pais"
             name="pais"
-            required
             title="Solo se permiten letras y espacios. Mínimo 2 caracteres."
           />
         </div>
         <div class="form-alineado">
           <label for="foto_perfil">Foto de perfil:</label>
-          <input
-            id="foto_perfil"
-            name="foto_perfil"
-            accept="image/*"
-          />
+          <input id="foto_perfil" name="foto_perfil" accept="image/*" />
         </div>
         <div class="form-alineado">
-          <input type="submit" value="Registrar"/>
+          <input type="submit" value="Registrar" />
         </div>
         <div class="form-alineado"></div>
       </form>
