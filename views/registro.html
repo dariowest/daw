@@ -99,19 +99,17 @@
             type="password"
             id="pwd"
             name="pwd"
-            required
-            pattern="^[A-Za-z0-9_\-\.]{4,20}$"
             maxlength="20"
             title="No debe tener espacios en blanco y sólo se pueden utilizar letras mayúsculas, minúsculas, números y los caracteres “_”, “-” y “.”. Su longitud no puede ser menor de 4 ni mayor de 20 caracteres."
           />
         </div>
         <div class="form-alineado">
           <label for="pwd2">Confirmar contraseña:</label>
-          <input type="password" id="pwd2" name="pwd2" required />
+          <input type="password" id="pwd2" name="pwd2"/>
         </div>
         <div class="form-alineado">
           <label for="sexo">Sexo:</label>
-          <select id="sexo" name="sexo" required>
+          <select id="sexo" name="sexo">
             <option value="">Selecciona tu sexo</option>
             <option value="masculino">Masculino</option>
             <option value="femenino">Femenino</option>
@@ -124,7 +122,6 @@
             type="date"
             id="fecha_nacimiento"
             name="fecha_nacimiento"
-            required
           />
         </div>
         <div class="form-alineado">
@@ -133,8 +130,6 @@
             type="text"
             id="ciudad"
             name="ciudad"
-            required
-            pattern="[A-Za-z\s]{2,50}"
             title="Solo se permiten letras y espacios. Mínimo 2 caracteres."
           />
         </div>
@@ -145,7 +140,6 @@
             id="pais"
             name="pais"
             required
-            pattern="[A-Za-z\s]{2,50}"
             title="Solo se permiten letras y espacios. Mínimo 2 caracteres."
           />
         </div>
@@ -159,7 +153,7 @@
           />
         </div>
         <div class="form-alineado">
-          <input type="submit" value="Registrar" />
+          <input type="submit" value="Registrar"/>
         </div>
         <div class="form-alineado"></div>
       </form>
