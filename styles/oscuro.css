@@ -22,6 +22,6 @@ body {
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
   img {
-    filter: invert(1) hue-rotate(180deg); /* Invertir los colores de la imagen */
+    filter: invert(1) hue-rotate(180deg);
   }
 }
