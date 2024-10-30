@@ -41,11 +41,12 @@ function interiorTabla(){
         baseCalidad = (parseFloat(baseTotal) + j * 0.2).toFixed(2);
         baseColor = (parseFloat(baseTotal) + j * 0.5).toFixed(2);
         baseColorCalidad = (parseFloat(baseCalidad) + j * 0.5).toFixed(2);
+        fila = document.createElement("tr");
+        fila.innerHTML = `<td>${i} Paginas</td><td>${j} fotos</td><td>${baseTotal} €</td><td>${baseCalidad} €</td><td>${baseColor} €</td><td>${baseColorCalidad} €</td>`;
 
-        html += `<tr><td>${i} Paginas</td><td>${j} fotos</td><td>${baseTotal} €</td><td>${baseCalidad} €</td><td>${baseColor} €</td><td>${baseColorCalidad} €</td></tr>`;
+        interior.appendChild(fila);
         j=j+3
     }
-    interior.innerHTML=html;
 }
 
 
@@ -185,3 +186,7 @@ function establecerTiposFormulario() {
     document.getElementById("fecha_nacimiento").setAttribute("type", "text");
     document.getElementById("foto_perfil").setAttribute("type", "text");
 }
+
+
+// formulario login
+
