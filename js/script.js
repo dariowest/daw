@@ -71,7 +71,7 @@ function validarLogin(event) {
   
     if (!hayErrores) {
       // Aquí puedes enviar el formulario o realizar alguna acción adicional
-      alert("Formulario válido. Iniciando sesión...");
+      alert("Formulario válido (Javascript). Iniciando sesión...");
       // form.submit();
     }
   }
