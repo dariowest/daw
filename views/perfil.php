@@ -135,7 +135,7 @@
 
       <div id="nuevo">
         <div class="boton">
-          <button type="button">Crear nuevo anuncio</button>
+          <button type="button"><a href="crear_anuncio.php">Crear nuevo anuncio</a></button>
         </div>
         <p>
           <label

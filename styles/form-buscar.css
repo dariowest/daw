@@ -11,10 +11,10 @@ main{
         padding: 20px;
         border-style: solid;
         border-radius: 10px;
-        .tipo-busqueda, .form-alineado{
-            margin:5px;
+        .tipo-busqueda, .form-alineado, .creanuncio{
+            margin: 5px;
         }
-        .form-alineado{
+        .form-alineado, .creanuncio{
             display: flex;
             flex-direction: column;
             text-align: center;
