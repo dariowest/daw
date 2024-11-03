@@ -39,34 +39,7 @@
   </head>
 
   <body>
-    <header>
-      <nav>
-        <img src="../img/small_logo.png" alt="logo" />
-        <ul>
-          <li>
-            <a href="index_logeado.html"
-              ><i class="fas fa-home"></i> <span>Inicio</span></a
-            >
-          </li>
-          <li>
-            <a href="form_busqueda.html"
-              ><i class="fas fa-search"></i> <span>Buscar</span></a
-            >
-          </li>
-          <li>
-            <a href="perfil.html"
-              ><i class="fas fa-user"></i>
-              <span>Juan Dario Gomez Ardila</span></a
-            >
-          </li>
-          <li>
-            <a href="../index.html"
-              ><i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span></a
-            >
-          </li>
-        </ul>
-      </nav>
-    </header>
+  <?php include_once "../modules/cabecera_log.php"?>
 
     <main>
       <!-- Modificar datos personales -->
@@ -116,7 +89,7 @@
             />
           </figure>
           <aside>
-            <h2><a href="anuncio.html">Título</a></h2>
+            <h2><a href="anuncio.php">Título</a></h2>
             <p>Madrid</p>
             <p>€1,200/mes</p>
             <p>Piso</p>
@@ -133,7 +106,7 @@
             />
           </figure>
           <aside>
-            <h2><a href="anuncio.html">Título</a></h2>
+            <h2><a href="anuncio.php">Título</a></h2>
             <p>Madrid</p>
             <p>€1,200/mes</p>
             <p>Piso</p>
@@ -150,7 +123,7 @@
             />
           </figure>
           <aside>
-            <h2><a href="anuncio.html">Título</a></h2>
+            <h2><a href="anuncio.php">Título</a></h2>
             <p>Madrid</p>
             <p>€1,200/mes</p>
             <p>Piso</p>
@@ -166,7 +139,7 @@
         </div>
         <p>
           <label
-            >o necesitas un anuncio impreso?:<a href="form_folleto.html"
+            >o necesitas un anuncio impreso?:<a href="form_folleto.php"
               >click aquí</a
             ></label
           >
@@ -174,7 +147,7 @@
       </div>
 
       <!-- Mensajes enviados -->
-      <h2><a href="mis_mensajes.html">Mis mensajes</a></h2>
+      <h2><a href="mis_mensajes.php">Mis mensajes</a></h2>
     </main>
 
     <footer>Todos los derechos reservados ©</footer>

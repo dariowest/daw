@@ -39,36 +39,10 @@
     />
   </head>
   <body>
-    <header>
-      <nav>
-        <img src="../img/small_logo.png" alt="logo" />
-        <ul>
-          <li>
-            <a href="../index.html"
-              ><i class="fas fa-home"></i> <span>Inicio</span></a
-            >
-          </li>
-          <li>
-            <a href="form_busqueda.html"
-              ><i class="fas fa-search"></i> <span>Buscar</span></a
-            >
-          </li>
-          <li>
-            <a href="login.html"
-              ><i class="fas fa-sign-in-alt"></i> <span>Inicio sesión</span></a
-            >
-          </li>
-          <li>
-            <a href="registro.html"
-              ><i class="fas fa-user-plus"></i> <span>Registro</span></a
-            >
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <?php include_once "../modules/cabecera_unlog.php"?>
 
     <main>
-      <form id="registration-form" action="index_logeado.html">
+      <form id="registration-form" action="index_logeado.php">
         <h3>Iniciar Sesión</h3>
         <div class="form-alineado">
           <label for="usu">Nombre de usuario:</label>
@@ -98,7 +72,7 @@
         </div>
 
         <div class="form-alineado">
-          <p>¿No tienes una cuenta? <a href="registro.html">Registrate</a></p>
+          <p>¿No tienes una cuenta? <a href="registro.php">Registrate</a></p>
         </div>
       </form>
     </main>

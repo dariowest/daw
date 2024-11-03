@@ -38,39 +38,12 @@
     />
   </head>
   <body>
-    <header>
-      <nav>
-        <img src="../img/small_logo.png" alt="logo" />
-        <ul>
-          <li>
-            <a href="index_logeado.html"
-              ><i class="fas fa-home"></i> <span>Inicio</span></a
-            >
-          </li>
-          <li>
-            <a href="form_busqueda.html"
-              ><i class="fas fa-search"></i> <span>Buscar</span></a
-            >
-          </li>
-          <li>
-            <a href="perfil.html"
-              ><i class="fas fa-user"></i>
-              <span>Juan Dario Gomez Ardila</span></a
-            >
-          </li>
-          <li>
-            <a href="../index.html"
-              ><i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span></a
-            >
-          </li>
-        </ul>
-      </nav>
-    </header>
+    <?php include_once "../modules/cabecera_log.php"?>
 
     <main>
       <h1>Buscar Anuncios</h1>
 
-      <form action="res_busqueda.html" method="get">
+      <form action="res_busqueda.php" method="get">
         <!-- Tipo de anuncio (obligatorio) -->
         <div class="tipo-busqueda">
           <label for="tipo-anuncio">Tipo de anuncio:</label>
