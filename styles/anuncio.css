@@ -25,6 +25,11 @@ main{
     border-radius: 10px;
 }
 
+#aniadir-foto{
+    display: flex;
+    justify-content: center;
+}
+
 
 @media only screen and (min-width: 1000px){
     section{
