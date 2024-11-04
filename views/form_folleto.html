@@ -55,8 +55,7 @@
           </li>
           <li>
             <a href="perfil.html"
-              ><i class="fas fa-user"></i>
-              <span>Juan Dario</span></a
+              ><i class="fas fa-user"></i> <span>Juan Dario</span></a
             >
           </li>
           <li>
@@ -136,7 +135,7 @@
               <label
                 >Texto adicional:
                 <input
-                id="adicional"
+                  id="adicional"
                   name="texto_adicional"
                   size="50"
                   maxlength="100"
@@ -157,31 +156,16 @@
             <p>
               <label
                 >Email:
-                <input
-                  id="Email"
-                  placeholder="Ingrese su correo electrónico"
-                />
+                <input id="Email" placeholder="Ingrese su correo electrónico" />
               </label>
             </p>
 
             <p>
               <label
                 >Dirección:
-                <input
-                  name="calle"
-                  id="calle"
-                  placeholder="Calle"
-                />
-                <input
-                  name="numero"
-                  id="numero"
-                  placeholder="Número"
-                />
-                <input
-                  name="cp"
-                  id="cp"
-                  placeholder="Código postal"
-                />
+                <input name="calle" id="calle" placeholder="Calle" />
+                <input name="numero" id="numero" placeholder="Número" />
+                <input name="cp" id="cp" placeholder="Código postal" />
                 <select name="localidad" id="localidad">
                   <option value="">Seleccione una localidad</option>
                   <option value="Murcia">Murcia</option>
@@ -194,10 +178,7 @@
             <p>
               <label for="telefono"
                 >Telf:
-                <input
-                  name="telefono"
-                  id="telefono"
-                  placeholder="Teléfono"
+                <input name="telefono" id="telefono" placeholder="Teléfono"
               /></label>
             </p>
 
@@ -208,19 +189,14 @@
             </p>
             <p>
               <label
-                >Número de copias:
-                <input
-                  name="copias"
-                  id="copias"
+                >Número de copias: <input name="copias" id="copias"
               /></label>
             </p>
             <p>
               <label for="reso"
-                >Resolucion:
-                <input
-                  name="reso"
-                  id="reso"
-                /><output id="valor">150</output></label
+                >Resolucion: <input name="reso" id="reso" /><output id="valor"
+                  >150</output
+                ></label
               >
             </p>
 
@@ -237,16 +213,13 @@
             </p>
 
             <p>
-              Modo de impresión:
-              <input name="modo_impresion"/ id="radio1">Color
-              <input name="modo_impresion"/ id="radio2">Blanco y
-              negro
+              Modo de impresión: <input name="modo_impresion"/ id="radio1">Color
+              <input name="modo_impresion"/ id="radio2">Blanco y negro
             </p>
 
             <input type="submit" value="¡Solicitar!" />
           </form>
         </article>
-
       </section>
       <article id="tabla">
         <table>
@@ -264,13 +237,22 @@
               <th>450-900 dpi</th>
             </tr>
           </thead>
-          <tbody id="interior">
-          </tbody>
+          <tbody id="interior"></tbody>
         </table>
       </article>
+
       <div id="mostrar" onclick="muestraTabla();">
         <button>Mostrar/ocultar tabla</button>
       </div>
+
+      <section id="tabla_php">
+        <iframe
+          src="../controller/tabla_costes.php"
+          width="100%"
+          height="700px"
+          frameborder="0"
+        ></iframe>
+      </section>
     </main>
 
     <footer>Todos los derechos reservados ©</footer>

@@ -30,17 +30,17 @@
 </header>
 
 <main>
-    <form id="registration-form" action="../php/validacionLogin.php" method="POST">
+    <form id="registration-form" action="../controller/validacionLogin.php" method="POST">
         <h3>Iniciar Sesión</h3>
 
         <!--Gestión de errores-->
         <?php
         if (isset($_GET['error'])) {
             switch ($_GET['error']) {
-                case '1': //en caso de que el input no sea el correcto
+                case '1':
                     echo "<p style='color:red;'>Usuario o contraseña incorrectos.</p>";
                     break;
-                case '2': //caso en que haya espacios o tabs en el login
+                case '2':
                     echo "<p style='color:red;'>El nombre de usuario y la contraseña no deben contener espacios.</p>";
                     break;
                 case '3':
@@ -48,6 +48,9 @@
                     break;
                 case '4':
                     echo "<p style='color:red;'>El nombre de usuario y la contraseña no deben contener caracteres especiales como ñ o tildes.</p>";
+                    break;
+                case '5':
+                    echo "<p style='color:red;'>El nombre de usuario no debe comenzar con un número.</p>";
                     break;
             }
         }
