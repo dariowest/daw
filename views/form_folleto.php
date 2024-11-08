@@ -130,7 +130,7 @@
           <p>Rellena el siguiente formulario blablabla</p>
           <p>Los campos marcados con asterisco(*) son obligatorios</p>
 
-          <form method="get" action="folleto.html">
+          <form method="get" action="folleto.php">
             <p>
               <label
                 >Texto adicional:
