@@ -22,25 +22,25 @@
   <main>
     <h1>Buscar Anuncios</h1>
 
-    <form action="res_busqueda.php" method="GET">
+    <form action="res_busqueda.php" method="POST">
       <!-- Tipo de anuncio (obligatorio) -->
       <div class="tipo-busqueda">
-        <label for="tipo-anuncio">Tipo de anuncio:</label>
-        <select id="tipo-anuncio" name="tipo-anuncio">
+        <label for="tipoAnuncio">Tipo de anuncio:</label>
+        <select id="tipoAnuncio" name="tipoAnuncio">
           <option value="">Seleccione una opción</option>
           <option value="venta">Venta</option>
           <option value="alquiler">Alquiler</option>
         </select>
       </div>
       <div class="tipo-busqueda">
-        <label for="tipo-vivienda">Tipo de vivienda:</label>
-        <select id="tipo-vivienda" name="tipo-vivienda">
+        <label for="tipoVivienda">Tipo de vivienda:</label>
+        <select id="tipoVivienda" name="tipo-vivienda">
           <option value="">Seleccione una opción</option>
-          <option value="obra-nueva">Obra nueva</option>
+          <option value="Obra nueva">Obra nueva</option>
           <option value="vivienda">Vivienda</option>
-          <option value="oficina">Oficina</option>
-          <option value="local">Local</option>
-          <option value="garaje">Garaje</option>
+          <option value="Oficina">Oficina</option>
+          <option value="Local">Local</option>
+          <option value="Garaje">Garaje</option>
         </select>
       </div>
       <div class="tipo-busqueda">
@@ -66,20 +66,20 @@
         </select>
       </div>
       <div class="tipo-busqueda">
-        <label for="precio-min">Precio mínimo:</label>
-        <input id="precio-min" name="precio-min" placeholder="€" />
+        <label for="precMin">Precio mínimo:</label>
+        <input id="precMin" name="precMin" placeholder="€" />
       </div>
       <div class="tipo-busqueda">
-        <label for="precio-max">Precio máximo:</label>
-        <input id="precio-max" name="precio-max" min="0" placeholder="€" />
+        <label for="precMax">Precio máximo:</label>
+        <input id="precMax" name="precMax" min="0" placeholder="€" />
       </div>
       <div class="tipo-busqueda">
-        <label for="fecha-inicio">Fecha desde:</label>
-        <input id="fecha-inicio" name="fecha-inicio" />
+        <label for="fechaInicio">Fecha desde:</label>
+        <input id="fechaInicio" name="fechaInicio" />
       </div>
       <div class="tipo-busqueda">
-        <label for="fecha-fin">Fecha hasta:</label>
-        <input id="fecha-fin" name="fecha-fin" />
+        <label for="fechaFin">Fecha hasta:</label>
+        <input id="fechaFin" name="fechaFin" />
       </div>
       <div class="tipo-busqueda">
         <button type="submit">Buscar</button>

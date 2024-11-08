@@ -18,12 +18,22 @@
 </head>
 
 <body>
-  <?php include_once "../modules/cabecera_log.php" ?>
-
+  <?php include_once '../modules/cabecera_log.php' ?>
   <main>
-    <h1>Resultados de la Búsqueda</h1>
-
-    <?php include_once "../modules/muestra_anuncios.php;" ?>
+    <article>
+      <?php include '../controller/respuesta_buscar.php'; ?>
+      <h1>Resultados de la Búsqueda</h1>
+      <h2>Parametros de la búsqueda</h2>
+      <p><strong>Tipo de anuncio:</strong> <?= $tipoAnuncio ?></p>
+      <p><strong>Tipo de vivienda:</strong> <?= $tipoVivienda ?></p>
+      <p><strong>Ciudad:</strong> <?= $ciudad ?></p>
+      <p><strong>Pais:</strong> <?= $pais ?></p>
+      <p><strong>Precio minimo:</strong> <?= $precMin ?></p>
+      <p><strong>Precio máximo:</strong> <?= $precMax ?></p>
+      <p><strong>fechaInicio:</strong> <?= $fechaInicio ?></p>
+      <p><strong>fechaFin:</strong> <?= $fechaFin ?></p>
+    </article>
+    <?php include_once '../modules/muestra_anuncios.php'; ?>
   </main>
 
   <footer>Todos los derechos reservados ©</footer>
