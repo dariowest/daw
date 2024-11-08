@@ -19,6 +19,7 @@ function interiorTabla() {
   let html = "";
   let interior = document.getElementById("interior");
 
+<<<<<<< HEAD
   for (let i = 1, j = 3; i <= 15 || j <= 45; i++) {
     baseTotal = base;
     for (let k = 1; k <= i; k++) {
@@ -41,6 +42,34 @@ function interiorTabla() {
     j = j + 3;
   }
   interior.innerHTML = html;
+=======
+    for(let i=1, j=3; i<=15||j<=45; i++){
+        baseTotal=base;
+        for(let k=1; k<=i; k++){
+            if(k<5){
+                costePagina=2;
+            }
+            else if(k>10){
+                costePagina=1.6;
+            }
+            else{
+                costePagina=1.8;
+            }
+            baseTotal = baseTotal + costePagina;
+            
+        }
+        
+        baseTotal = (baseTotal).toFixed(2);
+        baseCalidad = (parseFloat(baseTotal) + j * 0.2).toFixed(2);
+        baseColor = (parseFloat(baseTotal) + j * 0.5).toFixed(2);
+        baseColorCalidad = (parseFloat(baseCalidad) + j * 0.5).toFixed(2);
+        fila = document.createElement("tr");
+        fila.innerHTML = `<td>${i} Paginas</td><td>${j} fotos</td><td>${baseTotal} €</td><td>${baseCalidad} €</td><td>${baseColor} €</td><td>${baseColorCalidad} €</td>`;
+
+        interior.appendChild(fila);
+        j=j+3
+    }
+>>>>>>> rama_dario
 }
 
 function validarLogin(event) {
@@ -260,6 +289,7 @@ function limpiarErrores() {
 
 // Asignar el tipo de campo (solo "text")
 function establecerTiposFormulario() {
+<<<<<<< HEAD
   document.getElementById("usu").setAttribute("type", "text");
   document.getElementById("email").setAttribute("type", "text");
   document.getElementById("pwd").setAttribute("type", "text");
@@ -267,3 +297,16 @@ function establecerTiposFormulario() {
   document.getElementById("fecha_nacimiento").setAttribute("type", "text");
   document.getElementById("foto_perfil").setAttribute("type", "text");
 }
+=======
+    document.getElementById("usu").setAttribute("type", "text");
+    document.getElementById("email").setAttribute("type", "text");
+    document.getElementById("pwd").setAttribute("type", "text");
+    document.getElementById("pwd2").setAttribute("type", "text");
+    document.getElementById("fecha_nacimiento").setAttribute("type", "text");
+    document.getElementById("foto_perfil").setAttribute("type", "text");
+}
+
+
+// formulario login
+
+>>>>>>> rama_dario
