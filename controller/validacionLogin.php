@@ -41,7 +41,7 @@ if (array_key_exists($usu, $usuarios_permitidos) && $usuarios_permitidos[$usu] =
     // Si las credenciales son correctas
     session_start();
     $_SESSION['usu'] = $usu;
-    header("Location: ../views/perfil.html");
+    header("Location: ../views/perfil.php");
     exit;
 } else {
     // Si las credenciales son incorrectas
