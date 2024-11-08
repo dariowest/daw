@@ -22,7 +22,7 @@
   <main>
     <h1>Buscar Anuncios</h1>
 
-    <form action="res_busqueda.php" method="get">
+    <form action="res_busqueda.php" method="GET">
       <!-- Tipo de anuncio (obligatorio) -->
       <div class="tipo-busqueda">
         <label for="tipo-anuncio">Tipo de anuncio:</label>

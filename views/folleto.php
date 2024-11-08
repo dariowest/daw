@@ -22,39 +22,31 @@
 
   <main>
     <h1>Resumen de la Solicitud de Impresión</h1>
+    <?php include 'respuesta_folleto.php'; ?>
     <section>
-      <article>
-        <h2>Detalles del Folleto</h2>
-        <p>
-          <strong>Texto adicional:</strong> Anuncio destacado para propiedad
-          de lujo en el centro de Málaga.
-        </p>
-        <p><strong>Nombre:</strong> Juan Dario Gomez Ardila</p>
-        <p><strong>Email:</strong> juan.dario@mail.com</p>
-        <p><strong>Dirección:</strong> Calle Mayor 123, 08001, Barcelona</p>
-        <p><strong>Teléfono:</strong> +34 600 123 456</p>
-        <p><strong>Color de portada:</strong> #FF5733 (naranja)</p>
-        <p><strong>Número de copias:</strong> 50</p>
-        <p><strong>Resolución:</strong> 600 dpi</p>
-        <p><strong>Fecha de recepción:</strong> 10 de octubre de 2024</p>
-        <p><strong>Modo de impresión:</strong> Color</p>
-        <p>
-          <strong>Anuncio seleccionado:</strong> Anuncio 2 (Anuncio de villa
-          en Málaga)
-        </p>
-      </article>
-      <article>
-        <h2>Detalles de la Tarifa</h2>
-        <p><strong>Coste de procesamiento y envío:</strong> 10€</p>
-        <p>
-          <strong>Número de páginas:</strong> 8 páginas (Tarifa: 1.8€ por
-          página)
-        </p>
-        <p><strong>Blanco y negro:</strong> No</p>
-        <p><strong>Color:</strong> Sí (0.5€ por foto)</p>
-        <p><strong>Resolución:</strong> > 300 dpi (0.2€ por foto)</p>
-        <p><strong>Total estimado:</strong> 50.8€</p>
-      </article>
+    <section>
+            <article>
+                <h2>Detalles del Folleto</h2>
+                <p><strong>Texto adicional:</strong> <?= $textoAdicional ?></p>
+                <p><strong>Nombre:</strong> <?= $nombre ?></p>
+                <p><strong>Email:</strong> <?= $email ?></p>
+                <p><strong>Dirección:</strong> <?= $direccion ?></p>
+                <p><strong>Teléfono:</strong> <?= $telefono ?></p>
+                <p><strong>Color de portada:</strong> <?= $colorPortada ?></p>
+                <p><strong>Número de copias:</strong> <?= $numCopias ?></p>
+                <p><strong>Resolución:</strong> <?= $resolucion ?> dpi</p>
+                <p><strong>Modo de impresión:</strong> <?= $modoImpresion ?></p>
+            </article>
+
+            <article>
+                <h2>Detalles de la Tarifa</h2>
+                <p><strong>Coste de procesamiento y envío:</strong> <?= $costeEnvio ?> €</p>
+                <p><strong>Número de páginas:</strong> <?= $numPaginas ?> páginas (Tarifa: <?= $tarifaPagina ?> € por página)</p>
+                <p><strong>Color:</strong> <?= ($modoImpresion === 'Color' ? 'Sí' : 'No') ?> (<?= $tarifaFotoColor ?> € por foto)</p>
+                <p><strong>Resolución:</strong> <?= ($resolucion > 300 ? '> 300 dpi' : '300 dpi o menos') ?> (<?= $tarifaFotoResolucionAlta ?> € por foto)</p>
+                <p><strong>Total estimado por copia:</strong> <?= number_format($precioUnitario, 2) ?> €</p>
+                <p><strong>Coste final para <?= $numCopias ?> copias:</strong> <?= number_format($costeTotal, 2) ?> €</p>
+            </article>
     </section>
   </main>
 
