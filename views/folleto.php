@@ -21,10 +21,18 @@
   <?php include_once "../modules/cabecera_unlog.php" ?>
 
   <main>
+<<<<<<< Updated upstream
     <h1>Resumen de la Solicitud de Impresión</h1>
     <?php include 'respuesta_folleto.php'; ?>
     <section>
     <section>
+=======
+        <h1>Resumen de la Solicitud de Impresión</h1>
+
+        <?php include '../controller/respuesta_folleto.php'; ?>
+
+        <section>
+>>>>>>> Stashed changes
             <article>
                 <h2>Detalles del Folleto</h2>
                 <p><strong>Texto adicional:</strong> <?= $textoAdicional ?></p>
@@ -36,6 +44,7 @@
                 <p><strong>Número de copias:</strong> <?= $numCopias ?></p>
                 <p><strong>Resolución:</strong> <?= $resolucion ?> dpi</p>
                 <p><strong>Modo de impresión:</strong> <?= $modoImpresion ?></p>
+                <p><strong>Anuncio: </strong> <?= $anuncio ?></p>
             </article>
 
             <article>
