@@ -37,5 +37,3 @@
 </body>
 
 </html>
-<!-- a las imagenes alt
-main bajo el nav -->
