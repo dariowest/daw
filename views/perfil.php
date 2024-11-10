@@ -60,10 +60,10 @@
     <section id="mis_anuncios">
       <article>
         <figure>
-          <img src="../img/foto-principal.jpg" alt="Foto del anuncio 1" width="200" />
+          <img src="../img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
         </figure>
         <aside>
-          <h2><a href="anuncio.php">Título</a></h2>
+          <h2><a href="anuncio.php?id=1">Título</a></h2>
           <p>Madrid</p>
           <p>€1,200/mes</p>
           <p>Piso</p>
@@ -73,10 +73,10 @@
       </article>
       <article>
         <figure>
-          <img src="../img/foto-principal.jpg" alt="Foto del anuncio 1" width="200" />
+          <img src="../img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
         </figure>
         <aside>
-          <h2><a href="anuncio.php">Título</a></h2>
+          <h2><a href="anuncio.php?id=1">Título</a></h2>
           <p>Madrid</p>
           <p>€1,200/mes</p>
           <p>Piso</p>
@@ -86,10 +86,10 @@
       </article>
       <article>
         <figure>
-          <img src="../img/foto-principal.jpg" alt="Foto del anuncio 1" width="200" />
+          <img src="../img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
         </figure>
         <aside>
-          <h2><a href="anuncio.php">Título</a></h2>
+          <h2><a href="anuncio.php?id=1">Título</a></h2>
           <p>Madrid</p>
           <p>€1,200/mes</p>
           <p>Piso</p>

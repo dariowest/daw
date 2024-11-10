@@ -18,7 +18,8 @@
 
 <body>
 
-  <?php include_once "../modules/cabecera_log.php" ?>
+  <?php include_once "../modules/cabecera_log.php";
+  ?>
   <main>
     <!--Texto: MENSAJE ENVIADO-->
     <h1>Confirmación de mensaje</h1>
@@ -27,18 +28,18 @@
       <label> Tipo de mensaje</label>
       <br />
       <select disabled>
-        <option>Consulta</option>
+        <option><?= $_POST["tipo-mensaje"];?></option>
       </select>
       <br />
       <br />
       <label>Mensaje</label>
       <br />
-      <textarea rows="6" cols="50" disabled>Este es un mensaje de prueba</textarea>
+      <textarea rows="6" cols="50" disabled><?= $_POST["mensaje"];?></textarea>
       <br />
       <label for="">Tu mensaje ha sido enviado con éxito!</label>
       <br />
       <!--<button>Ok</button>-->
-      <a href="anuncio.php">Ok</a>
+      <a href="index_logeado.php">Ok</a>
     </form>
     <!--Tipo de mensaje-->
     <!--texto-->

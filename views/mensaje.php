@@ -20,7 +20,7 @@
   <?php include_once "../modules/cabecera_log.php" ?>
 
   <main>
-    <form action="res_enviar_mensaje.php">
+    <form action="res_enviar_mensaje.php" method="POST">
       <h1>Envie un Mensaje al Propietario</h1>
       <!-- Tipo de mensaje -->
       <label for="tipo-mensaje">Tipo de mensaje:</label>
@@ -36,8 +36,7 @@
       <!-- Texto del mensaje -->
       <label for="mensaje">Escriba su mensaje:</label>
       <br />
-      <textarea id="mensaje" name="mensaje" rows="6" cols="50" placeholder="Escriba aquí su mensaje"
-        required></textarea>
+      <textarea id="mensaje" name="mensaje" rows="6" cols="50" placeholder="Escriba aquí su mensaje"required></textarea>
       <br /><br />
 
       <!-- Botón de envío -->
