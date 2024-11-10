@@ -5,6 +5,7 @@
         </figure>
         <aside>
             <h2><a href="anuncio.php">Título</a></h2>
+            <p>España</p>
             <p>Madrid</p>
             <p>€1,200/mes</p>
             <p>Piso</p>
@@ -18,6 +19,7 @@
         </figure>
         <aside>
             <h2><a href="anuncio.php">Título</a></h2>
+            <p>España</p>
             <p>Madrid</p>
             <p>€1,200/mes</p>
             <p>Piso</p>
@@ -31,6 +33,7 @@
         </figure>
         <aside>
             <h2><a href="anuncio.php">Título</a></h2>
+            <p>España</p>
             <p>Madrid</p>
             <p>€1,200/mes</p>
             <p>Piso</p>
@@ -44,6 +47,7 @@
         </figure>
         <aside>
             <h2><a href="anuncio.php">Título</a></h2>
+            <p>España</p>
             <p>Madrid</p>
             <p>€1,200/mes</p>
             <p>Piso</p>
@@ -57,6 +61,7 @@
         </figure>
         <aside>
             <h2><a href="anuncio.php">Título</a></h2>
+            <p>España</p>
             <p>Madrid</p>
             <p>€1,200/mes</p>
             <p>Piso</p>
@@ -70,6 +75,7 @@
         </figure>
         <aside>
             <h2><a href="anuncio.php">Título</a></h2>
+            <p>España</p>
             <p>Madrid</p>
             <p>€1,200/mes</p>
             <p>Piso</p>

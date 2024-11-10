@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <?php include_once "../modules/cabecera_log.php" ?>
+  <?php include_once "../modules/cabecera_log.php"?>
 
   <main>
     <header>

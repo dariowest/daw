@@ -23,7 +23,7 @@
   <main>
     <h1>Resultados de la Búsqueda</h1>
 
-    <?php include_once "../modules/muestra_anuncios.php;" ?>
+    <?php include_once "../modules/muestra_anuncios.php" ?>
   </main>
 
   <footer>Todos los derechos reservados ©</footer>
