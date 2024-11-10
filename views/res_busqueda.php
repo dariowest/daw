@@ -20,6 +20,7 @@
 <body>
   <?php include_once '../modules/cabecera_log.php' ?>
   <main>
+    <h1>Resultados de búsqueda</h1>
     <article>
       <?php include '../controller/respuesta_buscar.php'; ?>
       <h1>Resultados de la Búsqueda</h1>

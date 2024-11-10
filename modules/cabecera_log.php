@@ -9,8 +9,10 @@
                 <a href="form_busqueda.php"><i class="fas fa-search"></i> <span>Buscar</span></a>
             </li>
             <li>
-                <a href="perfil.php"><i class="fas fa-user"></i>
-                    <span>Juan Dario</span></a>
+                <a href="perfil.php"><i class="fas fa-user"></i><span>Juan Dario</span></a>
+            </li>
+            <li>
+                <a href="anuncio_foto.php"><i class="fa-solid fa-image"></i><span>Añadir imagen</span></a>
             </li>
             <li>
                 <a href="../index.php"><i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span></a>
