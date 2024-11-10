@@ -35,7 +35,7 @@
     <section>
       <article>
         <figure>
-          <img src="img/foto1.jpg" alt="Foto del anuncio 1" width="200" />
+          <img src="img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
         </figure>
         <aside>
           <h2><a href="views/login.html">Título</a></h2>
@@ -48,7 +48,7 @@
       </article>
       <article>
         <figure>
-          <img src="img/foto1.jpg" alt="Foto del anuncio 1" width="200" />
+          <img src="img/casa2.jpg" alt="Foto del anuncio 1" width="200" />
         </figure>
         <aside>
           <h2><a href="views/login.html">Título</a></h2>
@@ -61,7 +61,7 @@
       </article>
       <article>
         <figure>
-          <img src="img/foto1.jpg" alt="Foto del anuncio 1" width="200" />
+          <img src="img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
         </figure>
         <aside>
           <h2><a href="views/login.html">Título</a></h2>
@@ -74,7 +74,7 @@
       </article>
       <article>
         <figure>
-          <img src="img/foto1.jpg" alt="Foto del anuncio 1" width="200" />
+          <img src="img/casa2.jpg" alt="Foto del anuncio 1" width="200" />
         </figure>
         <aside>
           <h2><a href="views/login.html">Título</a></h2>
@@ -87,7 +87,7 @@
       </article>
       <article>
         <figure>
-          <img src="img/foto1.jpg" alt="Foto del anuncio 1" width="200" />
+          <img src="img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
         </figure>
         <aside>
           <h2><a href="views/login.html">Título</a></h2>
