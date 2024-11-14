@@ -40,7 +40,7 @@ if ($resolucion >= 150 && $resolucion <= 300) {
     $claveResolucion = '150-300 dpi';
 } elseif ($resolucion >= 450 && $resolucion <= 900) {
     $claveResolucion = '450-900 dpi';
-} else {
+} else { 
     die("Resolución fuera de rango (debe estar entre 150-300 dpi o 450-900 dpi).");
 }
 

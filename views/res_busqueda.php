@@ -34,7 +34,11 @@
       <p><strong>fechaInicio:</strong> <?= $fechaInicio ?></p>
       <p><strong>fechaFin:</strong> <?= $fechaFin ?></p>
     </article>
-    <?php include_once '../modules/muestra_anuncios.php'; ?>
+    <?php
+    //acá capturo el valor de la ciudad ingresada por el usuario
+    $ciudad = isset($_GET['ciudad']) ? trim($_GET['ciudad']) : '';
+
+    include_once '../modules/muestra_anuncios.php'; ?>
   </main>
 
   <footer>Todos los derechos reservados ©</footer>

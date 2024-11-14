@@ -28,8 +28,8 @@ if (isset($_GET['data'])) {
     <main>
         <header>
             <h3>Buscar</h3>
-            <form action="res_busqueda.php">
-                <input type="text" name="" id="buscar" />
+            <form action="res_busqueda.php" method="GET">
+                <input type="text" name="ciudad" id="buscar" placeholder="Indique una ciudad"/>
                 <input type="submit" value="Buscar" />
             </form>
             <h3>Últimas publicaciones</h3>

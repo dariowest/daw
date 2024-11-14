@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../styles/imprime-index.css" media="print" />
     <link rel="alternative stylesheet" href="../styles/contraste-letra.css"
         title="Estilo letra mayor y alto contraste" />
-    <title>Inicio</title>
+    <title>Mis anuncios</title>
     <!-- Enlace a Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
