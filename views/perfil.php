@@ -1,3 +1,6 @@
+<?php
+include '../controller/recordarme.php';
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -20,7 +23,11 @@
   <?php include_once "../modules/cabecera_log.php" ?>
 
   <main>
-    <!-- Modificar datos personales -->
+
+    <?php if (isset($_COOKIE['usu'])): ?>
+      <h1>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?>!</h1>
+      <p>Última visita: <?php echo htmlspecialchars($ultimaVisita); ?></p>
+    <?php endif; ?>
 
     <section id="modificar_datos">
       <article>

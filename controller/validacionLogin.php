@@ -1,5 +1,8 @@
 <?php
-//Estos son los usuarios permitidos para hacer el Login
+
+session_start();
+
+// Estos son los usuarios permitidos para hacer el Login
 $usuarios_permitidos = [
     "usuario1" => "contrasena1",
     "usuario2" => "contrasena2",
@@ -11,8 +14,9 @@ $usuarios_permitidos = [
 // Obtengo los datos que me da el formulario
 $usu = $_POST['usu'] ?? '';
 $pwd = $_POST['pwd'] ?? '';
+$recordarme = isset($_POST['recordarme']);
 
-// Verificación para ver si están vacios los campos
+// Verificación para ver si están vacíos los campos
 if (empty($usu) || empty($pwd)) {
     header("Location: ../views/login.php?error=3"); // error=3 para campos vacíos
     exit;
@@ -30,17 +34,29 @@ if (preg_match('/[ñÑáéíóúÁÉÍÓÚ]/', $usu) || preg_match('/[ñÑáéí
     exit;
 }
 
-// Valido si el username empieza con un número y nonono
+// Valido si el username empieza con un número
 if (preg_match('/^\d/', $usu)) {
     header("Location: ../views/login.php?error=5"); // error=5 para nombre de usuario que empieza con un número
     exit;
 }
 
-// Con esta verificación veo si el user y contra es válido.
+// Con esta verificación veo si el user y contra es válido
 if (array_key_exists($usu, $usuarios_permitidos) && $usuarios_permitidos[$usu] === $pwd) {
     // Si las credenciales son correctas
-    session_start();
     $_SESSION['usu'] = $usu;
+
+    // Si el usuario seleccionó "recordarme", se crean las cookies
+    if ($recordarme) {
+        // Establecer cookies por 90 días
+        setcookie("usu", $usu, time() + (90 * 24 * 60 * 60), "/");
+        setcookie("ultima_visita", date("Y-m-d H:i:s"), time() + (90 * 24 * 60 * 60), "/");
+    } else {
+        // Eliminar cookies si existen
+        setcookie("usu", "", time() - 3600, "/");
+        setcookie("ultima_visita", "", time() - 3600, "/");
+    }
+
+
     header("Location: ../views/perfil.php");
     exit;
 } else {

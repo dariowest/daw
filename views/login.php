@@ -47,6 +47,7 @@
       <div class="form-alineado">
         <label for="usu">Nombre de usuario:</label>
         <input id="usu" name="usu" autofocus maxlength="20"
+        value="<?php echo isset($_COOKIE['usu']) ? $_COOKIE['usu'] : ''; ?>"
           title="No se permiten espacios en blanco, una longitud de 
               4 a 20 caracteres y solo se podrán usar números y letras (mayusculas y minùsculas), además de que no se puede iniciar con números." />
       </div>
@@ -54,8 +55,14 @@
       <div class="form-alineado">
         <label for="pwd">Contraseña:</label>
         <input id="pwd" name="pwd" maxlength="20"
+        value="<?php echo isset($_COOKIE['pwd']) ? $_COOKIE['pwd'] : ''; ?>"
           title="No debe tener espacios en blanco y sólo se pueden
               utilizar letras mayúsculas, minúsculas, números y los caracteres “_”, “-” y “.”. Su longitud no puede ser menor de 4 ni mayor de 20 caracteres." />
+      </div>
+
+      <div class="form-alineado">
+        <label for="recordarme">Recordarme en este equipo</label>
+        <input type="checkbox" id="recordarme" name="recordarme">
       </div>
 
       <div class="form-alineado">
