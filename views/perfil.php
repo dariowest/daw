@@ -24,10 +24,10 @@ include '../controller/recordarme.php';
 
   <main>
 
-    <?php if (isset($_COOKIE['usu'])): ?>
-      <h1>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?>!</h1>
-      <p>Última visita: <?php echo htmlspecialchars($ultimaVisita); ?></p>
-    <?php endif; ?>
+  <?php if (isset($_COOKIE['usu'])): ?>
+            <h1>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?>!</h1>
+            <p>Última visita: <?php echo htmlspecialchars($ultimaVisita); ?></p>
+        <?php endif; ?>
 
     <section id="modificar_datos">
       <article>

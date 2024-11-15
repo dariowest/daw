@@ -15,7 +15,8 @@
                 <a href="anuncio_foto.php"><i class="fa-solid fa-image"></i><span>Añadir imagen</span></a>
             </li>
             <li>
-                <a href="../index.php"><i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span></a>
+                <!--<a href="../index.php"><i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span></a>-->
+                <a href="../controller/logout.php"><i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span></a>
             </li>
         </ul>
     </nav>

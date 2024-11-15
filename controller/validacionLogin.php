@@ -40,27 +40,27 @@ if (preg_match('/^\d/', $usu)) {
     exit;
 }
 
-// Con esta verificación veo si el user y contra es válido
+// Verificar que el usuario existe y la contraseña es correcta
 if (array_key_exists($usu, $usuarios_permitidos) && $usuarios_permitidos[$usu] === $pwd) {
-    // Si las credenciales son correctas
     $_SESSION['usu'] = $usu;
 
-    // Si el usuario seleccionó "recordarme", se crean las cookies
     if ($recordarme) {
-        // Establecer cookies por 90 días
+        // Mantener la cookie de usuario
         setcookie("usu", $usu, time() + (90 * 24 * 60 * 60), "/");
-        setcookie("ultima_visita", date("Y-m-d H:i:s"), time() + (90 * 24 * 60 * 60), "/");
+
+        // Si ya existe la cookie de última visita, mantenerla como está
+        if (!isset($_COOKIE['ultima_visita'])) {
+            setcookie("ultima_visita", date("Y-m-d H:i:s"), time() + (90 * 24 * 60 * 60), "/");
+        }
     } else {
         // Eliminar cookies si existen
         setcookie("usu", "", time() - 3600, "/");
         setcookie("ultima_visita", "", time() - 3600, "/");
     }
 
-
     header("Location: ../views/perfil.php");
     exit;
 } else {
-    // Si las credenciales son incorrectas
-    header("Location: ../views/login.php?error=1"); // error=1 para usuario/contraseña incorrectos
+    header("Location: ../views/login.php?error=1"); // Usuario o contraseña incorrectos
     exit;
 }
