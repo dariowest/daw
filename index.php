@@ -20,85 +20,43 @@
 </head>
 
 <body>
-  <?php include_once "modules/cabecera_index.php"; ?>
+  <?php
+  session_start();
+
+
+
+  include_once "modules/cabecera_index.php";
+
+  ?>
 
   <main>
 
+
     <header>
       <h3>Buscar</h3>
-      <form action="/views/res_busqueda.html">
-        <input type="text" name="" id="buscar" />
+      <form action="views/res_busqueda.php" method="GET">
+        <input type="text" name="ciudad" id="buscar" placeholder="Indique una ciudad" />
         <input type="submit" value="Buscar" />
       </form>
       <h3>Últimas publicaciones</h3>
     </header>
-    <section>
-      <article>
-        <figure>
-          <img src="img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
-        </figure>
-        <aside>
-          <h2><a href="views/login.html">Título</a></h2>
-          <p>Madrid</p>
-          <p>€1,200/mes</p>
-          <p>Piso</p>
-          <p>Alquiler</p>
-          <p>20/9/2024</p>
-        </aside>
-      </article>
-      <article>
-        <figure>
-          <img src="img/casa2.jpg" alt="Foto del anuncio 1" width="200" />
-        </figure>
-        <aside>
-          <h2><a href="views/login.html">Título</a></h2>
-          <p>Madrid</p>
-          <p>€1,200/mes</p>
-          <p>Piso</p>
-          <p>Alquiler</p>
-          <p>20/9/2024</p>
-        </aside>
-      </article>
-      <article>
-        <figure>
-          <img src="img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
-        </figure>
-        <aside>
-          <h2><a href="views/login.html">Título</a></h2>
-          <p>Madrid</p>
-          <p>€1,200/mes</p>
-          <p>Piso</p>
-          <p>Alquiler</p>
-          <p>20/9/2024</p>
-        </aside>
-      </article>
-      <article>
-        <figure>
-          <img src="img/casa2.jpg" alt="Foto del anuncio 1" width="200" />
-        </figure>
-        <aside>
-          <h2><a href="views/login.html">Título</a></h2>
-          <p>Madrid</p>
-          <p>€1,200/mes</p>
-          <p>Piso</p>
-          <p>Alquiler</p>
-          <p>20/9/2024</p>
-        </aside>
-      </article>
-      <article>
-        <figure>
-          <img src="img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
-        </figure>
-        <aside>
-          <h2><a href="views/login.html">Título</a></h2>
-          <p>Madrid</p>
-          <p>€1,200/mes</p>
-          <p>Piso</p>
-          <p>Alquiler</p>
-          <p>20/9/2024</p>
-        </aside>
-      </article>
-    </section>
+    <?php
+    if (isset($_SESSION['usu'])) {
+      ?>
+      <div>
+        <h3>Datos del registro:</h3>
+        <p><strong>Nombre de usuario:</strong> <?php echo $_SESSION['usu']; ?></p>
+
+      </div>
+      
+      <?php
+      include_once("modules/muestra_index.php");
+
+    } else {
+      include_once("modules/muestra_index.php");
+    }
+
+    ?>
   </main>
 
   <p id="accesible">

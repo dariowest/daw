@@ -18,7 +18,13 @@
 </head>
 
 <body>
-  <?php include_once "../modules/cabecera_unlog.php" ?>
+  <?php 
+  session_start();
+  if (!isset($_SESSION["usu"])){
+    header("Location: login.php");
+
+}
+  include_once "../modules/cabecera.php" ?>
 
   <main>
     <h1>Resumen de la Solicitud de Impresión</h1>

@@ -9,7 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 <body>
-    <?php include_once "../modules/cabecera_log.php"?>
+    <?php 
+    session_start();
+    if (!isset($_SESSION["usu"])){
+        header("Location: login.php");
+
+    }
+    include_once "../modules/cabecera.php"?>
 
     <main>
         <h1>Añade una foto</h1>

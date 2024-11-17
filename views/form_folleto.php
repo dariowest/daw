@@ -18,7 +18,13 @@
 </head>
 
 <body>
-  <?php include_once "../modules/cabecera_log.php" ?>
+  <?php 
+  session_start();
+  if (!isset($_SESSION["usu"])){
+    header("Location: login.php");
+
+}
+  include_once "../modules/cabecera.php" ?>
 
   <main>
     <h1>Solicitud de impresión de folleto publicitario</h1>

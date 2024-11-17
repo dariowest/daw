@@ -16,7 +16,10 @@
 </head>
 
 <body>
-  <?php include_once "../modules/cabecera_unlog.php" ?>
+  <?php 
+  session_start();
+  
+  include_once "../modules/cabecera.php" ?>
 
   <main>
     <main style="margin: 40px;">

@@ -10,7 +10,13 @@
 </head>
 
 <body>
-  <?php include_once "../modules/cabecera_log.php" ?>
+  <?php 
+  session_start();
+  if (!isset($_SESSION["usu"])){
+    header("Location: login.php");
+  }
+  include_once "../modules/cabecera.php"
+  ?>
 
   <?php
   // Incluir el archivo con los datos de los anuncios

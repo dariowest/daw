@@ -24,7 +24,9 @@ $datos = isset($_GET['data']) ? json_decode($_GET['data'], true) : [];
 </head>
 
 <body>
-  <?php include_once "../modules/cabecera_unlog.php" ?>
+  <?php 
+  session_start();
+  include_once "../modules/cabecera.php" ?>
   <main>
     <form id="registration-form" action="../controller/registro_respuesta.php" method="POST">
       <h3>Registrar Usuario</h3>

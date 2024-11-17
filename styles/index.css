@@ -53,3 +53,7 @@ main {
   text-align: center; 
   margin-bottom: 10px;
 }
+#datos{
+  width: 300px;
+  margin: 0 auto;
+}

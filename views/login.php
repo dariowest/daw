@@ -18,7 +18,9 @@
 </head>
 
 <body>
-  <?php include_once "../modules/cabecera_unlog.php" ?>
+  <?php 
+  session_start();
+  include_once "../modules/cabecera.php" ?>
 
   <main>
     <form id="registration-form" action="../controller/validacionLogin.php" method="POST">

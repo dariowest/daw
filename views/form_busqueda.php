@@ -17,7 +17,9 @@
 </head>
 
 <body>
-  <?php include_once "../modules/cabecera_log.php" ?>
+  <?php 
+  session_start();
+  include_once "../modules/cabecera.php" ?>
 
   <main>
     <h1>Buscar Anuncios</h1>

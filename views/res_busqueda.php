@@ -18,12 +18,13 @@
 </head>
 
 <body>
-  <?php include_once '../modules/cabecera_log.php' ?>
+  <?php 
+  session_start();
+  include_once '../modules/cabecera.php' ?>
   <main>
     <h1>Resultados de búsqueda</h1>
-    <article>
+    <article id="datos">
       <?php include '../controller/respuesta_buscar.php'; ?>
-      <h1>Resultados de la Búsqueda</h1>
       <h2>Parametros de la búsqueda</h2>
       <p><strong>Tipo de anuncio:</strong> <?= $tipoAnuncio ?></p>
       <p><strong>Tipo de vivienda:</strong> <?= $tipoVivienda ?></p>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,15 @@
     <link rel="stylesheet" href="../styles/form-buscar.css">
     <title>Crear anuncio</title>
 </head>
+
 <body>
-    <?php include_once "../modules/cabecera_log.php"?>
+    <?php
+    session_start();
+    if (!isset($_SESSION["usu"])) {
+        header("Location: login.php");
+
+    }
+    include_once "../modules/cabecera.php" ?>
 
     <main>
         <h1>Crear anuncio</h1>
@@ -40,7 +48,7 @@
 
             </div>
             <div class="creanuncio">
-            <label for="pais">Pais</label>
+                <label for="pais">Pais</label>
                 <select name="pais" id="">
                     <option value="españa">España</option>
                     <option value="francia">Francia</option>
@@ -54,10 +62,11 @@
                 <textarea name="descripcion" id="" rows="5"></textarea>
             </div>
             <input type="submit">
-    
+
         </form>
 
     </main>
-    
+
 </body>
+
 </html>

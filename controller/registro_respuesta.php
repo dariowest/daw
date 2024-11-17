@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $datos_usuario_json = json_encode($datos_usuario);
 
         // Redirigir a index_logeado.php pasando los datos
-        header("Location: ../views/index_logeado.php?data=" . urlencode($datos_usuario_json));
+        header("Location: ../index.php?data=" . urlencode($datos_usuario_json));
         exit();
     } else {
         // Si hay errores, redirigir de vuelta al formulario de registro con los errores y datos

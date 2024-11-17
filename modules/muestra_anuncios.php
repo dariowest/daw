@@ -32,6 +32,7 @@ $anuncios = [
     // Agrega más anuncios aquí
 ];
 
+
 // Mostrar anuncios con filtrado por ciudad
 foreach ($anuncios as $anuncio) {
     // Condición para mostrar el anuncio: si `$ciudad` está vacía o coincide con el anuncio
