@@ -19,13 +19,14 @@
 </head>
 
 <body>
-    <?php 
+    <?php
     session_start();
-    if (!isset($_SESSION["usu"])){
+    if (!isset($_SESSION["usu"])) {
         header("Location: login.php");
 
     }
-    include_once "../modules/cabecera.php" ?>
+    include_once "../modules/cabecera.php";
+    include_once "../controller/connect.php"; ?>
 
     <main>
         <header>
@@ -33,6 +34,36 @@
         </header>
 
         <?php include_once "../modules/muestra_anuncios.php" ?>
+
+        <?php
+        $sql = "SELECT IdAnuncio, TAnuncio FROM anuncios";
+        $result = $conn->query($sql);
+
+
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while ($row = $result->fetch_assoc()) {
+                echo '<option value="' . $row["IdAnuncio"] . '">' . $row["TAnuncio"] . '</option>';
+            }
+        } else {
+            echo '<option value="" disabled selected>No hay anuncios</option>';
+        }
+        ?>
+
+        <article>
+            <figure>
+                <img src="<?= $anuncio['imagen'] ?>" alt="Foto del anuncio <?= $anuncio['id'] ?>" width="200" />
+            </figure>
+            <aside>
+                <h2><a href="anuncio.php?id=<?= $anuncio['id'] ?>"><?= $anuncio['titulo'] ?></a></h2>
+                <p><?= $anuncio['pais'] ?></p>
+                <p><?= $anuncio['ciudad'] ?></p>
+                <p><?= $anuncio['precio'] ?></p>
+                <p><?= $anuncio['tipoVivienda'] ?></p>
+                <p><?= $anuncio['tipoAnuncio'] ?></p>
+                <p><?= $anuncio['fecha'] ?></p>
+            </aside>
+        </article>
 
     </main>
     <footer>Todos los derechos reservados ©</footer>
