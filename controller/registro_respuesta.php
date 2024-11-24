@@ -39,10 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ];
 
         // Codificar los datos para pasarlos como parámetros en la URL
-        $datos_usuario_json = json_encode($datos_usuario);
-
         // Redirigir a index_logeado.php pasando los datos
-        header("Location: ../index.php?data=" . urlencode($datos_usuario_json));
+        header("Location: ../index.php");
         exit();
     } else {
         // Si hay errores, redirigir de vuelta al formulario de registro con los errores y datos

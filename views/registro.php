@@ -24,7 +24,8 @@ $datos = isset($_GET['data']) ? json_decode($_GET['data'], true) : [];
 </head>
 
 <body>
-  <?php 
+  <?php
+  include_once '../controller/connect.php';
   session_start();
   include_once "../modules/cabecera.php" ?>
   <main>
@@ -71,28 +72,48 @@ $datos = isset($_GET['data']) ? json_decode($_GET['data'], true) : [];
       <div class="form-alineado">
         <label for="sexo">Sexo:</label>
         <select id="sexo" name="sexo">
-          <option value="masculino" <?= isset($datos['sexo']) && $datos['sexo'] === 'masculino' ? 'selected' : '' ?>>Masculino</option>
-          <option value="femenino" <?= isset($datos['sexo']) && $datos['sexo'] === 'femenino' ? 'selected' : '' ?>>Femenino</option>
-          <option value="otro" <?= isset($datos['sexo']) && $datos['sexo'] === 'otro' ? 'selected' : '' ?>>Otro</option>
+          <option value="1" <?= isset($datos['sexo']) && $datos['sexo'] === 'masculino' ? 'selected' : '' ?>>Masculino</option>
+          <option value="2" <?= isset($datos['sexo']) && $datos['sexo'] === 'femenino' ? 'selected' : '' ?>>Femenino</option>
         </select>
       </div>
 
       <!-- Fecha de nacimiento -->
       <div class="form-alineado">
         <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-        <input id="fecha_nacimiento" name="fecha_nacimiento" value="<?= htmlspecialchars($datos['fecha_nacimiento'] ?? '') ?>" />
+        <input id="fecha_nacimiento" name="fecha_nacimiento"
+          value="<?= htmlspecialchars($datos['fecha_nacimiento'] ?? '') ?>" />
       </div>
 
       <!-- Ciudad -->
       <div class="form-alineado">
         <label for="ciudad">Ciudad de residencia:</label>
-        <input id="ciudad" name="ciudad" value="<?= htmlspecialchars($datos['ciudad'] ?? '') ?>" />
+        <select id="ciudad" name="ciudad">
+          <option value="1">España</option>
+          <option value="2">Alemania</option>
+          <option value="3">Francia</option>
+        </select>
       </div>
 
       <!-- País -->
       <div class="form-alineado">
         <label for="pais">País de residencia:</label>
-        <input id="pais" name="pais" value="<?= htmlspecialchars($datos['pais'] ?? '') ?>" />
+        <select id="pais" name="pais">
+          <?php
+          $sql = "SELECT IdPais, NomPais FROM paises";
+          $result = $conn->query($sql);
+
+
+          if ($result->num_rows > 0) {
+            // output data of each row
+            while ($row = $result->fetch_assoc()) {
+              echo '<option value="' . $row["IdPais"] . '">' . $row["NomPais"] . '</option>';
+            }
+          } else {
+            echo "0 results";
+          }
+
+          ?>
+        </select>
       </div>
 
       <div class="form-alineado">

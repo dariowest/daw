@@ -17,13 +17,16 @@
 </head>
 
 <body>
-  <?php 
+  <?php
   session_start();
-  if (!isset($_SESSION["usu"])){
+  if (!isset($_SESSION["usu"])) {
     header("Location: login.php");
 
-}
-  include_once "../modules/cabecera.php" ?>
+  }
+  include_once "../modules/cabecera.php";
+  include_once "../controller/connect.php";
+  
+  ?>
 
   <main>
     <form action="res_enviar_mensaje.php" method="POST">
@@ -33,16 +36,29 @@
       <br />
       <select id="tipo-mensaje" name="tipo-mensaje" required>
         <option value="">Seleccione el tipo de mensaje</option>
-        <option value="consulta">Consulta</option>
-        <option value="oferta">Oferta</option>
-        <option value="otro">Otro</option>
+        <?php
+        $sql = "SELECT IdTMensaje, NomTMensaje FROM tiposmensajes";
+        $result = $conn->query($sql);
+
+
+        if ($result->num_rows > 0) {
+          // output data of each row
+          while ($row = $result->fetch_assoc()) {
+            echo '<option value="' . $row["IdTMensaje"] . '">' . $row["NomTMensaje"] . '</option>';
+          }
+        } else {
+          echo '<option value="" disabled selected>No hay anuncios</option>';
+        }
+
+        ?>
       </select>
       <br /><br />
 
       <!-- Texto del mensaje -->
       <label for="mensaje">Escriba su mensaje:</label>
       <br />
-      <textarea id="mensaje" name="mensaje" rows="6" cols="50" placeholder="Escriba aquí su mensaje"required></textarea>
+      <textarea id="mensaje" name="mensaje" rows="6" cols="50" placeholder="Escriba aquí su mensaje"
+        required></textarea>
       <br /><br />
 
       <!-- Botón de envío -->

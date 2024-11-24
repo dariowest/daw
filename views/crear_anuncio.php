@@ -16,7 +16,9 @@
         header("Location: login.php");
 
     }
-    include_once "../modules/cabecera.php" ?>
+    include_once "../modules/cabecera.php";
+    include_once "../controller/connect.php";
+    ?>
 
     <main>
         <h1>Crear anuncio</h1>
@@ -28,10 +30,25 @@
             </div>
             <div class="creanuncio">
                 <label for="tipo">Tipo de anuncio</label>
-                <select name="tipo" id="">
-                    <option value="alquiler">alquiler</option>
-                    <option value="venta">venta</option>
+                <select name="tipo">
+                    <?php
+                    $sql = "SELECT IdTAnuncio, NomTAnuncio FROM tiposanuncios";
+                    $result = $conn->query($sql);
+
+
+                    if ($result->num_rows > 0) {
+                        // output data of each row
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<option value="' . $row["IdTAnuncio"] . '">' . $row["NomTAnuncio"] . '</option>';
+                        }
+                    } else {
+                        echo '<option value="" disabled selected>No hay anuncios</option>';
+                    }
+
+                    ?>
                 </select>
+
+
             </div>
             <div class="creanuncio">
                 <label for="precio">Precio</label>
@@ -49,10 +66,44 @@
             </div>
             <div class="creanuncio">
                 <label for="pais">Pais</label>
-                <select name="pais" id="">
-                    <option value="españa">España</option>
-                    <option value="francia">Francia</option>
-                    <option value="holanda">Holanda</option>
+                <select name="pais">
+                    <?php
+                    $sql = "SELECT IdPais, NomPais FROM paises";
+                    $result = $conn->query($sql);
+
+
+                    if ($result->num_rows > 0) {
+                        // output data of each row
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<option value="' . $row["IdPais"] . '">' . $row["NomPais"] . '</option>';
+                        }
+                    } else {
+                        echo "0 results";
+                    }
+
+                    ?>
+                </select>
+
+            </div>
+            <div class="creanuncio">
+                <label for="tipoVivienda">Tipo de vivienda</label>
+                <select name="tipoVivienda">
+                    <?php
+                    $sql = "SELECT IdTVivienda, NomTVivienda FROM tiposviviendas";
+                    $result = $conn->query($sql);
+
+
+                    if ($result->num_rows > 0) {
+                        // output data of each row
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<option value="' . $row["IdTVivienda"] . '">' . $row["NomTVivienda"] . '</option>';
+                        }
+                    } else {
+                        echo '<option value="" disabled selected>No hay anuncios</option>';
+                    }
+
+                    ?>
+
                 </select>
 
             </div>

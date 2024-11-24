@@ -18,13 +18,16 @@
 </head>
 
 <body>
-  <?php 
+  <?php
   session_start();
-  if (!isset($_SESSION["usu"])){
+  if (!isset($_SESSION["usu"])) {
     header("Location: login.php");
 
-}
-  include_once "../modules/cabecera.php" ?>
+  }
+  include_once "../modules/cabecera.php";
+
+  include_once "../controller/connect.php";
+  ?>
 
   <main>
     <h1>Solicitud de impresión de folleto publicitario</h1>
@@ -93,21 +96,13 @@
         <form method="POST" action="folleto.php">
           <p>
             <label>Texto adicional:
-              <input
-                id="textoAdicional"
-                name="textoAdicional"
-                size="50"
-                maxlength="100"
+              <input id="textoAdicional" name="textoAdicional" size="50" maxlength="100"
                 placeholder="ingrese el texto que considere pertinente para el folleto o envío." />
             </label>
           </p>
           <p>
             <label>Nombre:
-              <input
-                name="nombre"
-                id="nombre"
-                maxlength="200"
-                placeholder="Escribe tu nombre" /></label>
+              <input name="nombre" id="nombre" maxlength="200" placeholder="Escribe tu nombre" /></label>
           </p>
           <p>
             <label>Email:
@@ -146,9 +141,20 @@
           <p>
             Seleccione el anuncio:
             <select name="anuncio" id="anuncio">
-              <option value="anuncio1">Anuncio 1</option>
-              <option value="anuncio2">Anuncio 2</option>
-              <option value="anuncio3">Anuncio 3</option>
+              <?php
+              $sql = "SELECT IdAnuncio, TAnuncio FROM anuncios";
+              $result = $conn->query($sql);
+
+
+              if ($result->num_rows > 0) {
+                // output data of each row
+                while ($row = $result->fetch_assoc()) {
+                  echo '<option value="' . $row["IdAnuncio"] . '">' . $row["TAnuncio"] . '</option>';
+                }
+              } else {
+                echo '<option value="" disabled selected>No hay anuncios</option>';
+              }
+              ?>
             </select>
           </p>
           <p>
@@ -193,11 +199,7 @@
     </div>
 
     <section id="tabla_php">
-      <iframe
-        src="../controller/tabla_costes.php"
-        width="100%"
-        height="700px"
-        frameborder="0"></iframe>
+      <iframe src="../controller/tabla_costes.php" width="100%" height="700px" frameborder="0"></iframe>
     </section>
   </main>
 
