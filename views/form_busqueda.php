@@ -19,7 +19,29 @@
 <body>
   <?php 
   session_start();
-  include_once "../modules/cabecera.php" ?>
+  include_once "../modules/cabecera.php";
+
+  // Leer configuración desde config.ini
+  $config = parse_ini_file('../config.ini', true);
+
+  // Conectar a la base de datos
+  $mysqli = new mysqli(
+      $config['DB']['Server'],
+      $config['DB']['User'],
+      $config['DB']['Password'],
+      $config['DB']['Database']
+  );
+
+  // Comprobar conexión
+  if ($mysqli->connect_error) {
+      die("Error al conectar a la base de datos: " . $mysqli->connect_error);
+  }
+
+  // Consultas para cargar las opciones
+  $tiposAnuncios = $mysqli->query("SELECT IdTAnuncio, NomTAnuncio FROM TiposAnuncios ORDER BY NomTAnuncio");
+  $tiposViviendas = $mysqli->query("SELECT IdTVivienda, NomTVivienda FROM TiposViviendas ORDER BY NomTVivienda");
+  $paises = $mysqli->query("SELECT IdPais, NomPais FROM Paises ORDER BY NomPais");
+  ?>
 
   <main>
     <h1>Buscar Anuncios</h1>
@@ -30,42 +52,44 @@
         <label for="tipoAnuncio">Tipo de anuncio:</label>
         <select id="tipoAnuncio" name="tipoAnuncio">
           <option value="">Seleccione una opción</option>
-          <option value="venta">Venta</option>
-          <option value="alquiler">Alquiler</option>
+          <?php while ($fila = $tiposAnuncios->fetch_assoc()): ?>
+            <option value="<?= htmlspecialchars($fila['IdTAnuncio']) ?>">
+              <?= htmlspecialchars($fila['NomTAnuncio']) ?>
+            </option>
+          <?php endwhile; ?>
         </select>
       </div>
+
+      <!-- Tipo de vivienda -->
       <div class="tipo-busqueda">
         <label for="tipoVivienda">Tipo de vivienda:</label>
-        <select id="tipoVivienda" name="tipo-vivienda">
+        <select id="tipoVivienda" name="tipoVivienda">
           <option value="">Seleccione una opción</option>
-          <option value="Obra nueva">Obra nueva</option>
-          <option value="vivienda">Vivienda</option>
-          <option value="Oficina">Oficina</option>
-          <option value="Local">Local</option>
-          <option value="Garaje">Garaje</option>
+          <?php while ($fila = $tiposViviendas->fetch_assoc()): ?>
+            <option value="<?= htmlspecialchars($fila['IdTVivienda']) ?>">
+              <?= htmlspecialchars($fila['NomTVivienda']) ?>
+            </option>
+          <?php endwhile; ?>
         </select>
       </div>
-      <div class="tipo-busqueda">
-        <label for="ciudad">Ciudad:</label>
-        <select id="ciudad" name="ciudad">
-          <option value="">Seleccione una opción</option>
-          <option value="Alicante">Alicante</option>
-          <option value="Bangladesh">Bangladesh</option>
-          <option value="Valencia">Valencia</option>
-          <option value="Berlin">Berlin</option>
-          <option value="Amsterdam">Amsterdam</option>
-        </select>
-      </div>
+
+      <!-- País -->
       <div class="tipo-busqueda">
         <label for="pais">País:</label>
         <select id="pais" name="pais">
           <option value="">Seleccione una opción</option>
-          <option value="España">España</option>
-          <option value="India">India</option>
-          <option value="Alemania">Alemania</option>
-          <option value="Holanda">Holanda</option>
-          <option value="Suiza">Suiza</option>
+          <?php while ($fila = $paises->fetch_assoc()): ?>
+            <option value="<?= htmlspecialchars($fila['IdPais']) ?>">
+              <?= htmlspecialchars($fila['NomPais']) ?>
+            </option>
+          <?php endwhile; ?>
         </select>
+      </div>
+
+      <!-- Otros campos -->
+      <div class="tipo-busqueda">
+        <label for="ciudad">Ciudad:</label>
+        <input id="ciudad" name="ciudad" placeholder="Ciudad" />
       </div>
       <div class="tipo-busqueda">
         <label for="precMin">Precio mínimo:</label>
@@ -77,17 +101,22 @@
       </div>
       <div class="tipo-busqueda">
         <label for="fechaInicio">Fecha desde:</label>
-        <input id="fechaInicio" name="fechaInicio" />
+        <input id="fechaInicio" name="fechaInicio" type="date" />
       </div>
       <div class="tipo-busqueda">
         <label for="fechaFin">Fecha hasta:</label>
-        <input id="fechaFin" name="fechaFin" />
+        <input id="fechaFin" name="fechaFin" type="date" />
       </div>
       <div class="tipo-busqueda">
         <button type="submit">Buscar</button>
       </div>
     </form>
   </main>
+
+  <?php 
+  // Cerrar conexión a la base de datos
+  $mysqli->close();
+  ?>
 
   <footer>Todos los derechos reservados ©</footer>
 </body>

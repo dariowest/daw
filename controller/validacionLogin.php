@@ -1,66 +1,75 @@
 <?php
-
 session_start();
 
-// Estos son los usuarios permitidos para hacer el Login
-$usuarios_permitidos = [
-    "usuario1" => "contrasena1",
-    "usuario2" => "contrasena2",
-    "usuario3" => "contrasena3",
-    "usuario4" => "contrasena4",
-    "usuario5" => "contrasena5"
-];
+// Leer configuración desde config.ini
+$config = parse_ini_file('../config.ini', true);
 
-// Obtengo los datos que me da el formulario
+// Conectar a la base de datos
+$mysqli = new mysqli(
+    $config['DB']['Server'],
+    $config['DB']['User'],
+    $config['DB']['Password'],
+    $config['DB']['Database']
+);
+
+// Comprobar conexión
+if ($mysqli->connect_error) {
+    die("Error al conectar a la base de datos: " . $mysqli->connect_error);
+}
+
+// Obtener los datos del formulario
 $usu = $_POST['usu'] ?? '';
 $pwd = $_POST['pwd'] ?? '';
 $recordarme = isset($_POST['recordarme']);
 
-// Verificación para ver si están vacíos los campos
+// Validaciones previas
 if (empty($usu) || empty($pwd)) {
-    header("Location: ../views/login.php?error=3"); // error=3 para campos vacíos
+    header("Location: ../views/login.php?error=3"); // Campos vacíos
     exit;
 }
 
-// Verifico si hay espacios en blanco en los campos ingresados
 if (preg_match('/\s/', $usu) || preg_match('/\s/', $pwd)) {
-    header("Location: ../views/login.php?error=2"); // error=2 para espacios en blanco
+    header("Location: ../views/login.php?error=2"); // Espacios en blanco
     exit;
 }
 
-// Verifico que no hayan caracteres especiales tanto en usuario como en contraseña
 if (preg_match('/[ñÑáéíóúÁÉÍÓÚ]/', $usu) || preg_match('/[ñÑáéíóúÁÉÍÓÚ]/', $pwd)) {
-    header("Location: ../views/login.php?error=4"); // error=4 para caracteres no permitidos
+    header("Location: ../views/login.php?error=4"); // Caracteres no permitidos
     exit;
 }
 
-// Valido si el username empieza con un número
 if (preg_match('/^\d/', $usu)) {
-    header("Location: ../views/login.php?error=5"); // error=5 para nombre de usuario que empieza con un número
+    header("Location: ../views/login.php?error=5"); // Usuario inicia con número
     exit;
 }
 
-// Verificar que el usuario existe y la contraseña es correcta
-if (array_key_exists($usu, $usuarios_permitidos) && $usuarios_permitidos[$usu] === $pwd) {
-    $_SESSION['usu'] = $usu;
+// Consultar la base de datos para verificar usuario y contraseña
+$query = "SELECT * FROM Usuarios WHERE NomUsuario = ? AND Clave = ?";
+$stmt = $mysqli->prepare($query);
+$stmt->bind_param("ss", $usu, $pwd);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Verificar si el usuario existe
+if ($result->num_rows === 1) {
+    $usuario = $result->fetch_assoc();
+    $_SESSION['usu'] = $usuario['NomUsuario']; // Guardar nombre de usuario en la sesión
+    $_SESSION['id_usuario'] = $usuario['IdUsuario']; // Guardar ID del usuario en la sesión
 
     if ($recordarme) {
-        // Mantener la cookie de usuario
-        setcookie("usu", $usu, time() + (90 * 24 * 60 * 60), "/");
-
-        // Si ya existe la cookie de última visita, mantenerla como está
-        if (!isset($_COOKIE['ultima_visita'])) {
-            setcookie("ultima_visita", date("Y-m-d H:i:s"), time() + (90 * 24 * 60 * 60), "/");
-        }
-    } else {
-        // Eliminar cookies si existen
-        setcookie("usu", "", time() - 3600, "/");
-        setcookie("ultima_visita", "", time() - 3600, "/");
+        // Configurar cookies si el usuario eligió "recordarme"
+        setcookie("usu", $usuario['NomUsuario'], time() + (90 * 24 * 60 * 60), "/");
+        setcookie("ultima_visita", date("Y-m-d H:i:s"), time() + (90 * 24 * 60 * 60), "/");
     }
 
+    // Redirigir al perfil del usuario
     header("Location: ../views/perfil.php");
     exit;
 } else {
-    header("Location: ../views/login.php?error=1"); // Usuario o contraseña incorrectos
+    // Usuario o contraseña incorrectos
+    header("Location: ../views/login.php?error=1");
     exit;
 }
+
+$stmt->close();
+$mysqli->close();
