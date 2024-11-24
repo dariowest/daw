@@ -21,19 +21,38 @@ include '../controller/recordarme.php';
 
 <body>
   <?php 
-  session_start();
-  if (!isset($_SESSION["usu"])){
-    header("Location: login.php");
+  // Verificar sesión activa
+  if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
 
-}
-  include_once "../modules/cabecera.php" ?>
+  // Redirige al login si no hay sesión activa
+  if (!isset($_SESSION["usu"])) {
+      header("Location: login.php");
+      exit();
+  }
+
+  include_once "../modules/cabecera.php"; 
+  ?>
+
+  <!-- Guardar ID del usuario en sessionStorage -->
+  <script>
+    // Obtener el ID del usuario desde la sesión PHP
+    const userId = <?php echo json_encode($_SESSION['id_usuario'] ?? null); ?>;
+
+    // Guardar el ID en sessionStorage si existe
+    if (userId) {
+        sessionStorage.setItem('userId', userId);
+    } else {
+        console.error('No se pudo guardar el ID en sessionStorage.');
+    }
+  </script>
 
   <main>
-
-  <?php if (isset($_COOKIE['usu'])): ?>
-            <h1>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?>!</h1>
-            <p>Última visita: <?php echo htmlspecialchars($ultimaVisita); ?></p>
-        <?php endif; ?>
+    <?php if (isset($_COOKIE['usu'])): ?>
+        <h1>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?>!</h1>
+        <p>Última visita: <?php echo htmlspecialchars($ultimaVisita); ?></p>
+    <?php endif; ?>
 
     <section id="modificar_datos">
       <article>
@@ -71,32 +90,6 @@ include '../controller/recordarme.php';
 
     <h2>Mis anuncios</h2>
     <section id="mis_anuncios">
-      <article>
-        <figure>
-          <img src="../img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
-        </figure>
-        <aside>
-          <h2><a href="anuncio.php?id=1">Título</a></h2>
-          <p>Madrid</p>
-          <p>€1,200/mes</p>
-          <p>Piso</p>
-          <p>Alquiler</p>
-          <p>20/9/2024</p>
-        </aside>
-      </article>
-      <article>
-        <figure>
-          <img src="../img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
-        </figure>
-        <aside>
-          <h2><a href="anuncio.php?id=1">Título</a></h2>
-          <p>Madrid</p>
-          <p>€1,200/mes</p>
-          <p>Piso</p>
-          <p>Alquiler</p>
-          <p>20/9/2024</p>
-        </aside>
-      </article>
       <article>
         <figure>
           <img src="../img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
