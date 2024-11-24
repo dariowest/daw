@@ -82,7 +82,7 @@
     <?php
     if (isset($_SESSION['usu'])) {
     ?>
-      <div>
+      <div style="margin-left: 150px;">
         <h3>Datos del registro:</h3>
         <p><strong>Nombre de usuario:</strong> <?php echo $_SESSION['usu']; ?></p>
       </div>

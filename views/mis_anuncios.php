@@ -32,39 +32,50 @@
         <header>
             <h1>Mis publicaciones</h1>
         </header>
+        <section>
 
-        <?php include_once "../modules/muestra_anuncios.php" ?>
-
-        <?php
-        $sql = "SELECT IdAnuncio, TAnuncio FROM anuncios";
+            
+            <?php
+        $sql = "SELECT IdAnuncio, TAnuncio, TVivienda, Titulo, Precio, Pais, Ciudad, Foto FROM anuncios where Usuario = ".$_SESSION['id_usuario'];
         $result = $conn->query($sql);
-
-
+        
+        
         if ($result->num_rows > 0) {
             // output data of each row
             while ($row = $result->fetch_assoc()) {
-                echo '<option value="' . $row["IdAnuncio"] . '">' . $row["TAnuncio"] . '</option>';
-            }
-        } else {
-            echo '<option value="" disabled selected>No hay anuncios</option>';
-        }
-        ?>
+                echo '<article>';
+                echo '<figure>';
+                echo "<img src='../img/{$row['Foto']}' alt='Foto del anuncio {$row['IdAnuncio']}' width='200' />";
+                echo '</figure>';
+                echo '<aside>';
+                    echo "<h2><a href='anuncio.php?id={$row['IdAnuncio']}'>{$row['Titulo']}</a></h2>";
 
-        <article>
+                echo '</aside>';
+                echo '</article>';
+                }
+            } else {
+                echo '<p>No hay anuncios</p>';
+            }
+            /*
+            <article>
             <figure>
-                <img src="<?= $anuncio['imagen'] ?>" alt="Foto del anuncio <?= $anuncio['id'] ?>" width="200" />
+            <img src="<?= $anuncio['imagen'] ?>" alt="Foto del anuncio <?= $anuncio['id'] ?>" width="200" />
             </figure>
             <aside>
-                <h2><a href="anuncio.php?id=<?= $anuncio['id'] ?>"><?= $anuncio['titulo'] ?></a></h2>
-                <p><?= $anuncio['pais'] ?></p>
-                <p><?= $anuncio['ciudad'] ?></p>
-                <p><?= $anuncio['precio'] ?></p>
-                <p><?= $anuncio['tipoVivienda'] ?></p>
-                <p><?= $anuncio['tipoAnuncio'] ?></p>
-                <p><?= $anuncio['fecha'] ?></p>
+            <h2><a href="anuncio.php?id=<?= $anuncio['id'] ?>"><?= $anuncio['titulo'] ?></a></h2>
+            <p><?= $anuncio['pais'] ?></p>
+            <p><?= $anuncio['ciudad'] ?></p>
+            <p><?= $anuncio['precio'] ?></p>
+            <p><?= $anuncio['tipoVivienda'] ?></p>
+            <p><?= $anuncio['tipoAnuncio'] ?></p>
+            <p><?= $anuncio['fecha'] ?></p>
             </aside>
         </article>
-
+        */
+        ?>
+        
+        
+    </section>
     </main>
     <footer>Todos los derechos reservados ©</footer>
 </body>
