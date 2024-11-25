@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/form-buscar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <?php
+  include_once ("../modules/estilo.php");
+  ?>
 </head>
 <body>
     <?php 
-    session_start();
     if (!isset($_SESSION["usu"])){
         header("Location: login.php");
 

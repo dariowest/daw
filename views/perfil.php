@@ -8,13 +8,11 @@ include '../controller/recordarme.php';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mi Perfil</title>
-  <link rel="stylesheet" href="../styles/global.css" />
-  <link rel="stylesheet" href="../styles/estilo-estandar.css" title="Estilo principal" />
-  <link rel="alternative stylesheet" href="../styles/oscuro.css" title="Modo oscuro" />
   <link rel="stylesheet" href="../styles/perfil.css" />
-  <link rel="alternative stylesheet" href="../styles/contraste.css" title="Estilo alto contraste" />
-  <link rel="alternative stylesheet" href="../styles/letra-mayor.css" title="Estilo letra mayor" />
-  <link rel="alternative stylesheet" href="../styles/contraste-letra.css" title="Estilo letra mayor y alto contraste" />
+  <link rel="stylesheet" href="../styles/global.css" />
+  <?php
+  include_once ("../modules/estilo.php");
+  ?>
   <!-- Enlace a Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
@@ -22,9 +20,7 @@ include '../controller/recordarme.php';
 <body>
   <?php 
   // Verificar sesión activa
-  if (session_status() === PHP_SESSION_NONE) {
-      session_start();
-  }
+
 
   // Redirige al login si no hay sesión activa
   if (!isset($_SESSION["usu"])) {

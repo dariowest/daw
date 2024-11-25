@@ -5,11 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="styles/global.css" />
-  <link rel="stylesheet" href="styles/estilo-estandar.css" title="Estilo principal" />
-  <link rel="alternative stylesheet" href="styles/oscuro.css" title="Modo oscuro" />
-  <link rel="alternative stylesheet" href="styles/contraste.css" title="Estilo alto contraste" />
-  <link rel="alternative stylesheet" href="styles/letra-mayor.css" title="Estilo letra mayor" />
-  <link rel="alternative stylesheet" href="styles/contraste-letra.css" title="Estilo letra mayor y alto contraste" />
+  <?php
+  include_once ("modules/estilo.php");
+  ?>
   <link rel="stylesheet" href="styles/imprime-index.css" media="print" />
 
   <!-- Enlace a Font Awesome -->
@@ -21,7 +19,6 @@
 
 <body>
   <?php
-  session_start();
 
   // Leer configuración desde config.ini
   include_once ('controller/connect.php');
