@@ -2,7 +2,6 @@
 session_start();
 
 // Leer configuración desde config.ini
-$config = parse_ini_file('../config.ini', true);
 
 // Conectar a la base de datos
 $mysqli = new mysqli(
@@ -73,3 +72,4 @@ if ($result->num_rows === 1) {
 
 $stmt->close();
 $mysqli->close();
+?>
