@@ -38,10 +38,10 @@
       die("Error al conectar a la base de datos: " . $mysqli->connect_error);
   }
 
-  // Capturar parámetros del formulario
+  // Capturar parámetros del formulario (POST y GET combinados)
   $tipoAnuncio = isset($_POST['tipoAnuncio']) ? trim($_POST['tipoAnuncio']) : '';
   $tipoVivienda = isset($_POST['tipoVivienda']) ? trim($_POST['tipoVivienda']) : '';
-  $ciudad = isset($_POST['ciudad']) ? trim($_POST['ciudad']) : '';
+  $ciudad = isset($_POST['ciudad']) ? trim($_POST['ciudad']) : (isset($_GET['ciudad']) ? trim($_GET['ciudad']) : '');
   $pais = isset($_POST['pais']) ? trim($_POST['pais']) : '';
   $precMin = isset($_POST['precMin']) && $_POST['precMin'] !== '' ? (float) trim($_POST['precMin']) : null;
   $precMax = isset($_POST['precMax']) && $_POST['precMax'] !== '' ? (float) trim($_POST['precMax']) : null;
@@ -100,14 +100,7 @@
     <h1>Resultados de búsqueda</h1>
     <article id="datos">
       <h2>Parámetros de la búsqueda</h2>
-      <p><strong>Tipo de anuncio:</strong> <?= htmlspecialchars($tipoAnuncio ?: 'No especificado') ?></p>
-      <p><strong>Tipo de vivienda:</strong> <?= htmlspecialchars($tipoVivienda ?: 'No especificado') ?></p>
       <p><strong>Ciudad:</strong> <?= htmlspecialchars($ciudad ?: 'No especificada') ?></p>
-      <p><strong>País:</strong> <?= htmlspecialchars($pais ?: 'No especificado') ?></p>
-      <p><strong>Precio mínimo:</strong> <?= htmlspecialchars($precMin !== null ? $precMin : 'Sin límite') ?></p>
-      <p><strong>Precio máximo:</strong> <?= htmlspecialchars($precMax !== null ? $precMax : 'Sin límite') ?></p>
-      <p><strong>Fecha desde:</strong> <?= htmlspecialchars($fechaInicio ?: 'No especificada') ?></p>
-      <p><strong>Fecha hasta:</strong> <?= htmlspecialchars($fechaFin ?: 'No especificada') ?></p>
     </article>
 
     <section>
