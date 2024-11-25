@@ -142,14 +142,14 @@
             Seleccione el anuncio:
             <select name="anuncio" id="anuncio">
               <?php
-              $sql = "SELECT IdAnuncio, TAnuncio FROM anuncios";
+              $sql = "SELECT IdAnuncio, Titulo FROM anuncios where Usuario = ".$_SESSION['id_usuario'];
               $result = $conn->query($sql);
 
 
               if ($result->num_rows > 0) {
                 // output data of each row
                 while ($row = $result->fetch_assoc()) {
-                  echo '<option value="' . $row["IdAnuncio"] . '">' . $row["TAnuncio"] . '</option>';
+                  echo '<option value="' . $row["IdAnuncio"] . '">' . $row["Titulo"] . '</option>';
                 }
               } else {
                 echo '<option value="" disabled selected>No hay anuncios</option>';

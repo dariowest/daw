@@ -88,23 +88,6 @@ include '../controller/recordarme.php';
 
     <!-- Mis anuncios -->
 
-    <h2>Mis anuncios</h2>
-    <section id="mis_anuncios">
-      <article>
-        <figure>
-          <img src="../img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
-        </figure>
-        <aside>
-          <h2><a href="anuncio.php?id=1">Título</a></h2>
-          <p>Madrid</p>
-          <p>€1,200/mes</p>
-          <p>Piso</p>
-          <p>Alquiler</p>
-          <p>20/9/2024</p>
-        </aside>
-      </article>
-    </section>
-
     <div id="nuevo">
       <div class="boton">
         <button><a href="crear_anuncio.php">Crear nuevo anuncio</a></button>

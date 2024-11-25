@@ -15,7 +15,9 @@
         header("Location: login.php");
 
     }
-    include_once "../modules/cabecera.php"?>
+    include_once "../modules/cabecera.php";
+    include_once "../controller/connect.php";
+    ?>
 
     <main>
         <h1>Añade una foto</h1>
@@ -37,24 +39,30 @@
                 <label for="anuncio">Anuncio</label>
                 <select name="anuncio">
                     <?php
-                    if(!isset($_GET["id"])){
-                    ?>
+                    $sql = "SELECT IdAnuncio, Titulo FROM anuncios where Usuario = ".$_SESSION['id_usuario'];
+                    $result = $conn->query($sql);
+                    
 
-                    <option value="">Selecciona una opción</option>
-                    <option value="anuncio1" id="1">Anuncio1</option>
-                    <option value="anuncio2" id="2">Anuncio2</option>
-                    <option value="anuncio3" id="3">Anuncio3</option>
-                    <?php }
+                    if(!isset($_GET["id"])){
+                    echo"<option value'' selected>Selecciona un anuncio</option>";
+                    if ($result->num_rows > 0) {
+                        // output data of each row
+                        while ($row = $result->fetch_assoc()) {
+                            echo '<option value="' . $row["IdAnuncio"] . '">' . $row["Titulo"] . '</option>';
+                        }
+                        }
+
+                    }
                     else{
                         $id = $_GET["id"];
 
-                        for($i = 1; $i <= 10; $i++){
-                            if($i == $id){
-                                echo"<option value=\"anuncio$i\" id=\"$i\" selected>Anuncio$i</option>";
+                        while ($row = $result->fetch_assoc()){
+                            if($row["IdAnuncio"] == $id){
+                                echo"<option value='{$row["IdAnuncio"]}' selected>{$row["Titulo"]}</option>";
                                 
                             }
                             else{
-                                echo"<option value=\"anuncio$i\" id=\"$i\">Anuncio$i</option>";
+                                echo"<option value='{$row["IdAnuncio"]}'>{$row["Titulo"]}</option>";
 
                             }
 
