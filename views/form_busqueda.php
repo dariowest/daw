@@ -17,7 +17,7 @@
 </head>
 
 <body>
-  <?php 
+  <?php
   session_start();
   include_once "../modules/cabecera.php";
 
@@ -26,15 +26,15 @@
 
   // Conectar a la base de datos
   $mysqli = new mysqli(
-      $config['DB']['Server'],
-      $config['DB']['User'],
-      $config['DB']['Password'],
-      $config['DB']['Database']
+    $config['DB']['Server'],
+    $config['DB']['User'],
+    $config['DB']['Password'],
+    $config['DB']['Database']
   );
 
   // Comprobar conexión
   if ($mysqli->connect_error) {
-      die("Error al conectar a la base de datos: " . $mysqli->connect_error);
+    die("Error al conectar a la base de datos: " . $mysqli->connect_error);
   }
 
   // Consultas para cargar las opciones
@@ -93,12 +93,13 @@
       </div>
       <div class="tipo-busqueda">
         <label for="precMin">Precio mínimo:</label>
-        <input id="precMin" name="precMin" placeholder="€" />
+        <input id="precMin" name="precMin" type="number" min="0" placeholder="€">
       </div>
       <div class="tipo-busqueda">
         <label for="precMax">Precio máximo:</label>
-        <input id="precMax" name="precMax" min="0" placeholder="€" />
+        <input id="precMax" name="precMax" type="number" min="0" placeholder="€">
       </div>
+
       <div class="tipo-busqueda">
         <label for="fechaInicio">Fecha desde:</label>
         <input id="fechaInicio" name="fechaInicio" type="date" />
@@ -113,7 +114,7 @@
     </form>
   </main>
 
-  <?php 
+  <?php
   // Cerrar conexión a la base de datos
   $mysqli->close();
   ?>
