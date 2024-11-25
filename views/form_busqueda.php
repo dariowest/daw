@@ -38,9 +38,9 @@
   }
 
   // Consultas para cargar las opciones
-  $tiposAnuncios = $mysqli->query("SELECT IdTAnuncio, NomTAnuncio FROM TiposAnuncios ORDER BY NomTAnuncio");
-  $tiposViviendas = $mysqli->query("SELECT IdTVivienda, NomTVivienda FROM TiposViviendas ORDER BY NomTVivienda");
-  $paises = $mysqli->query("SELECT IdPais, NomPais FROM Paises ORDER BY NomPais");
+  $tiposAnuncios = $mysqli->query("SELECT IdTAnuncio, NomTAnuncio FROM tiposanuncios ORDER BY NomTAnuncio");
+  $tiposViviendas = $mysqli->query("SELECT IdTVivienda, NomTVivienda FROM tiposviviendas ORDER BY NomTVivienda");
+  $paises = $mysqli->query("SELECT IdPais, NomPais FROM paises ORDER BY NomPais");
   ?>
 
   <main>

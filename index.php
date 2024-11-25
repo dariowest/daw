@@ -24,20 +24,7 @@
   session_start();
 
   // Leer configuración desde config.ini
-  $config = parse_ini_file('config.ini', true);
-
-  // Conectar a la base de datos
-  $mysqli = new mysqli(
-    $config['DB']['Server'],
-    $config['DB']['User'],
-    $config['DB']['Password'],
-    $config['DB']['Database']
-  );
-
-  // Comprobar conexión
-  if ($mysqli->connect_error) {
-    die("Error al conectar a la base de datos: " . $mysqli->connect_error);
-  }
+  include_once ('controller/connect.php');
 
   // Consulta para obtener los últimos 5 anuncios
   $query = "
@@ -50,15 +37,15 @@
         tV.NomTVivienda AS TipoVivienda, 
         a.Foto, 
         a.FRegistro 
-    FROM Anuncios a
-    JOIN TiposAnuncios tA ON a.TAnuncio = tA.IdTAnuncio
-    JOIN TiposViviendas tV ON a.TVivienda = tV.IdTVivienda
+    FROM anuncios a
+    JOIN tiposanuncios tA ON a.TAnuncio = tA.IdTAnuncio
+    JOIN tiposviviendas tV ON a.TVivienda = tV.IdTVivienda
     ORDER BY a.FRegistro DESC 
     LIMIT 5";
 
 
-  $result = $mysqli->query($query);
 
+  $result = $conn->query($query);
   // Verificar si hay resultados
   if (!$result) {
     die("Error en la consulta: " . $mysqli->error);

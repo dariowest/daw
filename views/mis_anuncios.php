@@ -36,7 +36,22 @@
 
             
             <?php
-        $sql = "SELECT IdAnuncio, TAnuncio, TVivienda, Titulo, Precio, Pais, Ciudad, Foto FROM anuncios where Usuario = ".$_SESSION['id_usuario'];
+        $sql = "
+        SELECT 
+            a.IdAnuncio, 
+            a.Titulo, 
+            a.Ciudad, 
+            a.Precio, 
+            tA.NomTAnuncio AS TipoAnuncio, 
+            tV.NomTVivienda AS TipoVivienda, 
+            a.Foto, 
+            a.FRegistro,
+            p.NomPais AS Pais
+        FROM anuncios a
+        JOIN tiposanuncios tA ON a.TAnuncio = tA.IdTAnuncio
+        JOIN tiposviviendas tV ON a.TVivienda = tV.IdTVivienda
+        JOIN paises p ON a.Pais = p.IdPais
+        WHERE a.Usuario = ".$_SESSION['id_usuario'];
         $result = $conn->query($sql);
         
         
@@ -49,6 +64,11 @@
                 echo '</figure>';
                 echo '<aside>';
                     echo "<h2><a href='anuncio.php?id={$row['IdAnuncio']}'>{$row['Titulo']}</a></h2>";
+                    echo "<p>{$row['Pais']}</p>";
+                    echo "<p>{$row['Ciudad']}</p>";
+                    echo "<p>{$row['Precio']}</p>";
+                    echo "<p>{$row['TipoVivienda']}</p>";
+                    echo "<p>{$row['FRegistro']}</p>";
 
                 echo '</aside>';
                 echo '</article>';
