@@ -52,17 +52,20 @@ include '../controller/recordarme.php';
 
     <section id="modificar_datos">
       <article>
+        <h2>Modificar mis datos personales</h2>
         <form>
-          <h2>Modificar mis datos personales</h2>
-          <label for="nombre">Nombre: </label>
-          <input type="text" id="nombre" value="Juan Dario Gomez Ardila" />
-          <br /><br />
-          <label for="email">Email: </label>
-          <input type="email" id="email" value="jdgomezardila@gmail.com" />
-          <br /><br />
-          <label for="password">Contraseña: </label>
-          <input type="password" id="password" value="123456" />
-          <br /><br />
+          <div id="modifica">
+            <div class="bloque_modifica">
+              <label for="nombre">Nombre</label>
+              <label for="email">Email</label>
+              <label for="password">Contraseña</label>
+            </div>
+            <div class="bloque_modifica">
+              <input type="text" name="nombre" value="Juan Dario Gomez Ardila" />
+              <input type="email" name="email" value="jdgomezardila@gmail.com" />
+              <input type="password" name="password" value="123456" />
+            </div>
+          </div>
           <div class="boton">
             <button type="button">Editar datos</button>
           </div>
@@ -80,26 +83,17 @@ include '../controller/recordarme.php';
           <button type="button">Darse de baja</button>
         </div>
       </article>
+      <article>
+        <h3><a href="crear_anuncio.php">Crear nuevo anuncio</a></h3>
+        <h3><a href="mis_anuncios.php">Mis anuncios</a></h3>
+        <h3><a href="config.php">Configuracion</a></h3>
+        <h3><a href="mis_mensajes.php">Mis mensajes</a></h3>
+      </article>
     </section>
-
-    <!-- Mis anuncios -->
-
-    <div id="nuevo">
-      <div class="boton">
-        <h2><a href="crear_anuncio.php">Crear nuevo anuncio</a></h2>
-        <h2><a href="mis_anuncios.php">Mis anuncios</a></h2>
-        <h2><a href="config.php">Configuracion</a></h2>
-      </div>
-      <h2><a href="mis_mensajes.php">Mis mensajes</a></h2>
-      <p>
-        <label>o necesitas un anuncio impreso?:<a href="form_folleto.php">click aquí</a></label>
-      </p>
-    </div>
-
-    <!-- Mensajes enviados -->
     
   </main>
-
+  
+  <p><label>o necesitas un anuncio impreso? <a href="form_folleto.php">click aquí</a></label></p>
   <footer>Todos los derechos reservados ©</footer>
 </body>
 

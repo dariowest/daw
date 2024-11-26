@@ -9,7 +9,7 @@ if (session_status() === PHP_SESSION_NONE) {
 if(isset($_SESSION['id_usuario'])){
     $sql = "UPDATE usuarios SET Estilo = ".$_POST['est']." WHERE IdUsuario = ".$_SESSION['id_usuario'];
     $result = $conn->query($sql);
-    header("Location: ../index.php");
+    header("Location: ../views/config.php");
 
 
 }

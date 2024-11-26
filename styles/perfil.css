@@ -1,73 +1,75 @@
 
 h2{
     text-align: center;
+    margin-bottom: 20px;
+}
+.boton{
+    display: flex;
+    justify-content: center;
 }
 
-section{
-    margin: 20px;
-    padding: 20px;
-    border-radius: 10px;
-    border-style: solid;
-}
-#mis_anuncios{
-    display: grid;
-    article:hover{
-        background-color: var(--color-bisque);
-    }
-    >article{
-        width: 300px;
-        display: flex;
-        margin: 20px auto;
-        padding: 20px;
-        border-style: solid;
-        border-radius: 10px;
+body{
+    section{
+        display: grid;
+        grid-template-columns: auto auto auto;
+        margin: 20px;
+        article{
+            border-style: solid;
+            margin: 10px;
+            border-radius: 10px;
+            padding: 15px;
+            #modifica{
+                display: grid;
+                grid-template-columns: auto auto;
+                margin-bottom: 10px;
+                .bloque_modifica{
+                    display: flex;
+                    flex-direction: column;
+                    *{
+                        margin-bottom: 10px;
+                    }
     
-            >figure{
-                margin: auto;
+                }
+    
             }
-            >aside{
-                    margin-left: 8px;
-                
-                p{
-                    margin-top: 10px;
+            >h3{
+                margin-bottom: 20px;
+                text-align: center;
+                a:hover{
+                    font-weight: 800;
                 }
             }
+            >p{
+                text-align: center;
+                margin-bottom: 50px;
+            }
+        }
     
     }
-
-}
-
-#modificar_datos{
-    display: grid;
-    article{
-        margin: 20px;
-    }
-}
-
-#nuevo{
-    text-align: center;
     >p{
-        margin: 20px;
-    }
-}
-
-.boton{
-    text-align: center;
-}
-
-
-
-
-@media only screen and (min-width: 750px){
-    #mis_anuncios, #modificar_datos{
-        grid-template-columns: auto auto;
+        text-align: center;
+        margin-bottom: 10px;
+        a:hover{
+            font-weight: 500;
+        }
     }
 
 }
 
-@media only screen and (min-width: 1200px){
-    #mis_anuncios{
-        grid-template-columns: auto auto auto;
-    }
 
+
+@media (max-width: 1000px) {
+    body{
+        section{
+            grid-template-columns: auto auto;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    body{
+        section{
+            grid-template-columns: auto;
+        }
+    }
 }

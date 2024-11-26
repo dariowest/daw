@@ -25,3 +25,6 @@ body {
     filter: invert(1) hue-rotate(180deg);
   }
 }
+button > a{
+  color: black;
+}
