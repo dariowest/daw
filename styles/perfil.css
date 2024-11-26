@@ -46,6 +46,9 @@ section{
 
 #nuevo{
     text-align: center;
+    >p{
+        margin: 20px;
+    }
 }
 
 .boton{

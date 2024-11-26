@@ -86,16 +86,18 @@ include '../controller/recordarme.php';
 
     <div id="nuevo">
       <div class="boton">
-        <button><a href="crear_anuncio.php">Crear nuevo anuncio</a></button>
-        <button><a href="mis_anuncios.php">Mis anuncios</a></button>
+        <h2><a href="crear_anuncio.php">Crear nuevo anuncio</a></h2>
+        <h2><a href="mis_anuncios.php">Mis anuncios</a></h2>
+        <h2><a href="config.php">Configuracion</a></h2>
       </div>
+      <h2><a href="mis_mensajes.php">Mis mensajes</a></h2>
       <p>
         <label>o necesitas un anuncio impreso?:<a href="form_folleto.php">click aquí</a></label>
       </p>
     </div>
 
     <!-- Mensajes enviados -->
-    <h2><a href="mis_mensajes.php">Mis mensajes</a></h2>
+    
   </main>
 
   <footer>Todos los derechos reservados ©</footer>
