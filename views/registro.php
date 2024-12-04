@@ -1,7 +1,12 @@
 <?php
-// Verificar si hay errores o datos pasados desde el redireccionamiento
-$errores = isset($_GET['errores']) ? json_decode($_GET['errores'], true) : [];
-$datos = isset($_GET['data']) ? json_decode($_GET['data'], true) : [];
+session_start();
+
+// Obtener errores y datos de la sesión
+$errores = $_SESSION['errores'] ?? [];
+$datos = $_SESSION['datos'] ?? [];
+
+// Limpiar la sesión para evitar conflictos futuros
+unset($_SESSION['errores'], $_SESSION['datos']);
 ?>
 
 <!DOCTYPE html>
@@ -26,10 +31,10 @@ $datos = isset($_GET['data']) ? json_decode($_GET['data'], true) : [];
 <body>
   <?php
   include_once '../controller/connect.php';
-  session_start();
-  include_once "../modules/cabecera.php" ?>
+  include_once "../modules/cabecera.php";
+  ?>
   <main>
-    <form id="registration-form" action="../controller/registro_respuesta.php" method="POST">
+    <form id="registration-form" action="../controller/registro_respuesta.php" method="POST" enctype="multipart/form-data">
       <h3>Registrar Usuario</h3>
 
       <!-- Nombre de usuario -->
@@ -72,48 +77,63 @@ $datos = isset($_GET['data']) ? json_decode($_GET['data'], true) : [];
       <div class="form-alineado">
         <label for="sexo">Sexo:</label>
         <select id="sexo" name="sexo">
-          <option value="1" <?= isset($datos['sexo']) && $datos['sexo'] === 'masculino' ? 'selected' : '' ?>>Masculino</option>
-          <option value="2" <?= isset($datos['sexo']) && $datos['sexo'] === 'femenino' ? 'selected' : '' ?>>Femenino</option>
+          <option value="">Seleccione</option>
+          <option value="1" <?= isset($datos['sexo']) && $datos['sexo'] === '1' ? 'selected' : '' ?>>Masculino</option>
+          <option value="2" <?= isset($datos['sexo']) && $datos['sexo'] === '2' ? 'selected' : '' ?>>Femenino</option>
         </select>
+        <?php if (isset($errores['sexo'])): ?>
+          <div style="color: red;"><?= $errores['sexo'] ?></div>
+        <?php endif; ?>
       </div>
 
       <!-- Fecha de nacimiento -->
       <div class="form-alineado">
         <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-        <input id="fecha_nacimiento" name="fecha_nacimiento"
-          value="<?= htmlspecialchars($datos['fecha_nacimiento'] ?? '') ?>" />
-      </div>
-
-      <!-- Ciudad -->
-      <div class="form-alineado">
-        <label for="ciudad">Ciudad de residencia:</label>
-        <select id="ciudad" name="ciudad">
-          <option value="1">España</option>
-          <option value="2">Alemania</option>
-          <option value="3">Francia</option>
-        </select>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="<?= htmlspecialchars($datos['fecha_nacimiento'] ?? '') ?>" />
+        <?php if (isset($errores['fecha_nacimiento'])): ?>
+          <div style="color: red;"><?= $errores['fecha_nacimiento'] ?></div>
+        <?php endif; ?>
       </div>
 
       <!-- País -->
       <div class="form-alineado">
         <label for="pais">País de residencia:</label>
         <select id="pais" name="pais">
+          <option value="">Seleccione</option>
           <?php
           $sql = "SELECT IdPais, NomPais FROM paises";
           $result = $conn->query($sql);
 
-
           if ($result->num_rows > 0) {
-            // output data of each row
             while ($row = $result->fetch_assoc()) {
-              echo '<option value="' . $row["IdPais"] . '">' . $row["NomPais"] . '</option>';
+              $selected = isset($datos['pais']) && $datos['pais'] == $row["IdPais"] ? 'selected' : '';
+              echo '<option value="' . $row["IdPais"] . '" ' . $selected . '>' . $row["NomPais"] . '</option>';
             }
-          } else {
-            echo "0 results";
           }
-
           ?>
         </select>
+        <?php if (isset($errores['pais'])): ?>
+          <div style="color: red;"><?= $errores['pais'] ?></div>
+        <?php endif; ?>
+      </div>
+
+
+      <!-- Ciudad -->
+      <div class="form-alineado">
+        <label for="ciudad">Ciudad:</label>
+        <input id="ciudad" name="ciudad" value="<?= htmlspecialchars($datos['ciudad'] ?? '') ?>" placeholder="Ingrese su ciudad" />
+        <?php if (isset($errores['ciudad'])): ?>
+          <div style="color: red;"><?= $errores['ciudad'] ?></div>
+        <?php endif; ?>
+      </div>
+
+      <!-- Foto -->
+      <div class="form-alineado">
+        <label for="foto">Foto de perfil:</label>
+        <input type="file" id="foto" name="foto" accept="image/*">
+        <?php if (isset($errores['foto'])): ?>
+          <div style="color: red;"><?= $errores['foto'] ?></div>
+        <?php endif; ?>
       </div>
 
       <div class="form-alineado">
