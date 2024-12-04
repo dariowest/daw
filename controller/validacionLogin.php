@@ -2,20 +2,8 @@
 session_start();
 
 // Leer configuración desde config.ini
-$config = parse_ini_file('../config.ini', true);
 
-// Conectar a la base de datos
-$mysqli = new mysqli(
-    $config['DB']['Server'],
-    $config['DB']['User'],
-    $config['DB']['Password'],
-    $config['DB']['Database']
-);
-
-// Comprobar conexión
-if ($mysqli->connect_error) {
-    die("Error al conectar a la base de datos: " . $mysqli->connect_error);
-}
+include_once "../controller/connect.php";
 
 // Obtener los datos del formulario
 $usu = $_POST['usu'] ?? '';
@@ -44,8 +32,8 @@ if (preg_match('/^\d/', $usu)) {
 }
 
 // Consultar la base de datos para verificar usuario y contraseña
-$query = "SELECT * FROM Usuarios WHERE NomUsuario = ? AND Clave = ?";
-$stmt = $mysqli->prepare($query);
+$query = "SELECT * FROM usuarios WHERE NomUsuario = ? AND Clave = ?";
+$stmt = $conn->prepare($query);
 $stmt->bind_param("ss", $usu, $pwd);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -73,3 +61,4 @@ if ($result->num_rows === 1) {
 
 $stmt->close();
 $mysqli->close();
+?>

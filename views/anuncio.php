@@ -5,13 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Detalle del Anuncio</title>
   <link rel="stylesheet" href="../styles/global.css" />
-  <link rel="stylesheet" href="../styles/estilo-estandar.css" title="Estilo principal" />
   <link rel="stylesheet" href="../styles/anuncio.css" />
+  <?php
+  include_once ("../modules/estilo.php");
+  ?>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 
 <body>
   <?php 
-  session_start();
   if (!isset($_SESSION["usu"])) {
     header("Location: login.php");
     exit();
@@ -19,20 +21,8 @@
   include_once "../modules/cabecera.php";
 
   // Leer configuración desde config.ini
-  $config = parse_ini_file('../config.ini', true);
+include_once ("../controller/connect.php");
 
-  // Conectar a la base de datos
-  $mysqli = new mysqli(
-      $config['DB']['Server'],
-      $config['DB']['User'],
-      $config['DB']['Password'],
-      $config['DB']['Database']
-  );
-
-  // Comprobar conexión
-  if ($mysqli->connect_error) {
-      die("Error al conectar a la base de datos: " . $mysqli->connect_error);
-  }
 
   // Obtener el ID del anuncio desde la URL
   $idAnuncio = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -43,13 +33,13 @@
              a.Ciudad, p.NomPais AS Pais, 
              tV.NomTVivienda AS TipoVivienda, tA.NomTAnuncio AS TipoAnuncio, 
              a.Foto AS FotoPrincipal
-      FROM Anuncios a
-      JOIN TiposAnuncios tA ON a.TAnuncio = tA.IdTAnuncio
-      JOIN TiposViviendas tV ON a.TVivienda = tV.IdTVivienda
-      JOIN Paises p ON a.Pais = p.IdPais
+      FROM anuncios a
+      JOIN tiposanuncios tA ON a.TAnuncio = tA.IdTAnuncio
+      JOIN tiposviviendas tV ON a.TVivienda = tV.IdTVivienda
+      JOIN paises p ON a.Pais = p.IdPais
       WHERE a.IdAnuncio = $idAnuncio";
 
-  $resultAnuncio = $mysqli->query($queryAnuncio);
+  $resultAnuncio = $conn->query($queryAnuncio);
 
   // Comprobar si existe el anuncio
   if ($resultAnuncio && $resultAnuncio->num_rows > 0) {
@@ -59,8 +49,8 @@
   }
 
   // Consulta para obtener las fotos adicionales
-  $queryFotos = "SELECT Fichero AS Src, titulo FROM Fotos WHERE Anuncio = $idAnuncio";
-  $resultFotos = $mysqli->query($queryFotos);
+  $queryFotos = "SELECT Fichero AS Src, titulo FROM fotos WHERE Anuncio = $idAnuncio";
+  $resultFotos = $conn->query($queryFotos);
   $fotos = $resultFotos ? $resultFotos->fetch_all(MYSQLI_ASSOC) : [];
   ?>
 
@@ -116,7 +106,7 @@
     <?php endif; ?>
   </main>
 
-  <?php $mysqli->close(); ?>
+  <?php $conn->close(); ?>
 
   <footer>Todos los derechos reservados ©</footer>
 </body>
