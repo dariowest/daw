@@ -5,11 +5,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="styles/global.css" />
-  <link rel="stylesheet" href="styles/estilo-estandar.css" title="Estilo principal" />
-  <link rel="alternative stylesheet" href="styles/oscuro.css" title="Modo oscuro" />
-  <link rel="alternative stylesheet" href="styles/contraste.css" title="Estilo alto contraste" />
-  <link rel="alternative stylesheet" href="styles/letra-mayor.css" title="Estilo letra mayor" />
-  <link rel="alternative stylesheet" href="styles/contraste-letra.css" title="Estilo letra mayor y alto contraste" />
+  <?php
+  include_once ("modules/estilo.php");
+  ?>
   <link rel="stylesheet" href="styles/imprime-index.css" media="print" />
 
   <!-- Enlace a Font Awesome -->
@@ -21,23 +19,9 @@
 
 <body>
   <?php
-  session_start();
 
   // Leer configuración desde config.ini
-  $config = parse_ini_file('config.ini', true);
-
-  // Conectar a la base de datos
-  $mysqli = new mysqli(
-    $config['DB']['Server'],
-    $config['DB']['User'],
-    $config['DB']['Password'],
-    $config['DB']['Database']
-  );
-
-  // Comprobar conexión
-  if ($mysqli->connect_error) {
-    die("Error al conectar a la base de datos: " . $mysqli->connect_error);
-  }
+  include_once ('controller/connect.php');
 
   // Consulta para obtener los últimos 5 anuncios
   $query = "
@@ -50,15 +34,15 @@
         tV.NomTVivienda AS TipoVivienda, 
         a.Foto, 
         a.FRegistro 
-    FROM Anuncios a
-    JOIN TiposAnuncios tA ON a.TAnuncio = tA.IdTAnuncio
-    JOIN TiposViviendas tV ON a.TVivienda = tV.IdTVivienda
+    FROM anuncios a
+    JOIN tiposanuncios tA ON a.TAnuncio = tA.IdTAnuncio
+    JOIN tiposviviendas tV ON a.TVivienda = tV.IdTVivienda
     ORDER BY a.FRegistro DESC 
     LIMIT 5";
 
 
-  $result = $mysqli->query($query);
 
+  $result = $conn->query($query);
   // Verificar si hay resultados
   if (!$result) {
     die("Error en la consulta: " . $mysqli->error);
@@ -82,7 +66,7 @@
     <?php
     if (isset($_SESSION['usu'])) {
     ?>
-      <div>
+      <div style="margin-left: 150px;">
         <h3>Datos del registro:</h3>
         <p><strong>Nombre de usuario:</strong> <?php echo $_SESSION['usu']; ?></p>
       </div>

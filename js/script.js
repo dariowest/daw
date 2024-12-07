@@ -1,3 +1,14 @@
+function compruebaOperacion(event, url){
+  const confirmacion = confirm("¿Estás seguro de que deseas realizar esta acción?");
+  
+  if (confirmacion) {
+    window.location.href = url;
+  } else {
+    event.preventDefault();
+  }
+
+}
+
 function muestraTabla() {
   var display = window.getComputedStyle(
     document.getElementById("tabla")

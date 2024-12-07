@@ -6,19 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Buscar Anuncio</title>
   <link rel="stylesheet" href="../styles/global.css" />
-  <link rel="stylesheet" href="../styles/estilo-estandar.css" title="Estilo principal" />
-  <link rel="alternative stylesheet" href="../styles/oscuro.css" title="Modo oscuro" />
   <link rel="stylesheet" href="../styles/form-buscar.css" />
-  <link rel="alternative stylesheet" href="../styles/contraste.css" title="Estilo alto contraste" />
-  <link rel="alternative stylesheet" href="../styles/letra-mayor.css" title="Estilo letra mayor" />
-  <link rel="alternative stylesheet" href="../styles/contraste-letra.css" title="Estilo letra mayor y alto contraste" />
+  <?php
+  include_once ("../modules/estilo.php");
+  ?>
   <!-- Enlace a Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 
 <body>
   <?php
-  session_start();
+
   include_once "../modules/cabecera.php";
 
   // Leer configuración desde config.ini
@@ -38,9 +36,9 @@
   }
 
   // Consultas para cargar las opciones
-  $tiposAnuncios = $mysqli->query("SELECT IdTAnuncio, NomTAnuncio FROM TiposAnuncios ORDER BY NomTAnuncio");
-  $tiposViviendas = $mysqli->query("SELECT IdTVivienda, NomTVivienda FROM TiposViviendas ORDER BY NomTVivienda");
-  $paises = $mysqli->query("SELECT IdPais, NomPais FROM Paises ORDER BY NomPais");
+  $tiposAnuncios = $mysqli->query("SELECT IdTAnuncio, NomTAnuncio FROM tiposanuncios ORDER BY NomTAnuncio");
+  $tiposViviendas = $mysqli->query("SELECT IdTVivienda, NomTVivienda FROM tiposviviendas ORDER BY NomTVivienda");
+  $paises = $mysqli->query("SELECT IdPais, NomPais FROM paises ORDER BY NomPais");
   ?>
 
   <main>

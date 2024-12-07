@@ -5,13 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Detalle del Anuncio</title>
   <link rel="stylesheet" href="../styles/global.css" />
-  <link rel="stylesheet" href="../styles/estilo-estandar.css" title="Estilo principal" />
   <link rel="stylesheet" href="../styles/anuncio.css" />
+  <?php
+  include_once ("../modules/estilo.php");
+  ?>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="../js/script.js"></script>
 </head>
 
 <body>
+  
   <?php 
-  session_start();
   if (!isset($_SESSION["usu"])) {
     header("Location: login.php");
     exit();
@@ -19,20 +23,21 @@
   include_once "../modules/cabecera.php";
 
   // Leer configuración desde config.ini
-  $config = parse_ini_file('../config.ini', true);
+include_once ("../controller/connect.php");
 
-  // Conectar a la base de datos
-  $mysqli = new mysqli(
-      $config['DB']['Server'],
-      $config['DB']['User'],
-      $config['DB']['Password'],
-      $config['DB']['Database']
-  );
+$sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = ".$_GET['id'];
 
-  // Comprobar conexión
-  if ($mysqli->connect_error) {
-      die("Error al conectar a la base de datos: " . $mysqli->connect_error);
+$result = $conn->query($sql);
+if ($result->num_rows > 0){
+  while ($row = $result->fetch_assoc()) {
+    $id = htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8'); // Sanitizar el valor del parámetro GET
+echo "<a href='../controller/eliminaNuncio.php?id=$id' onclick=\"compruebaOperacion(event, 'eliminaNuncio.php?id=$id')\">
+        <span style='color: red;'>Eliminar anuncio</span>
+      </a>";
+    }
   }
+
+
 
   // Obtener el ID del anuncio desde la URL
   $idAnuncio = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -43,13 +48,13 @@
              a.Ciudad, p.NomPais AS Pais, 
              tV.NomTVivienda AS TipoVivienda, tA.NomTAnuncio AS TipoAnuncio, 
              a.Foto AS FotoPrincipal
-      FROM Anuncios a
-      JOIN TiposAnuncios tA ON a.TAnuncio = tA.IdTAnuncio
-      JOIN TiposViviendas tV ON a.TVivienda = tV.IdTVivienda
-      JOIN Paises p ON a.Pais = p.IdPais
+      FROM anuncios a
+      JOIN tiposanuncios tA ON a.TAnuncio = tA.IdTAnuncio
+      JOIN tiposviviendas tV ON a.TVivienda = tV.IdTVivienda
+      JOIN paises p ON a.Pais = p.IdPais
       WHERE a.IdAnuncio = $idAnuncio";
 
-  $resultAnuncio = $mysqli->query($queryAnuncio);
+  $resultAnuncio = $conn->query($queryAnuncio);
 
   // Comprobar si existe el anuncio
   if ($resultAnuncio && $resultAnuncio->num_rows > 0) {
@@ -59,8 +64,8 @@
   }
 
   // Consulta para obtener las fotos adicionales
-  $queryFotos = "SELECT Fichero AS Src, titulo FROM Fotos WHERE Anuncio = $idAnuncio";
-  $resultFotos = $mysqli->query($queryFotos);
+  $queryFotos = "SELECT Fichero AS Src, titulo FROM fotos WHERE Anuncio = $idAnuncio";
+  $resultFotos = $conn->query($queryFotos);
   $fotos = $resultFotos ? $resultFotos->fetch_all(MYSQLI_ASSOC) : [];
   ?>
 
@@ -89,20 +94,32 @@
       </section>
 
       <h3 id="adicionales">Fotos adicionales</h3>
+      <?php
+      $sql="SELECT IdFoto, Titulo, Fichero, Alternativo, Anuncio FROM fotos WHERE Anuncio=".$_GET['id'];
+      ?>
       <section>
-        <?php if (!empty($fotos)): ?>
-          <?php foreach ($fotos as $index => $foto): ?>
+      <?php
+      $result = $conn->query($sql);
+      if ($result->num_rows > 0){
+        while ($row = $result->fetch_assoc()) {
+      ?>
             <article>
               <figure>
-                <img src="../img/<?= htmlspecialchars($foto['Src']) ?>" 
-                     alt="Foto adicional <?= $index + 1 ?>" width="500" />
-                <figcaption><?= htmlspecialchars($foto['Descripcion']) ?></figcaption>
+                <figcaption>
+                  <h3><?php echo $row["Titulo"]?></h3>
+                </figcaption>
+                <img src="../img/<?php echo $row["Fichero"]?>" alt="<?php echo $row["Alternativo"]?>" width="500"/>
               </figure>
             </article>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <p>No hay fotos adicionales disponibles.</p>
-        <?php endif; ?>
+            <?php
+        }
+      }
+      else{
+        ?>
+        <p>No hay fotos adicionales disponibles.</p>
+          <?php
+          }
+          ?>
       </section>
 
       <div id="aniadir-foto">
@@ -116,7 +133,7 @@
     <?php endif; ?>
   </main>
 
-  <?php $mysqli->close(); ?>
+  <?php $conn->close(); ?>
 
   <footer>Todos los derechos reservados ©</footer>
 </body>

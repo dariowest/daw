@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/form-buscar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <title>Crear anuncio</title>
 </head>
 
@@ -22,7 +23,7 @@
 
     <main>
         <h1>Crear anuncio</h1>
-        <form action="">
+        <form action="" >
             <div class="creanuncio">
                 <label for="titulo">Titulo del anuncio</label>
                 <input type="text">

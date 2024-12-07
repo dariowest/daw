@@ -8,13 +8,11 @@ include '../controller/recordarme.php';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mi Perfil</title>
-  <link rel="stylesheet" href="../styles/global.css" />
-  <link rel="stylesheet" href="../styles/estilo-estandar.css" title="Estilo principal" />
-  <link rel="alternative stylesheet" href="../styles/oscuro.css" title="Modo oscuro" />
   <link rel="stylesheet" href="../styles/perfil.css" />
-  <link rel="alternative stylesheet" href="../styles/contraste.css" title="Estilo alto contraste" />
-  <link rel="alternative stylesheet" href="../styles/letra-mayor.css" title="Estilo letra mayor" />
-  <link rel="alternative stylesheet" href="../styles/contraste-letra.css" title="Estilo letra mayor y alto contraste" />
+  <link rel="stylesheet" href="../styles/global.css" />
+  <?php
+  include_once ("../modules/estilo.php");
+  ?>
   <!-- Enlace a Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
@@ -22,9 +20,7 @@ include '../controller/recordarme.php';
 <body>
   <?php 
   // Verificar sesión activa
-  if (session_status() === PHP_SESSION_NONE) {
-      session_start();
-  }
+
 
   // Redirige al login si no hay sesión activa
   if (!isset($_SESSION["usu"])) {
@@ -56,17 +52,20 @@ include '../controller/recordarme.php';
 
     <section id="modificar_datos">
       <article>
+        <h2>Modificar mis datos personales</h2>
         <form>
-          <h2>Modificar mis datos personales</h2>
-          <label for="nombre">Nombre: </label>
-          <input type="text" id="nombre" value="Juan Dario Gomez Ardila" />
-          <br /><br />
-          <label for="email">Email: </label>
-          <input type="email" id="email" value="jdgomezardila@gmail.com" />
-          <br /><br />
-          <label for="password">Contraseña: </label>
-          <input type="password" id="password" value="123456" />
-          <br /><br />
+          <div id="modifica">
+            <div class="bloque_modifica">
+              <label for="nombre">Nombre</label>
+              <label for="email">Email</label>
+              <label for="password">Contraseña</label>
+            </div>
+            <div class="bloque_modifica">
+              <input type="text" name="nombre" value="Juan Dario Gomez Ardila" />
+              <input type="email" name="email" value="jdgomezardila@gmail.com" />
+              <input type="password" name="password" value="123456" />
+            </div>
+          </div>
           <div class="boton">
             <button type="button">Editar datos</button>
           </div>
@@ -84,41 +83,17 @@ include '../controller/recordarme.php';
           <button type="button">Darse de baja</button>
         </div>
       </article>
-    </section>
-
-    <!-- Mis anuncios -->
-
-    <h2>Mis anuncios</h2>
-    <section id="mis_anuncios">
       <article>
-        <figure>
-          <img src="../img/casa1.jpg" alt="Foto del anuncio 1" width="200" />
-        </figure>
-        <aside>
-          <h2><a href="anuncio.php?id=1">Título</a></h2>
-          <p>Madrid</p>
-          <p>€1,200/mes</p>
-          <p>Piso</p>
-          <p>Alquiler</p>
-          <p>20/9/2024</p>
-        </aside>
+        <h3><a href="crear_anuncio.php">Crear nuevo anuncio</a></h3>
+        <h3><a href="mis_anuncios.php">Mis anuncios</a></h3>
+        <h3><a href="config.php">Configuracion</a></h3>
+        <h3><a href="mis_mensajes.php">Mis mensajes</a></h3>
       </article>
     </section>
-
-    <div id="nuevo">
-      <div class="boton">
-        <button><a href="crear_anuncio.php">Crear nuevo anuncio</a></button>
-        <button><a href="mis_anuncios.php">Mis anuncios</a></button>
-      </div>
-      <p>
-        <label>o necesitas un anuncio impreso?:<a href="form_folleto.php">click aquí</a></label>
-      </p>
-    </div>
-
-    <!-- Mensajes enviados -->
-    <h2><a href="mis_mensajes.php">Mis mensajes</a></h2>
+    
   </main>
-
+  
+  <p><label>o necesitas un anuncio impreso? <a href="form_folleto.php">click aquí</a></label></p>
   <footer>Todos los derechos reservados ©</footer>
 </body>
 

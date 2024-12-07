@@ -51,10 +51,10 @@
   // Construir la consulta dinámica
   $query = "SELECT a.IdAnuncio, a.Titulo, a.Ciudad, a.Precio, tA.NomTAnuncio AS TipoAnuncio, 
                    tV.NomTVivienda AS TipoVivienda, a.Foto, a.FRegistro 
-            FROM Anuncios a
-            JOIN TiposAnuncios tA ON a.TAnuncio = tA.IdTAnuncio
-            JOIN TiposViviendas tV ON a.TVivienda = tV.IdTVivienda
-            JOIN Paises p ON a.Pais = p.IdPais
+            FROM anuncios a
+            JOIN tiposanuncios tA ON a.TAnuncio = tA.IdTAnuncio
+            JOIN tiposviviendas tV ON a.TVivienda = tV.IdTVivienda
+            JOIN paises p ON a.Pais = p.IdPais
             WHERE 1=1";
 
   // Agregar condiciones dinámicas según los parámetros enviados
