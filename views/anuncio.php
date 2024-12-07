@@ -30,12 +30,12 @@ $sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = ".$_GET['id'];
 $result = $conn->query($sql);
 if ($result->num_rows > 0){
   while ($row = $result->fetch_assoc()) {
-    $id = htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8'); // Sanitizar el valor del parámetro GET
-echo "<a href='../controller/eliminaNuncio.php?id=$id' onclick=\"compruebaOperacion(event, 'eliminaNuncio.php?id=$id')\">
-        <span style='color: red;'>Eliminar anuncio</span>
-      </a>";
+    if($row['Usuario']==$_SESSION['id_usuario']){
+      $id = htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8');
+      echo "<a href='../controller/eliminaNuncio.php?id=$id' onclick=\"compruebaOperacion(event, 'eliminaNuncio.php?id=$id')\"><span style='color: red;'>Eliminar anuncio</span></a>";
     }
   }
+}
 
 
 
@@ -110,6 +110,18 @@ echo "<a href='../controller/eliminaNuncio.php?id=$id' onclick=\"compruebaOperac
                 </figcaption>
                 <img src="../img/<?php echo $row["Fichero"]?>" alt="<?php echo $row["Alternativo"]?>" width="500"/>
               </figure>
+              <?php
+              $sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = ".$_GET['id'];
+
+              $result2 = $conn->query($sql);
+              if ($result2->num_rows > 0){
+                while ($row2 = $result2->fetch_assoc()) {
+                  if($row2['Usuario']==$_SESSION['id_usuario']){
+                    echo "<a href='../controller/eliminaImagen.php?id=".$row['IdFoto']."' onclick=\"compruebaOperacion(event, 'eliminaImagen.php?id=".$row['IdFoto']."')\"><span style='color: red;'>Eliminar imagen</span></a>";  
+                  }
+                }
+              }
+              ?>
             </article>
             <?php
         }
