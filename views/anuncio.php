@@ -10,9 +10,11 @@
   include_once ("../modules/estilo.php");
   ?>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="../js/script.js"></script>
 </head>
 
 <body>
+  
   <?php 
   if (!isset($_SESSION["usu"])) {
     header("Location: login.php");
@@ -22,6 +24,19 @@
 
   // Leer configuración desde config.ini
 include_once ("../controller/connect.php");
+
+$sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = ".$_GET['id'];
+
+$result = $conn->query($sql);
+if ($result->num_rows > 0){
+  while ($row = $result->fetch_assoc()) {
+    $id = htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8'); // Sanitizar el valor del parámetro GET
+echo "<a href='../controller/eliminaNuncio.php?id=$id' onclick=\"compruebaOperacion(event, 'eliminaNuncio.php?id=$id')\">
+        <span style='color: red;'>Eliminar anuncio</span>
+      </a>";
+    }
+  }
+
 
 
   // Obtener el ID del anuncio desde la URL
@@ -79,20 +94,32 @@ include_once ("../controller/connect.php");
       </section>
 
       <h3 id="adicionales">Fotos adicionales</h3>
+      <?php
+      $sql="SELECT IdFoto, Titulo, Fichero, Alternativo, Anuncio FROM fotos WHERE Anuncio=".$_GET['id'];
+      ?>
       <section>
-        <?php if (!empty($fotos)): ?>
-          <?php foreach ($fotos as $index => $foto): ?>
+      <?php
+      $result = $conn->query($sql);
+      if ($result->num_rows > 0){
+        while ($row = $result->fetch_assoc()) {
+      ?>
             <article>
               <figure>
-                <img src="../img/<?= htmlspecialchars($foto['Src']) ?>" 
-                     alt="Foto adicional <?= $index + 1 ?>" width="500" />
-                <figcaption><?= htmlspecialchars($foto['Descripcion']) ?></figcaption>
+                <figcaption>
+                  <h3><?php echo $row["Titulo"]?></h3>
+                </figcaption>
+                <img src="../img/<?php echo $row["Fichero"]?>" alt="<?php echo $row["Alternativo"]?>" width="500"/>
               </figure>
             </article>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <p>No hay fotos adicionales disponibles.</p>
-        <?php endif; ?>
+            <?php
+        }
+      }
+      else{
+        ?>
+        <p>No hay fotos adicionales disponibles.</p>
+          <?php
+          }
+          ?>
       </section>
 
       <div id="aniadir-foto">

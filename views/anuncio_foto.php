@@ -23,30 +23,30 @@
 
     <main>
         <h1>Añade una foto</h1>
-        <form action="">
+        <form action="../controller/res_foto.php" method="POST">
             <div class="creafoto">
                 <label for="titulo">Titulo</label>
-                <input type="text" name="titulo">
+                <input type="text" name="titulo" required>
             </div>
             <div class="creafoto">
                 <label for="alternativo">Alternativo</label>
-                <input type="text" name="alternativo" minlength="10">
+                <input type="text" name="alternativo" minlength="10" required>
 
             </div>
             <div class="creafoto">
                 <label for="foto">Foto</label>
-                <input type="file" name="foto">
+                <input type="file" name="foto" required>
             </div>
             <div class="creafoto">
                 <label for="anuncio">Anuncio</label>
-                <select name="anuncio">
+                <select name="anuncio" required>
                     <?php
                     $sql = "SELECT IdAnuncio, Titulo FROM anuncios where Usuario = ".$_SESSION['id_usuario'];
                     $result = $conn->query($sql);
                     
 
                     if(!isset($_GET["id"])){
-                    echo"<option value'' selected>Selecciona un anuncio</option>";
+                    echo"<option value='' selected>Selecciona un anuncio</option>";
                     if ($result->num_rows > 0) {
                         // output data of each row
                         while ($row = $result->fetch_assoc()) {
@@ -75,6 +75,9 @@
 
                     ?>
                 </select>
+            </div>
+            <div class="creafoto">
+                <input type="submit">
             </div>
 
         </form>
