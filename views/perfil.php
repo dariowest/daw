@@ -11,24 +11,24 @@ include '../controller/recordarme.php';
   <link rel="stylesheet" href="../styles/perfil.css" />
   <link rel="stylesheet" href="../styles/global.css" />
   <?php
-  include_once ("../modules/estilo.php");
+  include_once("../modules/estilo.php");
   ?>
   <!-- Enlace a Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 
 <body>
-  <?php 
+  <?php
   // Verificar sesión activa
 
 
   // Redirige al login si no hay sesión activa
   if (!isset($_SESSION["usu"])) {
-      header("Location: login.php");
-      exit();
+    header("Location: login.php");
+    exit();
   }
 
-  include_once "../modules/cabecera.php"; 
+  include_once "../modules/cabecera.php";
   ?>
 
   <!-- Guardar ID del usuario en sessionStorage -->
@@ -38,16 +38,16 @@ include '../controller/recordarme.php';
 
     // Guardar el ID en sessionStorage si existe
     if (userId) {
-        sessionStorage.setItem('userId', userId);
+      sessionStorage.setItem('userId', userId);
     } else {
-        console.error('No se pudo guardar el ID en sessionStorage.');
+      console.error('No se pudo guardar el ID en sessionStorage.');
     }
   </script>
 
   <main>
     <?php if (isset($_COOKIE['usu'])): ?>
-        <h1>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?>!</h1>
-        <p>Última visita: <?php echo htmlspecialchars($ultimaVisita); ?></p>
+      <h1>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?>!</h1>
+      <p>Última visita: <?php echo htmlspecialchars($ultimaVisita); ?></p>
     <?php endif; ?>
 
     <section id="modificar_datos">
@@ -80,7 +80,9 @@ include '../controller/recordarme.php';
           cuenta.
         </p>
         <div class="boton">
-          <button type="button">Darse de baja</button>
+          <a href="confirmar_baja.php">
+            <button type="button">Darse de baja</button>
+          </a>
         </div>
       </article>
       <article>
@@ -90,9 +92,9 @@ include '../controller/recordarme.php';
         <h3><a href="mis_mensajes.php">Mis mensajes</a></h3>
       </article>
     </section>
-    
+
   </main>
-  
+
   <p><label>o necesitas un anuncio impreso? <a href="form_folleto.php">click aquí</a></label></p>
   <footer>Todos los derechos reservados ©</footer>
 </body>
