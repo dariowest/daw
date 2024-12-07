@@ -23,7 +23,7 @@
 
     <main>
         <h1>Crear anuncio</h1>
-        <form action="">
+        <form action="" >
             <div class="creanuncio">
                 <label for="titulo">Titulo del anuncio</label>
                 <input type="text">
