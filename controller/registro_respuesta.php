@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Si no hay errores, insertar en la base de datos
     if (empty($errores)) {
         // Verifica los nombres reales de las columnas en tu tabla `Usuarios`
-        $query = "INSERT INTO Usuarios (NomUsuario, Email, Clave, Sexo, FNacimiento, Pais, Ciudad, Foto) 
+        $query = "INSERT INTO usuarios (NomUsuario, Email, Clave, Sexo, FNacimiento, Pais, Ciudad, Foto) 
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
         // NO encriptamos la contraseña, la guardamos en texto plano
