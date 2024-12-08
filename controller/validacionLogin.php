@@ -16,7 +16,7 @@ if (empty($usu) || empty($pwd)) {
 }
 
 // Consultar la base de datos para verificar usuario
-$query = "SELECT * FROM Usuarios WHERE NomUsuario = ?";
+$query = "SELECT * FROM usuarios WHERE NomUsuario = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $usu);
 $stmt->execute();

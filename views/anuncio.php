@@ -148,5 +148,14 @@ if ($result->num_rows > 0){
   <?php $conn->close(); ?>
 
   <footer>Todos los derechos reservados ©</footer>
+  <?php
+  if(isset($_GET["error"]) && $_GET["error"]==3){
+    ?>
+    <script>
+      alert("Has de poner un texto alternativo redundante");
+    </script>
+    <?php
+  }
+  ?>
 </body>
 </html>
