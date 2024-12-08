@@ -33,6 +33,7 @@ if ($result->num_rows > 0){
     if($row['Usuario']==$_SESSION['id_usuario']){
       $id = htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8');
       echo "<a href='../controller/eliminaNuncio.php?id=$id' onclick=\"compruebaOperacion(event, 'eliminaNuncio.php?id=$id')\"><span style='color: red;'>Eliminar anuncio</span></a>";
+      echo "<br> <a href='editar_anuncio.php?id=$id'>Editar anuncio</a>";
     }
   }
 }
