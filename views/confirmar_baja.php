@@ -13,7 +13,7 @@ $id_usuario = $_SESSION['id_usuario'];
 $query = "SELECT COUNT(a.IdAnuncio) AS total_anuncios, 
                  COUNT(f.IdFoto) AS total_fotos 
           FROM anuncios a 
-          LEFT JOIN Fotos f ON a.IdAnuncio = f.Anuncio 
+          LEFT JOIN fotos f ON a.IdAnuncio = f.Anuncio 
           WHERE a.Usuario = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $id_usuario);
