@@ -40,9 +40,6 @@ $resumen = $result->fetch_assoc();
 
 <body>
     <?php
-    // Verificar sesión activa
-
-
     // Redirige al login si no hay sesión activa
     if (!isset($_SESSION["usu"])) {
         header("Location: login.php");
