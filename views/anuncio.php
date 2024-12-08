@@ -3,8 +3,8 @@ session_start();
 
 // Verificar si la sesión está activa
 if (!isset($_SESSION["usu"])) {
-    header("Location: login.php");
-    exit();
+  header("Location: login.php");
+  exit();
 }
 
 include_once "../controller/connect.php"; // **Conexión a la base de datos antes de usar $conn**
@@ -14,8 +14,8 @@ $idAnuncio = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 // **Verificar si el ID del anuncio es válido**
 if ($idAnuncio <= 0) {
-    echo "Error: ID de anuncio no válido.";
-    exit();
+  echo "Error: ID de anuncio no válido.";
+  exit();
 }
 
 // **Consulta para obtener el propietario del anuncio**
@@ -24,11 +24,11 @@ $result = $conn->query($sql);
 
 // **Verificar si se encontró el anuncio**
 if ($result && $result->num_rows > 0) {
-    $propietario = $result->fetch_assoc();
-    $idPropietario = $propietario['Usuario'] ?? 0; // ID del propietario
+  $propietario = $result->fetch_assoc();
+  $idPropietario = $propietario['Usuario'] ?? 0; // ID del propietario
 } else {
-    echo "Error: No se encontró el anuncio.";
-    exit();
+  echo "Error: No se encontró el anuncio.";
+  exit();
 }
 ?>
 
@@ -51,20 +51,20 @@ if ($result && $result->num_rows > 0) {
 <body>
 
   <?php
-  include_once "../modules/cabecera.php"; 
-  ?>
+  include_once "../modules/cabecera.php";
 
-$sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = ".$_GET['id'];
 
-$result = $conn->query($sql);
-if ($result->num_rows > 0){
-  while ($row = $result->fetch_assoc()) {
-    if($row['Usuario']==$_SESSION['id_usuario']){
-      $id = htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8');
-      echo "<a href='../controller/eliminaNuncio.php?id=$id' onclick=\"compruebaOperacion(event, 'eliminaNuncio.php?id=$id')\"><span style='color: red;'>Eliminar anuncio</span></a>";
+  $sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = " . $_GET['id'];
+
+  $result = $conn->query($sql);
+  if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+      if ($row['Usuario'] == $_SESSION['id_usuario']) {
+        $id = htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8');
+        echo "<a href='../controller/eliminaNuncio.php?id=$id' onclick=\"compruebaOperacion(event, 'eliminaNuncio.php?id=$id')\"><span style='color: red;'>Eliminar anuncio</span></a>";
+      }
     }
   }
-}
 
 
 
@@ -104,7 +104,7 @@ if ($result->num_rows > 0){
       <section>
         <article>
           <figure>
-            <img src="../img/<?= htmlspecialchars($anuncio['FotoPrincipal']) ?>" 
+            <img src="../img/<?= htmlspecialchars($anuncio['FotoPrincipal']) ?>"
               alt="Foto principal del anuncio" width="500" />
           </figure>
         </article>
@@ -134,13 +134,13 @@ if ($result->num_rows > 0){
                 <img src="../img/<?= htmlspecialchars($foto['Src']) ?>" alt="Foto adicional" width="500" />
               </figure>
               <?php
-              $sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = ".$_GET['id'];
+              $sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = " . $_GET['id'];
 
               $result2 = $conn->query($sql);
-              if ($result2->num_rows > 0){
+              if ($result2->num_rows > 0) {
                 while ($row2 = $result2->fetch_assoc()) {
-                  if($row2['Usuario']==$_SESSION['id_usuario']){
-                    echo "<a href='../controller/eliminaImagen.php?id=".$row['IdFoto']."' onclick=\"compruebaOperacion(event, 'eliminaImagen.php?id=".$row['IdFoto']."')\"><span style='color: red;'>Eliminar imagen</span></a>";  
+                  if ($row2['Usuario'] == $_SESSION['id_usuario']) {
+                    echo "<a href='../controller/eliminaImagen.php?id=" . $row['IdFoto'] . "' onclick=\"compruebaOperacion(event, 'eliminaImagen.php?id=" . $row['IdFoto'] . "')\"><span style='color: red;'>Eliminar imagen</span></a>";
                   }
                 }
               }
@@ -173,12 +173,12 @@ if ($result->num_rows > 0){
 
   <footer>Todos los derechos reservados ©</footer>
   <?php
-  if(isset($_GET["error"]) && $_GET["error"]==3){
-    ?>
+  if (isset($_GET["error"]) && $_GET["error"] == 3) {
+  ?>
     <script>
       alert("Has de poner un texto alternativo redundante");
     </script>
-    <?php
+  <?php
   }
   ?>
 </body>
