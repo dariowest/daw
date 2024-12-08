@@ -11,7 +11,9 @@ if ($result->num_rows > 0){
         if ($result->num_rows > 0){
             while ($row = $result->fetch_assoc()) {
                 if($row['Usuario']==$_SESSION['id_usuario']){
-                    echo("Ejecuta");
+                    $sql= "DELETE FROM fotos WHERE IdFoto = ".$_GET['id'];
+                    $result = $conn->query($sql);
+                    header("Location: ../views/mis_anuncios.php");
                 }
             }
         }
