@@ -23,10 +23,10 @@
 
     <main>
         <h1>Crear anuncio</h1>
-        <form action="" >
+        <form action="../controller/res_creaAnuncio.php" >
             <div class="creanuncio">
                 <label for="titulo">Titulo del anuncio</label>
-                <input type="text">
+                <input type="text" name="titulo" required>
 
             </div>
             <div class="creanuncio">
@@ -53,16 +53,12 @@
             </div>
             <div class="creanuncio">
                 <label for="precio">Precio</label>
-                <input type="number">
+                <input type="number" name="precio">
 
             </div>
             <div class="creanuncio">
                 <label for="ciudad">Ciudad</label>
-                <select name="ciudad" id="">
-                    <option value="madrid">Madrid</option>
-                    <option value="alicante">Alicante</option>
-                    <option value="valencia">Valencia</option>
-                </select>
+                <input type="text" name="ciudad">
 
             </div>
             <div class="creanuncio">
@@ -111,7 +107,11 @@
 
             <div class="creanuncio">
                 <label for="descripcion">Descripcion del anuncio</label>
-                <textarea name="descripcion" id="" rows="5"></textarea>
+                <textarea name="descripcion" rows="5" required></textarea>
+            </div>
+            <div class="creanuncio">
+                <label for="foto">Imagen principal</label>
+                <input type="file" name="foto">
             </div>
             <input type="submit">
 
