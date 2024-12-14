@@ -33,7 +33,8 @@ if (empty($errores)) {
         header("Location: ../views/perfil.php?success=1");
         exit();
     } else {
-        $errores['general'] = "Error al actualizar los datos. Inténtelo más tarde.";
+        error_log("Error al actualizar los datos del usuario: " . $stmt->error);
+        $errores['general'] = "Error al actualizar los datos. Inténtalo más tarde.";
     }
 }
 

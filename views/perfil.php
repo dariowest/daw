@@ -21,7 +21,7 @@ unset($_SESSION['errores']); // Limpiar errores para la próxima vez
 
 // Obtener los datos actuales del usuario
 $idUsuario = $_SESSION['id_usuario'];
-$query = "SELECT NomUsuario, Email FROM usuarios WHERE IdUsuario = ?";
+$query = "SELECT NomUsuario, Email, Foto FROM usuarios WHERE IdUsuario = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $idUsuario);
 $stmt->execute();
@@ -58,6 +58,41 @@ $usuario = $result->fetch_assoc();
 
     <section id="modificar_datos">
       
+      <!-- Modificar Foto de Perfil -->
+      <article>
+        <h2>Foto de perfil</h2>
+
+        <div class="foto-perfil">
+          <!-- Mostrar la foto de perfil o un ícono genérico -->
+          <?php if (!empty($usuario['Foto'])): ?>
+            <img src="../img/perfiles/<?= htmlspecialchars($usuario['Foto']) ?>" alt="Foto de perfil" width="150" height="150" />
+          <?php else: ?>
+            <img src="../img/icono-usuario.png" alt="Foto de perfil genérica" width="150" height="150" />
+          <?php endif; ?>
+        </div>
+
+        <!-- Formulario para subir o eliminar la foto de perfil -->
+        <form action="../controller/actualizar_foto.php" method="POST" enctype="multipart/form-data">
+          <div class="bloque_modifica">
+            <label for="foto">Subir nueva foto de perfil</label>
+            <input type="file" name="foto" accept="image/*">
+            <?php if (!empty($errores['foto'])): ?>
+              <p class="error"><?= htmlspecialchars($errores['foto']) ?></p>
+            <?php endif; ?>
+          </div>
+
+          <div class="boton">
+            <input type="submit" value="Actualizar Foto" />
+          </div>
+        </form>
+
+        <form action="../controller/eliminar_foto.php" method="POST">
+          <div class="boton">
+            <input type="submit" value="Eliminar Foto de Perfil" />
+          </div>
+        </form>
+      </article>
+
       <!-- Modificar Nombre y Email -->
       <article>
         <h2>Modificar mis datos personales</h2>
@@ -158,6 +193,10 @@ $usuario = $result->fetch_assoc();
       padding: 10px;
       border-radius: 5px;
       margin-bottom: 10px;
+    }
+
+    .foto-perfil img {
+      border-radius: 50%;
     }
   </style>
 
