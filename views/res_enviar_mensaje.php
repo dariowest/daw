@@ -4,53 +4,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Confirmación de mensaje</title>
+  <title>Detalle del Anuncio</title>
   <link rel="stylesheet" href="../styles/global.css" />
   <link rel="stylesheet" href="../styles/estilo-estandar.css" title="Estilo principal" />
+  <link rel="alternative stylesheet" href="../styles/oscuro.css" title="Modo oscuro" />
+  <link rel="alternative stylesheet" href="../styles/contraste.css" title="Estilo alto contraste" />
+  <link rel="alternative stylesheet" href="../styles/letra-mayor.css" title="Estilo letra mayor" />
   <link rel="stylesheet" href="../styles/mensaje.css" />
+  <link rel="alternative stylesheet" href="../styles/contraste-letra.css" title="Estilo letra mayor y alto contraste" />
+  <!-- Enlace a Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 </head>
 
 <body>
 
   <?php 
   session_start();
-  if (!isset($_SESSION["usu"])) {
+  if (!isset($_SESSION["usu"])){
     header("Location: login.php");
-    exit();
-  }
 
+}
   include_once "../modules/cabecera.php";
-
-  // Recoger los datos enviados por la URL
-  $tipoMensaje = $_GET["tipo-mensaje"] ?? 'No especificado';
-  $mensaje = $_GET["mensaje"] ?? 'No se recibió ningún mensaje';
   ?>
-
   <main>
+    <!--Texto: MENSAJE ENVIADO-->
     <h1>Confirmación de mensaje</h1>
     <h3>Los datos almacenados han sido los siguientes:</h3>
-
     <form>
       <label> Tipo de mensaje</label>
+      <br />
       <select disabled>
-        <option><?= htmlspecialchars($tipoMensaje) ?></option>
+        <option><?= $_POST["tipo-mensaje"];?></option>
       </select>
-
-      <br /><br />
-
+      <br />
+      <br />
       <label>Mensaje</label>
-      <textarea rows="6" cols="50" disabled><?= htmlspecialchars($mensaje) ?></textarea>
-
-      <br /><br />
-
-      <label for="">¡Tu mensaje ha sido enviado con éxito!</label>
-
-      <br /><br />
-
-      <a href="mis_mensajes.php">Ver mis mensajes</a>
+      <br />
+      <textarea rows="6" cols="50" disabled><?= $_POST["mensaje"];?></textarea>
+      <br />
+      <label for="">Tu mensaje ha sido enviado con éxito!</label>
+      <br />
+      <!--<button>Ok</button>-->
+      <a href="index_logeado.php">Ok</a>
     </form>
+    <!--Tipo de mensaje-->
+    <!--texto-->
   </main>
-
   <footer>Todos los derechos reservados ©</footer>
 </body>
+
 </html>

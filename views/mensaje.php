@@ -1,16 +1,3 @@
-<?php
-session_start(); 
-if (!isset($_SESSION["usu"])) {
-  header("Location: login.php");
-  exit();
-}
-include_once "../modules/cabecera.php";
-include_once "../controller/connect.php";
-
-$idAnuncio = $_GET['anuncio'] ?? 0;
-$usuarioDestino = $_GET['usuario_destino'] ?? 0;
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -31,45 +18,55 @@ $usuarioDestino = $_GET['usuario_destino'] ?? 0;
 
 <body>
   <?php
-  // Eliminar la segunda llamada a session_start()
-  // session_start(); ❌ NO NECESARIO
-  // if (!isset($_SESSION["usu"])) { ❌ Ya se verifica al principio del archivo
-  //   header("Location: login.php");
-  // }
+  session_start();
+  if (!isset($_SESSION["usu"])) {
+    header("Location: login.php");
+
+  }
   include_once "../modules/cabecera.php";
   include_once "../controller/connect.php";
+  
   ?>
 
   <main>
-    <form action="../controller/res_enviar_mensaje.php" method="POST">
-      <h1>Envía un mensaje al propietario</h1>
-
-      <!-- Enviar el ID del anuncio y usuario destino de forma oculta -->
-      <input type="hidden" name="anuncio" value="<?= htmlspecialchars($idAnuncio) ?>" />
-      <input type="hidden" name="usuario_destino" value="<?= htmlspecialchars($usuarioDestino) ?>" />
-
+    <form action="res_enviar_mensaje.php" method="POST">
+      <h1>Envie un Mensaje al Propietario</h1>
+      <!-- Tipo de mensaje -->
       <label for="tipo-mensaje">Tipo de mensaje:</label>
+      <br />
       <select id="tipo-mensaje" name="tipo-mensaje" required>
         <option value="">Seleccione el tipo de mensaje</option>
         <?php
         $sql = "SELECT IdTMensaje, NomTMensaje FROM tiposmensajes";
         $result = $conn->query($sql);
 
+
         if ($result->num_rows > 0) {
+          // output data of each row
           while ($row = $result->fetch_assoc()) {
             echo '<option value="' . $row["IdTMensaje"] . '">' . $row["NomTMensaje"] . '</option>';
           }
+        } else {
+          echo '<option value="" disabled selected>No hay anuncios</option>';
         }
+
         ?>
       </select>
+      <br /><br />
 
-      <label for="mensaje">Escribe tu mensaje:</label>
-      <textarea id="mensaje" name="mensaje" rows="6" cols="50" placeholder="Escribe aquí tu mensaje" required></textarea>
+      <!-- Texto del mensaje -->
+      <label for="mensaje">Escriba su mensaje:</label>
+      <br />
+      <textarea id="mensaje" name="mensaje" rows="6" cols="50" placeholder="Escriba aquí su mensaje"
+        required></textarea>
+      <br /><br />
 
+      <!-- Botón de envío -->
+      <!--<button type="submit">Enviar mensaje</button>-->
       <input type="submit" value="Enviar mensaje" />
     </form>
   </main>
-  
+
   <footer>Todos los derechos reservados ©</footer>
 </body>
 

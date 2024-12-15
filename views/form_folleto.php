@@ -22,6 +22,7 @@
   session_start();
   if (!isset($_SESSION["usu"])) {
     header("Location: login.php");
+
   }
   include_once "../modules/cabecera.php";
 
@@ -92,7 +93,7 @@
         <p>Rellena el siguiente formulario blablabla</p>
         <p>Los campos marcados con asterisco(*) son obligatorios</p>
 
-        <form method="POST" action="../controller/insertar_folleto.php">
+        <form method="POST" action="folleto.php">
           <p>
             <label>Texto adicional:
               <input id="textoAdicional" name="textoAdicional" size="50" maxlength="100"
@@ -141,7 +142,7 @@
             Seleccione el anuncio:
             <select name="anuncio" id="anuncio">
               <?php
-              $sql = "SELECT IdAnuncio, Titulo FROM anuncios where Usuario = " . $_SESSION['id_usuario'];
+              $sql = "SELECT IdAnuncio, Titulo FROM anuncios where Usuario = ".$_SESSION['id_usuario'];
               $result = $conn->query($sql);
 
 
@@ -157,10 +158,9 @@
             </select>
           </p>
           <p>
-            <label>Fecha de recepción:
-              <input type="text" id="fechaRecepcion" name="fechaRecepcion" placeholder="YYYY-MM-DD" required />
-            </label>
+            <label>Fecha de recepción: <input id="fechaRecepcion" /></label>
           </p>
+
 
           <p>
             Modo de impresión:

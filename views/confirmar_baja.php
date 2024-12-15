@@ -12,8 +12,8 @@ if (!isset($_SESSION['usu'])) {
 $id_usuario = $_SESSION['id_usuario'];
 $query = "SELECT COUNT(a.IdAnuncio) AS total_anuncios, 
                  COUNT(f.IdFoto) AS total_fotos 
-          FROM anuncios a 
-          LEFT JOIN fotos f ON a.IdAnuncio = f.Anuncio 
+          FROM Anuncios a 
+          LEFT JOIN Fotos f ON a.IdAnuncio = f.Anuncio 
           WHERE a.Usuario = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $id_usuario);
@@ -40,6 +40,9 @@ $resumen = $result->fetch_assoc();
 
 <body>
     <?php
+    // Verificar sesión activa
+
+
     // Redirige al login si no hay sesión activa
     if (!isset($_SESSION["usu"])) {
         header("Location: login.php");

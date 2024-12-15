@@ -1,40 +1,5 @@
-<?php
-session_start();
-
-// Verificar si la sesión está activa
-if (!isset($_SESSION["usu"])) {
-    header("Location: login.php");
-    exit();
-}
-
-include_once "../controller/connect.php"; // **Conexión a la base de datos antes de usar $conn**
-
-// Obtener el ID del anuncio desde la URL
-$idAnuncio = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
-// **Verificar si el ID del anuncio es válido**
-if ($idAnuncio <= 0) {
-    echo "Error: ID de anuncio no válido.";
-    exit();
-}
-
-// **Consulta para obtener el propietario del anuncio**
-$sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = $idAnuncio";
-$result = $conn->query($sql);
-
-// **Verificar si se encontró el anuncio**
-if ($result && $result->num_rows > 0) {
-    $propietario = $result->fetch_assoc();
-    $idPropietario = $propietario['Usuario'] ?? 0; // ID del propietario
-} else {
-    echo "Error: No se encontró el anuncio.";
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -42,20 +7,43 @@ if ($result && $result->num_rows > 0) {
   <link rel="stylesheet" href="../styles/global.css" />
   <link rel="stylesheet" href="../styles/anuncio.css" />
   <?php
-  include_once("../modules/estilo.php");
+  include_once ("../modules/estilo.php");
   ?>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <script src="../js/script.js"></script>
 </head>
 
 <body>
+  
+  <?php 
+  if (!isset($_SESSION["usu"])) {
+    header("Location: login.php");
+    exit();
+  }
+  include_once "../modules/cabecera.php";
 
-  <?php
-  include_once "../modules/cabecera.php"; 
-  ?>
+  // Leer configuración desde config.ini
+include_once ("../controller/connect.php");
 
-  <?php
-  // **Consulta para obtener los datos del anuncio**
+$sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = ".$_GET['id'];
+
+$result = $conn->query($sql);
+if ($result->num_rows > 0){
+  while ($row = $result->fetch_assoc()) {
+    if($row['Usuario']==$_SESSION['id_usuario']){
+      $id = htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8');
+      echo "<a href='../controller/eliminaNuncio.php?id=$id' onclick=\"compruebaOperacion(event, 'eliminaNuncio.php?id=$id')\"><span style='color: red;'>Eliminar anuncio</span></a>";
+      echo "<br> <a href='editar_anuncio.php?id=$id'>Editar anuncio</a>";
+    }
+  }
+}
+
+
+
+  // Obtener el ID del anuncio desde la URL
+  $idAnuncio = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+  // Consulta para obtener los datos del anuncio
   $queryAnuncio = "
       SELECT a.Titulo, a.texto, a.Precio, a.FRegistro AS Publicado, 
              a.Ciudad, p.NomPais AS Pais, 
@@ -69,14 +57,14 @@ if ($result && $result->num_rows > 0) {
 
   $resultAnuncio = $conn->query($queryAnuncio);
 
-  // **Comprobar si existe el anuncio**
+  // Comprobar si existe el anuncio
   if ($resultAnuncio && $resultAnuncio->num_rows > 0) {
-    $anuncio = $resultAnuncio->fetch_assoc();
+      $anuncio = $resultAnuncio->fetch_assoc();
   } else {
-    $anuncio = null;
+      $anuncio = null;
   }
 
-  // **Consulta para obtener las fotos adicionales**
+  // Consulta para obtener las fotos adicionales
   $queryFotos = "SELECT Fichero AS Src, titulo FROM fotos WHERE Anuncio = $idAnuncio";
   $resultFotos = $conn->query($queryFotos);
   $fotos = $resultFotos ? $resultFotos->fetch_all(MYSQLI_ASSOC) : [];
@@ -89,7 +77,7 @@ if ($result && $result->num_rows > 0) {
         <article>
           <figure>
             <img src="../img/<?= htmlspecialchars($anuncio['FotoPrincipal']) ?>" 
-              alt="Foto principal del anuncio" width="500" />
+                 alt="Foto principal del anuncio" width="500" />
           </figure>
         </article>
 
@@ -107,31 +95,48 @@ if ($result && $result->num_rows > 0) {
       </section>
 
       <h3 id="adicionales">Fotos adicionales</h3>
+      <?php
+      $sql="SELECT IdFoto, Titulo, Fichero, Alternativo, Anuncio FROM fotos WHERE Anuncio=".$_GET['id'];
+      ?>
       <section>
-        <?php if (!empty($fotos)): ?>
-          <?php foreach ($fotos as $foto): ?>
+      <?php
+      $result = $conn->query($sql);
+      if ($result->num_rows > 0){
+        while ($row = $result->fetch_assoc()) {
+      ?>
             <article>
               <figure>
                 <figcaption>
-                  <h3><?= htmlspecialchars($foto['titulo']) ?></h3>
+                  <h3><?php echo $row["Titulo"]?></h3>
                 </figcaption>
-                <img src="../img/<?= htmlspecialchars($foto['Src']) ?>" alt="Foto adicional" width="500" />
+                <img src="../img/<?php echo $row["Fichero"]?>" alt="<?php echo $row["Alternativo"]?>" width="500"/>
               </figure>
+              <?php
+              $sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = ".$_GET['id'];
+
+              $result2 = $conn->query($sql);
+              if ($result2->num_rows > 0){
+                while ($row2 = $result2->fetch_assoc()) {
+                  if($row2['Usuario']==$_SESSION['id_usuario']){
+                    echo "<a href='../controller/eliminaImagen.php?id=".$row['IdFoto']."' onclick=\"compruebaOperacion(event, 'eliminaImagen.php?id=".$row['IdFoto']."')\"><span style='color: red;'>Eliminar imagen</span></a>";  
+                  }
+                }
+              }
+              ?>
             </article>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <p>No hay fotos adicionales disponibles.</p>
-        <?php endif; ?>
+            <?php
+        }
+      }
+      else{
+        ?>
+        <p>No hay fotos adicionales disponibles.</p>
+          <?php
+          }
+          ?>
       </section>
 
       <div id="aniadir-foto">
         <button><a href="anuncio_foto.php?id=<?= $idAnuncio ?>">Añadir foto</a></button>
-      </div>
-
-      <div id="enviar-mensaje">
-        <button>
-          <a href="mensaje.php?anuncio=<?= $idAnuncio ?>&usuario_destino=<?= $idPropietario ?>">Enviar mensaje</a>
-        </button>
       </div>
 
       <!-- Enlace para volver -->
@@ -144,6 +149,14 @@ if ($result && $result->num_rows > 0) {
   <?php $conn->close(); ?>
 
   <footer>Todos los derechos reservados ©</footer>
+  <?php
+  if(isset($_GET["error"]) && $_GET["error"]==3){
+    ?>
+    <script>
+      alert("Has de poner un texto alternativo redundante");
+    </script>
+    <?php
+  }
+  ?>
 </body>
-
 </html>

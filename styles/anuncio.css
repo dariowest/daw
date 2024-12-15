@@ -30,10 +30,6 @@ main{
     justify-content: center;
 }
 
-#enviar-mensaje{
-    display: flex;
-    justify-content: center;
-}
 
 @media only screen and (min-width: 1000px){
     section{

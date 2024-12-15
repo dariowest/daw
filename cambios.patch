@@ -1,0 +1,1265 @@
+diff --git a/controller/actualizar_contrasena.php b/controller/actualizar_contrasena.php
+deleted file mode 100644
+index 67c3cda..0000000
+--- a/controller/actualizar_contrasena.php
++++ /dev/null
+@@ -1,66 +0,0 @@
+-<?php
+-session_start();
+-include_once '../controller/connect.php';
+-
+-// Verificar si el usuario está autenticado
+-if (!isset($_SESSION['usu'])) {
+-    header("Location: ../views/login.php");
+-    exit();
+-}
+-
+-$idUsuario = $_SESSION['id_usuario'];
+-$pwdActual = $_POST['password_actual'] ?? '';
+-$pwdNueva = $_POST['password_nueva'] ?? '';
+-$pwdConfirmar = $_POST['password_confirmar'] ?? '';
+-
+-// Validar los datos
+-$errores = [];
+-
+-// Validar la contraseña actual
+-if (empty($pwdActual)) {
+-    $errores['password_actual'] = "La contraseña actual no puede estar vacía.";
+-}
+-
+-// Validar nueva contraseña
+-if (empty($pwdNueva) || !preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d_-]{6,15}$/', $pwdNueva)) {
+-    $errores['password_nueva'] = "La nueva contraseña debe tener entre 6 y 15 caracteres, incluir una mayúscula, una minúscula y un número.";
+-}
+-
+-// Confirmar nueva contraseña
+-if ($pwdNueva !== $pwdConfirmar) {
+-    $errores['password_confirmar'] = "Las contraseñas no coinciden.";
+-}
+-
+-if (empty($errores)) {
+-    // Verificar la contraseña actual en la base de datos
+-    $query = "SELECT Clave FROM usuarios WHERE IdUsuario = ?";
+-    $stmt = $conn->prepare($query);
+-    $stmt->bind_param("i", $idUsuario);
+-    $stmt->execute();
+-    $result = $stmt->get_result();
+-    $usuario = $result->fetch_assoc();
+-
+-    if ($usuario && $pwdActual === $usuario['Clave']) {
+-        // Actualizar la contraseña en la base de datos (sin hash, como lo solicitaste)
+-        $queryUpdate = "UPDATE usuarios SET Clave = ? WHERE IdUsuario = ?";
+-        $stmtUpdate = $conn->prepare($queryUpdate);
+-        $stmtUpdate->bind_param("si", $pwdNueva, $idUsuario);
+-        
+-        if ($stmtUpdate->execute()) {
+-            header("Location: ../views/perfil.php?success=1");
+-            exit();
+-        } else {
+-            $errores['general'] = "Error al actualizar la contraseña. Inténtelo más tarde.";
+-        }
+-    } else {
+-        $errores['password_actual'] = "La contraseña actual no es correcta.";
+-    }
+-}
+-
+-// Si hay errores, redirigir de vuelta al perfil y mostrar los errores
+-$_SESSION['errores'] = $errores;
+-header("Location: ../views/perfil.php");
+-exit();
+-
+-$stmt->close();
+-$conn->close();
+diff --git a/controller/actualizar_usuario.php b/controller/actualizar_usuario.php
+deleted file mode 100644
+index f01a9ea..0000000
+--- a/controller/actualizar_usuario.php
++++ /dev/null
+@@ -1,46 +0,0 @@
+-<?php
+-session_start();
+-include_once '../controller/connect.php';
+-
+-// Verificar si el usuario está autenticado
+-if (!isset($_SESSION['usu'])) {
+-    header("Location: ../views/login.php");
+-    exit();
+-}
+-
+-$idUsuario = $_SESSION['id_usuario'];
+-$nombre = trim($_POST['nombre'] ?? '');
+-$email = trim($_POST['email'] ?? '');
+-
+-// Validar los datos
+-$errores = [];
+-
+-// Validar nombre de usuario
+-if (empty($nombre) || !preg_match('/^[a-zA-Z][a-zA-Z0-9]{2,14}$/', $nombre)) {
+-    $errores['nombre'] = "El nombre de usuario debe comenzar con una letra, tener entre 3 y 15 caracteres, y solo letras o números.";
+-}
+-
+-// Validar correo electrónico
+-if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+-    $errores['email'] = "El correo electrónico no es válido.";
+-}
+-
+-if (empty($errores)) {
+-    $query = "UPDATE usuarios SET NomUsuario = ?, Email = ? WHERE IdUsuario = ?";
+-    $stmt = $conn->prepare($query);
+-    $stmt->bind_param("ssi", $nombre, $email, $idUsuario);
+-    if ($stmt->execute()) {
+-        header("Location: ../views/perfil.php?success=1");
+-        exit();
+-    } else {
+-        $errores['general'] = "Error al actualizar los datos. Inténtelo más tarde.";
+-    }
+-}
+-
+-// Si hay errores, redirigir de vuelta al perfil y mostrar los errores
+-$_SESSION['errores'] = $errores;
+-header("Location: ../views/perfil.php");
+-exit();
+-
+-$stmt->close();
+-$conn->close();
+diff --git a/controller/insertar_folleto.php b/controller/insertar_folleto.php
+deleted file mode 100644
+index 9a8eeca..0000000
+--- a/controller/insertar_folleto.php
++++ /dev/null
+@@ -1,83 +0,0 @@
+-<?php
+-session_start();
+-include_once '../controller/connect.php';
+-
+-// Validar los datos del formulario
+-$anuncio = $_POST['anuncio'] ?? 0;
+-$textoAdicional = $_POST['textoAdicional'] ?? '';
+-$nombre = $_POST['nombre'] ?? '';
+-$email = $_POST['email'] ?? '';
+-$direccion = trim($_POST['calle'] . ' ' . $_POST['numero'] . ' ' . $_POST['cp'] . ' ' . $_POST['localidad']);
+-$telefono = $_POST['telefono'] ?? '';
+-$colorPortada = $_POST['colorPortada'] ?? '';
+-$numCopias = $_POST['numCopias'] ?? 0;
+-$resolucion = $_POST['resolucion'] ?? 0;
+-$fechaRecepcion = trim($_POST['fechaRecepcion'] ?? ''); // Usamos trim para quitar espacios extra
+-$modoImpresion = $_POST['tipoImpresion'] ?? 'Blanco y negro';
+-$icolor = $modoImpresion === 'Color' ? 1 : 0;
+-
+-// Validar y formatear la fecha de recepción
+-if (!empty($fechaRecepcion)) {
+-    // Validar formato correcto (YYYY-MM-DD)
+-    if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $fechaRecepcion)) {
+-        try {
+-            $fechaObj = DateTime::createFromFormat('Y-m-d', $fechaRecepcion);
+-            if ($fechaObj && $fechaObj->format('Y-m-d') === $fechaRecepcion) {
+-                $fechaRecepcion = $fechaObj->format('Y-m-d');
+-            } else {
+-                $fechaRecepcion = null; // Fecha no válida
+-            }
+-        } catch (Exception $e) {
+-            $fechaRecepcion = null; // Error al convertir la fecha
+-        }
+-    } else {
+-        $fechaRecepcion = null; // No coincide con el formato YYYY-MM-DD
+-    }
+-} else {
+-    $fechaRecepcion = null; // Si la fecha está vacía, la dejamos en NULL
+-}
+-
+-// Validar otros campos
+-if (empty($anuncio) || empty($nombre) || empty($email)) {
+-    die('Error: Datos requeridos están vacíos.');
+-}
+-
+-// Calcular el coste (debes ajustar esto a la lógica de precios que tengas)
+-$coste = 10 + ($numCopias * 2); // Ejemplo simple
+-
+-// Preparar la consulta para insertar en la base de datos
+-$query = "INSERT INTO solicitudes 
+-    (Anuncio, Texto, Nombre, Email, Direccion, Telefono, Color, Copias, Resolucion, Fecha, IColor, IPrecio, Coste) 
+-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+-
+-$stmt = $conn->prepare($query);
+-$stmt->bind_param(
+-    "issssssiiisid", // Definir los tipos de los parámetros
+-    $anuncio,
+-    $textoAdicional,
+-    $nombre,
+-    $email,
+-    $direccion,
+-    $telefono,
+-    $colorPortada,
+-    $numCopias,
+-    $resolucion,
+-    $fechaRecepcion,
+-    $icolor,
+-    $icolor, // Ejemplo de tarifa por impresión (0 o 1, según sea color o no)
+-    $coste
+-);
+-
+-// Ejecutar la consulta
+-if ($stmt->execute()) {
+-    // Guardar el ID de la solicitud insertada en $_SESSION
+-    $_SESSION['ultima_solicitud_id'] = $conn->insert_id;
+-    header("Location: ../views/folleto.php");
+-    exit();
+-} else {
+-    echo "Error al registrar la solicitud: " . $stmt->error;
+-}
+-
+-$stmt->close();
+-$conn->close();
+-?>
+diff --git a/controller/registro_respuesta.php b/controller/registro_respuesta.php
+index a83fd09..742a98d 100644
+--- a/controller/registro_respuesta.php
++++ b/controller/registro_respuesta.php
+@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
+     // Si no hay errores, insertar en la base de datos
+     if (empty($errores)) {
+         // Verifica los nombres reales de las columnas en tu tabla `Usuarios`
+-        $query = "INSERT INTO usuarios (NomUsuario, Email, Clave, Sexo, FNacimiento, Pais, Ciudad, Foto) 
++        $query = "INSERT INTO Usuarios (NomUsuario, Email, Clave, Sexo, FNacimiento, Pais, Ciudad, Foto) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+         $stmt = $conn->prepare($query);
+         // NO encriptamos la contraseña, la guardamos en texto plano
+diff --git a/controller/res_enviar_mensaje.php b/controller/res_enviar_mensaje.php
+deleted file mode 100644
+index 1a5d1ea..0000000
+--- a/controller/res_enviar_mensaje.php
++++ /dev/null
+@@ -1,68 +0,0 @@
+-<?php
+-session_start();
+-
+-// Verificar si hay una sesión activa
+-if (!isset($_SESSION["usu"])) {
+-    header("Location: login.php");
+-    exit();
+-}
+-
+-include_once "../controller/connect.php";
+-
+-// Recoger los datos del formulario
+-$tipoMensaje = $_POST['tipo-mensaje'] ?? 0;
+-$mensaje = trim($_POST['mensaje'] ?? '');
+-$anuncio = $_POST['anuncio'] ?? 0;
+-$usuarioDestino = $_POST['usuario_destino'] ?? 0; // Se debe obtener del anuncio (propietario del anuncio)
+-$usuarioOrigen = $_SESSION['id_usuario'] ?? 0; // Usuario que está enviando el mensaje
+-
+-// **Validar los datos del formulario**
+-$errores = [];
+-
+-if (empty($tipoMensaje)) {
+-    $errores[] = "El tipo de mensaje es obligatorio.";
+-}
+-
+-if (empty($mensaje)) {
+-    $errores[] = "El mensaje no puede estar vacío.";
+-}
+-
+-if (empty($anuncio)) {
+-    $errores[] = "El anuncio no es válido.";
+-}
+-
+-if (empty($usuarioDestino)) {
+-    $errores[] = "El destinatario no es válido.";
+-}
+-
+-if (empty($usuarioOrigen)) {
+-    $errores[] = "El usuario origen no es válido.";
+-}
+-
+-if (!empty($errores)) {
+-    // Mostrar errores y detener la ejecución
+-    echo "<h1>Errores en el envío del mensaje</h1>";
+-    foreach ($errores as $error) {
+-        echo "<p style='color:red;'>$error</p>";
+-    }
+-    echo '<a href="javascript:history.back()">Volver</a>';
+-    exit();
+-}
+-
+-// **Insertar el mensaje en la base de datos**
+-$query = "INSERT INTO mensajes (TMensaje, Texto, Anuncio, UsuarioOrigen, UsuarioDestino) 
+-          VALUES (?, ?, ?, ?, ?)";
+-
+-$stmt = $conn->prepare($query);
+-$stmt->bind_param("isiii", $tipoMensaje, $mensaje, $anuncio, $usuarioOrigen, $usuarioDestino);
+-
+-if ($stmt->execute()) {
+-    // Redirigir a la página de confirmación del mensaje
+-    header("Location: ../views/res_enviar_mensaje.php?tipo-mensaje=$tipoMensaje&mensaje=" . urlencode($mensaje));
+-    exit();
+-} else {
+-    echo "Error al enviar el mensaje: " . $stmt->error;
+-}
+-
+-$stmt->close();
+-$conn->close();
+diff --git a/styles/anuncio.css b/styles/anuncio.css
+index f12d06b..0ae5611 100644
+--- a/styles/anuncio.css
++++ b/styles/anuncio.css
+@@ -30,10 +30,6 @@ main{
+     justify-content: center;
+ }
+ 
+-#enviar-mensaje{
+-    display: flex;
+-    justify-content: center;
+-}
+ 
+ @media only screen and (min-width: 1000px){
+     section{
+diff --git a/views/anuncio.php b/views/anuncio.php
+index 409f702..7c423b6 100644
+--- a/views/anuncio.php
++++ b/views/anuncio.php
+@@ -1,40 +1,5 @@
+-<?php
+-session_start();
+-
+-// Verificar si la sesión está activa
+-if (!isset($_SESSION["usu"])) {
+-    header("Location: login.php");
+-    exit();
+-}
+-
+-include_once "../controller/connect.php"; // **Conexión a la base de datos antes de usar $conn**
+-
+-// Obtener el ID del anuncio desde la URL
+-$idAnuncio = isset($_GET['id']) ? intval($_GET['id']) : 0;
+-
+-// **Verificar si el ID del anuncio es válido**
+-if ($idAnuncio <= 0) {
+-    echo "Error: ID de anuncio no válido.";
+-    exit();
+-}
+-
+-// **Consulta para obtener el propietario del anuncio**
+-$sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = $idAnuncio";
+-$result = $conn->query($sql);
+-
+-// **Verificar si se encontró el anuncio**
+-if ($result && $result->num_rows > 0) {
+-    $propietario = $result->fetch_assoc();
+-    $idPropietario = $propietario['Usuario'] ?? 0; // ID del propietario
+-} else {
+-    echo "Error: No se encontró el anuncio.";
+-    exit();
+-}
+-?>
+-
+ <!DOCTYPE html>
+ <html lang="es">
+-
+ <head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+@@ -42,20 +7,43 @@ if ($result && $result->num_rows > 0) {
+   <link rel="stylesheet" href="../styles/global.css" />
+   <link rel="stylesheet" href="../styles/anuncio.css" />
+   <?php
+-  include_once("../modules/estilo.php");
++  include_once ("../modules/estilo.php");
+   ?>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+   <script src="../js/script.js"></script>
+ </head>
+ 
+ <body>
++  
++  <?php 
++  if (!isset($_SESSION["usu"])) {
++    header("Location: login.php");
++    exit();
++  }
++  include_once "../modules/cabecera.php";
+ 
+-  <?php
+-  include_once "../modules/cabecera.php"; 
+-  ?>
++  // Leer configuración desde config.ini
++include_once ("../controller/connect.php");
+ 
+-  <?php
+-  // **Consulta para obtener los datos del anuncio**
++$sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = ".$_GET['id'];
++
++$result = $conn->query($sql);
++if ($result->num_rows > 0){
++  while ($row = $result->fetch_assoc()) {
++    if($row['Usuario']==$_SESSION['id_usuario']){
++      $id = htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8');
++      echo "<a href='../controller/eliminaNuncio.php?id=$id' onclick=\"compruebaOperacion(event, 'eliminaNuncio.php?id=$id')\"><span style='color: red;'>Eliminar anuncio</span></a>";
++      echo "<br> <a href='editar_anuncio.php?id=$id'>Editar anuncio</a>";
++    }
++  }
++}
++
++
++
++  // Obtener el ID del anuncio desde la URL
++  $idAnuncio = isset($_GET['id']) ? intval($_GET['id']) : 0;
++
++  // Consulta para obtener los datos del anuncio
+   $queryAnuncio = "
+       SELECT a.Titulo, a.texto, a.Precio, a.FRegistro AS Publicado, 
+              a.Ciudad, p.NomPais AS Pais, 
+@@ -69,14 +57,14 @@ if ($result && $result->num_rows > 0) {
+ 
+   $resultAnuncio = $conn->query($queryAnuncio);
+ 
+-  // **Comprobar si existe el anuncio**
++  // Comprobar si existe el anuncio
+   if ($resultAnuncio && $resultAnuncio->num_rows > 0) {
+-    $anuncio = $resultAnuncio->fetch_assoc();
++      $anuncio = $resultAnuncio->fetch_assoc();
+   } else {
+-    $anuncio = null;
++      $anuncio = null;
+   }
+ 
+-  // **Consulta para obtener las fotos adicionales**
++  // Consulta para obtener las fotos adicionales
+   $queryFotos = "SELECT Fichero AS Src, titulo FROM fotos WHERE Anuncio = $idAnuncio";
+   $resultFotos = $conn->query($queryFotos);
+   $fotos = $resultFotos ? $resultFotos->fetch_all(MYSQLI_ASSOC) : [];
+@@ -89,7 +77,7 @@ if ($result && $result->num_rows > 0) {
+         <article>
+           <figure>
+             <img src="../img/<?= htmlspecialchars($anuncio['FotoPrincipal']) ?>" 
+-              alt="Foto principal del anuncio" width="500" />
++                 alt="Foto principal del anuncio" width="500" />
+           </figure>
+         </article>
+ 
+@@ -107,33 +95,50 @@ if ($result && $result->num_rows > 0) {
+       </section>
+ 
+       <h3 id="adicionales">Fotos adicionales</h3>
++      <?php
++      $sql="SELECT IdFoto, Titulo, Fichero, Alternativo, Anuncio FROM fotos WHERE Anuncio=".$_GET['id'];
++      ?>
+       <section>
+-        <?php if (!empty($fotos)): ?>
+-          <?php foreach ($fotos as $foto): ?>
++      <?php
++      $result = $conn->query($sql);
++      if ($result->num_rows > 0){
++        while ($row = $result->fetch_assoc()) {
++      ?>
+             <article>
+               <figure>
+                 <figcaption>
+-                  <h3><?= htmlspecialchars($foto['titulo']) ?></h3>
++                  <h3><?php echo $row["Titulo"]?></h3>
+                 </figcaption>
+-                <img src="../img/<?= htmlspecialchars($foto['Src']) ?>" alt="Foto adicional" width="500" />
++                <img src="../img/<?php echo $row["Fichero"]?>" alt="<?php echo $row["Alternativo"]?>" width="500"/>
+               </figure>
++              <?php
++              $sql = "SELECT Usuario FROM anuncios WHERE IdAnuncio = ".$_GET['id'];
++
++              $result2 = $conn->query($sql);
++              if ($result2->num_rows > 0){
++                while ($row2 = $result2->fetch_assoc()) {
++                  if($row2['Usuario']==$_SESSION['id_usuario']){
++                    echo "<a href='../controller/eliminaImagen.php?id=".$row['IdFoto']."' onclick=\"compruebaOperacion(event, 'eliminaImagen.php?id=".$row['IdFoto']."')\"><span style='color: red;'>Eliminar imagen</span></a>";  
++                  }
++                }
++              }
++              ?>
+             </article>
+-          <?php endforeach; ?>
+-        <?php else: ?>
+-          <p>No hay fotos adicionales disponibles.</p>
+-        <?php endif; ?>
++            <?php
++        }
++      }
++      else{
++        ?>
++        <p>No hay fotos adicionales disponibles.</p>
++          <?php
++          }
++          ?>
+       </section>
+ 
+       <div id="aniadir-foto">
+         <button><a href="anuncio_foto.php?id=<?= $idAnuncio ?>">Añadir foto</a></button>
+       </div>
+ 
+-      <div id="enviar-mensaje">
+-        <button>
+-          <a href="mensaje.php?anuncio=<?= $idAnuncio ?>&usuario_destino=<?= $idPropietario ?>">Enviar mensaje</a>
+-        </button>
+-      </div>
+-
+       <!-- Enlace para volver -->
+       <p><a href="res_busqueda.php">Volver a los resultados de búsqueda</a></p>
+     <?php else: ?>
+@@ -144,6 +149,14 @@ if ($result && $result->num_rows > 0) {
+   <?php $conn->close(); ?>
+ 
+   <footer>Todos los derechos reservados ©</footer>
++  <?php
++  if(isset($_GET["error"]) && $_GET["error"]==3){
++    ?>
++    <script>
++      alert("Has de poner un texto alternativo redundante");
++    </script>
++    <?php
++  }
++  ?>
+ </body>
+-
+ </html>
+diff --git a/views/confirmar_baja.php b/views/confirmar_baja.php
+index 8f21346..40d198f 100644
+--- a/views/confirmar_baja.php
++++ b/views/confirmar_baja.php
+@@ -12,8 +12,8 @@ if (!isset($_SESSION['usu'])) {
+ $id_usuario = $_SESSION['id_usuario'];
+ $query = "SELECT COUNT(a.IdAnuncio) AS total_anuncios, 
+                  COUNT(f.IdFoto) AS total_fotos 
+-          FROM anuncios a 
+-          LEFT JOIN fotos f ON a.IdAnuncio = f.Anuncio 
++          FROM Anuncios a 
++          LEFT JOIN Fotos f ON a.IdAnuncio = f.Anuncio 
+           WHERE a.Usuario = ?";
+ $stmt = $conn->prepare($query);
+ $stmt->bind_param("i", $id_usuario);
+@@ -40,6 +40,9 @@ $resumen = $result->fetch_assoc();
+ 
+ <body>
+     <?php
++    // Verificar sesión activa
++
++
+     // Redirige al login si no hay sesión activa
+     if (!isset($_SESSION["usu"])) {
+         header("Location: login.php");
+diff --git a/views/folleto.php b/views/folleto.php
+index 5a2d885..8a5decf 100644
+--- a/views/folleto.php
++++ b/views/folleto.php
+@@ -1,28 +1,3 @@
+-<?php
+-session_start();
+-include_once '../controller/connect.php';
+-
+-// Verificar sesión activa
+-if (!isset($_SESSION['usu'])) {
+-  header("Location: login.php");
+-  exit();
+-}
+-
+-// Verificar si tenemos el ID de la última solicitud desde la sesión
+-$solicitud_id = $_SESSION['ultima_solicitud_id'] ?? 0;
+-
+-if ($solicitud_id > 0) {
+-  // Obtener los últimos detalles de la solicitud de este usuario
+-  $query = "SELECT * FROM solicitudes WHERE IdSolicitud = ?";
+-  $stmt = $conn->prepare($query);
+-  $stmt->bind_param("i", $solicitud_id);
+-  $stmt->execute();
+-  $result = $stmt->get_result();
+-  $solicitud = $result->fetch_assoc();
+-} else {
+-  $solicitud = null;
+-}
+-?>
+ <!DOCTYPE html>
+ <html lang="es">
+ 
+@@ -38,47 +13,49 @@ if ($solicitud_id > 0) {
+   <link rel="alternative stylesheet" href="../styles/letra-mayor.css" title="Estilo letra mayor" />
+   <link rel="stylesheet" href="../styles/imprime-folleto.css" media="print" />
+   <link rel="alternative stylesheet" href="../styles/contraste-letra.css" title="Estilo letra mayor y alto contraste" />
++  <!-- Enlace a Font Awesome -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+ </head>
+ 
+ <body>
+-  <?php
+-  include_once "../modules/cabecera.php";
+-  ?>
++  <?php 
++  session_start();
++  if (!isset($_SESSION["usu"])){
++    header("Location: login.php");
++
++}
++  include_once "../modules/cabecera.php" ?>
+ 
+   <main>
+     <h1>Resumen de la Solicitud de Impresión</h1>
+ 
+-    <?php if ($solicitud): ?>
+-      <section>
+-        <article>
+-          <h2>Detalles del Folleto</h2>
+-          <p><strong>Texto adicional:</strong> <?= htmlspecialchars($solicitud['Texto']) ?></p>
+-          <p><strong>Nombre:</strong> <?= htmlspecialchars($solicitud['Nombre']) ?></p>
+-          <p><strong>Email:</strong> <?= htmlspecialchars($solicitud['Email']) ?></p>
+-          <p><strong>Dirección:</strong> <?= htmlspecialchars($solicitud['Direccion']) ?></p>
+-          <p><strong>Teléfono:</strong> <?= htmlspecialchars($solicitud['Telefono']) ?></p>
+-          <p><strong>Color de portada:</strong> <?= htmlspecialchars($solicitud['Color']) ?></p>
+-          <p><strong>Número de copias:</strong> <?= htmlspecialchars($solicitud['Copias']) ?></p>
+-          <p><strong>Resolución:</strong> <?= htmlspecialchars($solicitud['Resolucion']) ?> dpi</p>
+-          <p><strong>Modo de impresión:</strong> <?= $solicitud['IColor'] ? 'Color' : 'Blanco y negro' ?></p>
+-          <p><strong>Fecha de recepción:</strong> <?= htmlspecialchars($solicitud['Fecha']) ?></p>
+-          <p><strong>Anuncio:</strong> <?= htmlspecialchars($solicitud['Anuncio']) ?></p>
+-        </article>
++    <?php include '../controller/respuesta_folleto.php'; ?>
++
++    <section>
++      <article>
++        <h2>Detalles del Folleto</h2>
++        <p><strong>Texto adicional:</strong> <?= $textoAdicional ?></p>
++        <p><strong>Nombre:</strong> <?= $nombre ?></p>
++        <p><strong>Email:</strong> <?= $email ?></p>
++        <p><strong>Dirección:</strong> <?= $direccion ?></p>
++        <p><strong>Teléfono:</strong> <?= $telefono ?></p>
++        <p><strong>Color de portada:</strong> <?= $colorPortada ?></p>
++        <p><strong>Número de copias:</strong> <?= $numCopias ?></p>
++        <p><strong>Resolución:</strong> <?= $resolucion ?> dpi</p>
++        <p><strong>Modo de impresión:</strong> <?= $modoImpresion ?></p>
++        <p><strong>Anuncio: </strong> <?= $anuncio ?></p>
++      </article>
+ 
+-        <article>
+-          <h2>Detalles de la Tarifa</h2>
+-          <p><strong>Coste de procesamiento y envío:</strong> 10 €</p>
+-          <p><strong>Tarifa por página:</strong> <?= htmlspecialchars($solicitud['IPrecio']) ?> € por página</p>
+-          <p><strong>Color:</strong> <?= $solicitud['IColor'] ? 'Sí' : 'No' ?></p>
+-          <p><strong>Resolución:</strong> <?= ($solicitud['Resolucion'] ?? 0) > 300 ? '> 300 dpi' : '300 dpi o menos' ?></p>
+-          <p><strong>Total estimado por copia:</strong> <?= $solicitud['Copias'] > 0 ? number_format(($solicitud['Coste'] ?? 0) / $solicitud['Copias'], 2) : 'No disponible' ?> €</p>
+-          <p><strong>Coste final para <?= htmlspecialchars($solicitud['Copias'] ?? '0') ?> copias:</strong> <?= number_format($solicitud['Coste'] ?? 0, 2) ?> €</p>
+-        </article>
+-      </section>
+-    <?php else: ?>
+-      <p><strong>No se encontró la solicitud de impresión.</strong></p>
+-    <?php endif; ?>
++      <article>
++        <h2>Detalles de la Tarifa</h2>
++        <p><strong>Coste de procesamiento y envío:</strong> <?= $costeEnvio ?> €</p>
++        <p><strong>Número de páginas:</strong> <?= $numPaginas ?> páginas (Tarifa: <?= $tarifaPagina ?> € por página)</p>
++        <p><strong>Color:</strong> <?= ($modoImpresion === 'Color' ? 'Sí' : 'No') ?> (<?= $tarifaFotoColor ?> € por foto)</p>
++        <p><strong>Resolución:</strong> <?= ($resolucion > 300 ? '> 300 dpi' : '300 dpi o menos') ?> (<?= $tarifaFotoResolucionAlta ?> € por foto)</p>
++        <p><strong>Total estimado por copia:</strong> <?= number_format($precioUnitario, 2) ?> €</p>
++        <p><strong>Coste final para <?= $numCopias ?> copias:</strong> <?= number_format($costeTotal, 2) ?> €</p>
++      </article>
++    </section>
+   </main>
+ 
+   <footer>Todos los derechos reservados © 2024 Idealista</footer>
+diff --git a/views/form_folleto.php b/views/form_folleto.php
+index 9d7b7d0..6fb63de 100644
+--- a/views/form_folleto.php
++++ b/views/form_folleto.php
+@@ -22,6 +22,7 @@
+   session_start();
+   if (!isset($_SESSION["usu"])) {
+     header("Location: login.php");
++
+   }
+   include_once "../modules/cabecera.php";
+ 
+@@ -92,7 +93,7 @@
+         <p>Rellena el siguiente formulario blablabla</p>
+         <p>Los campos marcados con asterisco(*) son obligatorios</p>
+ 
+-        <form method="POST" action="../controller/insertar_folleto.php">
++        <form method="POST" action="folleto.php">
+           <p>
+             <label>Texto adicional:
+               <input id="textoAdicional" name="textoAdicional" size="50" maxlength="100"
+@@ -141,7 +142,7 @@
+             Seleccione el anuncio:
+             <select name="anuncio" id="anuncio">
+               <?php
+-              $sql = "SELECT IdAnuncio, Titulo FROM anuncios where Usuario = " . $_SESSION['id_usuario'];
++              $sql = "SELECT IdAnuncio, Titulo FROM anuncios where Usuario = ".$_SESSION['id_usuario'];
+               $result = $conn->query($sql);
+ 
+ 
+@@ -157,11 +158,10 @@
+             </select>
+           </p>
+           <p>
+-            <label>Fecha de recepción:
+-              <input type="text" id="fechaRecepcion" name="fechaRecepcion" placeholder="YYYY-MM-DD" required />
+-            </label>
++            <label>Fecha de recepción: <input id="fechaRecepcion" /></label>
+           </p>
+ 
++
+           <p>
+             Modo de impresión:
+             <input type="radio" id="opcionColor" name="tipoImpresion" value="Color">
+diff --git a/views/mensaje.php b/views/mensaje.php
+index d14c05e..7c39b57 100644
+--- a/views/mensaje.php
++++ b/views/mensaje.php
+@@ -1,16 +1,3 @@
+-<?php
+-session_start(); 
+-if (!isset($_SESSION["usu"])) {
+-  header("Location: login.php");
+-  exit();
+-}
+-include_once "../modules/cabecera.php";
+-include_once "../controller/connect.php";
+-
+-$idAnuncio = $_GET['anuncio'] ?? 0;
+-$usuarioDestino = $_GET['usuario_destino'] ?? 0;
+-?>
+-
+ <!DOCTYPE html>
+ <html lang="es">
+ 
+@@ -31,46 +18,56 @@ $usuarioDestino = $_GET['usuario_destino'] ?? 0;
+ 
+ <body>
+   <?php
+-  // Eliminar la segunda llamada a session_start()
+-  // session_start(); ❌ NO NECESARIO
+-  // if (!isset($_SESSION["usu"])) { ❌ Ya se verifica al principio del archivo
+-  //   header("Location: login.php");
+-  // }
++  session_start();
++  if (!isset($_SESSION["usu"])) {
++    header("Location: login.php");
++
++  }
+   include_once "../modules/cabecera.php";
+   include_once "../controller/connect.php";
++  
+   ?>
+ 
+   <main>
+-    <form action="../controller/res_enviar_mensaje.php" method="POST">
+-      <h1>Envía un mensaje al propietario</h1>
+-
+-      <!-- Enviar el ID del anuncio y usuario destino de forma oculta -->
+-      <input type="hidden" name="anuncio" value="<?= htmlspecialchars($idAnuncio) ?>" />
+-      <input type="hidden" name="usuario_destino" value="<?= htmlspecialchars($usuarioDestino) ?>" />
+-
++    <form action="res_enviar_mensaje.php" method="POST">
++      <h1>Envie un Mensaje al Propietario</h1>
++      <!-- Tipo de mensaje -->
+       <label for="tipo-mensaje">Tipo de mensaje:</label>
++      <br />
+       <select id="tipo-mensaje" name="tipo-mensaje" required>
+         <option value="">Seleccione el tipo de mensaje</option>
+         <?php
+         $sql = "SELECT IdTMensaje, NomTMensaje FROM tiposmensajes";
+         $result = $conn->query($sql);
+ 
++
+         if ($result->num_rows > 0) {
++          // output data of each row
+           while ($row = $result->fetch_assoc()) {
+             echo '<option value="' . $row["IdTMensaje"] . '">' . $row["NomTMensaje"] . '</option>';
+           }
++        } else {
++          echo '<option value="" disabled selected>No hay anuncios</option>';
+         }
++
+         ?>
+       </select>
++      <br /><br />
+ 
+-      <label for="mensaje">Escribe tu mensaje:</label>
+-      <textarea id="mensaje" name="mensaje" rows="6" cols="50" placeholder="Escribe aquí tu mensaje" required></textarea>
++      <!-- Texto del mensaje -->
++      <label for="mensaje">Escriba su mensaje:</label>
++      <br />
++      <textarea id="mensaje" name="mensaje" rows="6" cols="50" placeholder="Escriba aquí su mensaje"
++        required></textarea>
++      <br /><br />
+ 
++      <!-- Botón de envío -->
++      <!--<button type="submit">Enviar mensaje</button>-->
+       <input type="submit" value="Enviar mensaje" />
+     </form>
+   </main>
+-  
++
+   <footer>Todos los derechos reservados ©</footer>
+ </body>
+ 
+-</html>
++</html>
+\ No newline at end of file
+diff --git a/views/mis_mensajes.php b/views/mis_mensajes.php
+index ddc7780..02bba5b 100644
+--- a/views/mis_mensajes.php
++++ b/views/mis_mensajes.php
+@@ -1,39 +1,3 @@
+-<?php
+-session_start();
+-if (!isset($_SESSION["usu"])) {
+-  header("Location: login.php");
+-  exit();
+-}
+-
+-include_once "../controller/connect.php";
+-
+-$idUsuario = $_SESSION['id_usuario'];
+-
+-// Obtener mensajes enviados
+-$queryEnviados = "SELECT t.NomTMensaje, m.Texto, m.FRegistro, u.NomUsuario AS Receptor 
+-                  FROM mensajes m 
+-                  JOIN usuarios u ON m.UsuarioDestino = u.IdUsuario 
+-                  JOIN tiposmensajes t ON m.TMensaje = t.IdTMensaje 
+-                  WHERE m.UsuarioOrigen = ? 
+-                  ORDER BY m.FRegistro DESC";
+-$stmtEnviados = $conn->prepare($queryEnviados);
+-$stmtEnviados->bind_param("i", $idUsuario);
+-$stmtEnviados->execute();
+-$mensajesEnviados = $stmtEnviados->get_result()->fetch_all(MYSQLI_ASSOC);
+-
+-// Obtener mensajes recibidos
+-$queryRecibidos = "SELECT t.NomTMensaje, m.Texto, m.FRegistro, u.NomUsuario AS Emisor 
+-                   FROM mensajes m 
+-                   JOIN usuarios u ON m.UsuarioOrigen = u.IdUsuario 
+-                   JOIN tiposmensajes t ON m.TMensaje = t.IdTMensaje 
+-                   WHERE m.UsuarioDestino = ? 
+-                   ORDER BY m.FRegistro DESC";
+-$stmtRecibidos = $conn->prepare($queryRecibidos);
+-$stmtRecibidos->bind_param("i", $idUsuario);
+-$stmtRecibidos->execute();
+-$mensajesRecibidos = $stmtRecibidos->get_result()->fetch_all(MYSQLI_ASSOC);
+-?>
+-
+ <!DOCTYPE html>
+ <html lang="es">
+ 
+@@ -54,58 +18,80 @@ $mensajesRecibidos = $stmtRecibidos->get_result()->fetch_all(MYSQLI_ASSOC);
+ 
+ <body>
+   <?php
+-  include_once "../modules/cabecera.php"; 
+-  ?>
++  session_start();
++  if (!isset($_SESSION["usu"])){
++    header("Location: login.php");
++
++}
++  include_once "../modules/cabecera.php" ?>
+ 
+   <main>
+-    <h1>Mis Mensajes</h1>
++    <h1>Mis mensajes</h1>
+ 
+-    <h2>Mensajes Enviados</h2>
+-    <table>
+-      <thead>
+-        <tr>
+-          <th>Tipo de Mensaje</th>
+-          <th>Texto</th>
+-          <th>Fecha</th>
+-          <th>Receptor</th>
+-        </tr>
+-      </thead>
+-      <tbody>
+-        <?php foreach ($mensajesEnviados as $mensaje) : ?>
++    <!-- Mensajes enviados -->
++    <section>
++      <h2>Mensajes Enviados</h2>
++      <table>
++        <thead>
+           <tr>
+-            <td><?= htmlspecialchars($mensaje['NomTMensaje']) ?></td>
+-            <td><?= htmlspecialchars($mensaje['Texto']) ?></td>
+-            <td><?= htmlspecialchars($mensaje['FRegistro']) ?></td>
+-            <td><?= htmlspecialchars($mensaje['Receptor']) ?></td>
++            <th>Tipo de Mensaje</th>
++            <th>Texto</th>
++            <th>Fecha</th>
++            <th>Receptor</th>
+           </tr>
+-        <?php endforeach; ?>
+-      </tbody>
+-    </table>
++        </thead>
++        <tbody>
++          <tr>
++            <td>Consulta</td>
++            <td>
++              Estoy interesado en el inmueble, ¿podríamos agendar una visita?
++            </td>
++            <td>25 de septiembre de 2024</td>
++            <td>Pedro Martínez</td>
++          </tr>
++          <tr>
++            <td>Oferta</td>
++            <td>Me gustaría hacer una oferta por el inmueble.</td>
++            <td>20 de septiembre de 2024</td>
++            <td>María López</td>
++          </tr>
++        </tbody>
++      </table>
++    </section>
+ 
+-    <h2>Mensajes Recibidos</h2>
+-    <table>
+-      <thead>
+-        <tr>
+-          <th>Tipo de Mensaje</th>
+-          <th>Texto</th>
+-          <th>Fecha</th>
+-          <th>Emisor</th>
+-        </tr>
+-      </thead>
+-      <tbody>
+-        <?php foreach ($mensajesRecibidos as $mensaje) : ?>
++    <!-- Mensajes recibidos -->
++    <section>
++      <h2>Mensajes Recibidos</h2>
++      <table>
++        <thead>
++          <tr>
++            <th>Tipo de Mensaje</th>
++            <th>Texto</th>
++            <th>Fecha</th>
++            <th>Emisor</th>
++          </tr>
++        </thead>
++        <tbody>
++          <tr>
++            <td>Respuesta</td>
++            <td>
++              Gracias por tu interés, podemos agendar la visita el lunes.
++            </td>
++            <td>26 de septiembre de 2024</td>
++            <td>Pedro Martínez</td>
++          </tr>
+           <tr>
+-            <td><?= htmlspecialchars($mensaje['NomTMensaje']) ?></td>
+-            <td><?= htmlspecialchars($mensaje['Texto']) ?></td>
+-            <td><?= htmlspecialchars($mensaje['FRegistro']) ?></td>
+-            <td><?= htmlspecialchars($mensaje['Emisor']) ?></td>
++            <td>Aclaración</td>
++            <td>El precio es negociable dependiendo de las condiciones.</td>
++            <td>21 de septiembre de 2024</td>
++            <td>María López</td>
+           </tr>
+-        <?php endforeach; ?>
+-      </tbody>
+-    </table>
++        </tbody>
++      </table>
++    </section>
+   </main>
+ 
+   <footer>Todos los derechos reservados ©</footer>
+ </body>
+ 
+-</html>
++</html>
+\ No newline at end of file
+diff --git a/views/perfil.php b/views/perfil.php
+index e07801a..6d1ef75 100644
+--- a/views/perfil.php
++++ b/views/perfil.php
+@@ -1,34 +1,6 @@
+ <?php
+ include '../controller/recordarme.php';
+-
+-// Verifica si la sesión no está activa antes de iniciarla
+-if (session_status() !== PHP_SESSION_ACTIVE) {
+-    session_start();
+-}
+-
+-// Redirige al login si no hay sesión activa
+-if (!isset($_SESSION["usu"])) {
+-  header("Location: login.php");
+-  exit();
+-}
+-
+-include_once "../controller/connect.php";
+-
+-// Obtener los errores y el éxito de la sesión
+-$errores = $_SESSION['errores'] ?? [];
+-$exito = $_GET['success'] ?? null;
+-unset($_SESSION['errores']); // Limpiar errores para la próxima vez
+-
+-// Obtener los datos actuales del usuario
+-$idUsuario = $_SESSION['id_usuario'];
+-$query = "SELECT NomUsuario, Email FROM usuarios WHERE IdUsuario = ?";
+-$stmt = $conn->prepare($query);
+-$stmt->bind_param("i", $idUsuario);
+-$stmt->execute();
+-$result = $stmt->get_result();
+-$usuario = $result->fetch_assoc();
+ ?>
+-
+ <!DOCTYPE html>
+ <html lang="es">
+ 
+@@ -38,129 +10,93 @@ $usuario = $result->fetch_assoc();
+   <title>Mi Perfil</title>
+   <link rel="stylesheet" href="../styles/perfil.css" />
+   <link rel="stylesheet" href="../styles/global.css" />
+-  <?php include_once("../modules/estilo.php"); ?>
++  <?php
++  include_once("../modules/estilo.php");
++  ?>
+   <!-- Enlace a Font Awesome -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+ </head>
+ 
+ <body>
++  <?php
++  // Verificar sesión activa
+ 
+-  <?php include_once "../modules/cabecera.php"; ?>
+ 
+-  <main>
+-    <h1>Bienvenido, <?php echo htmlspecialchars($usuario['NomUsuario']); ?>!</h1>
++  // Redirige al login si no hay sesión activa
++  if (!isset($_SESSION["usu"])) {
++    header("Location: login.php");
++    exit();
++  }
++
++  include_once "../modules/cabecera.php";
++  ?>
+ 
+-    <?php if ($exito): ?>
+-      <div class="mensaje-exito">
+-        <p>✅ Los cambios se han guardado correctamente.</p>
+-      </div>
++  <!-- Guardar ID del usuario en sessionStorage -->
++  <script>
++    // Obtener el ID del usuario desde la sesión PHP
++    const userId = <?php echo json_encode($_SESSION['id_usuario'] ?? null); ?>;
++
++    // Guardar el ID en sessionStorage si existe
++    if (userId) {
++      sessionStorage.setItem('userId', userId);
++    } else {
++      console.error('No se pudo guardar el ID en sessionStorage.');
++    }
++  </script>
++
++  <main>
++    <?php if (isset($_COOKIE['usu'])): ?>
++      <h1>Bienvenido, <?php echo htmlspecialchars($nombreUsuario); ?>!</h1>
++      <p>Última visita: <?php echo htmlspecialchars($ultimaVisita); ?></p>
+     <?php endif; ?>
+ 
+     <section id="modificar_datos">
+-      
+-      <!-- Modificar Nombre y Email -->
+       <article>
+         <h2>Modificar mis datos personales</h2>
+-
+-        <form action="../controller/actualizar_usuario.php" method="POST">
++        <form>
+           <div id="modifica">
+             <div class="bloque_modifica">
+               <label for="nombre">Nombre</label>
+-              <input type="text" name="nombre" value="<?= htmlspecialchars($usuario['NomUsuario']) ?>" />
+-              <?php if (!empty($errores['nombre'])): ?>
+-                <p class="error"><?= htmlspecialchars($errores['nombre']) ?></p>
+-              <?php endif; ?>
+-            </div>
+-
+-            <div class="bloque_modifica">
+               <label for="email">Email</label>
+-              <input type="text" name="email" value="<?= htmlspecialchars($usuario['Email']) ?>" />
+-              <?php if (!empty($errores['email'])): ?>
+-                <p class="error"><?= htmlspecialchars($errores['email']) ?></p>
+-              <?php endif; ?>
+-            </div>
+-          </div>
+-          <div class="boton">
+-            <input type="submit" value="Actualizar datos" />
+-          </div>
+-        </form>
+-      </article>
+-
+-      <!-- Cambiar Contraseña -->
+-      <article>
+-        <h2>Cambiar Contraseña</h2>
+-
+-        <form action="../controller/actualizar_contrasena.php" method="POST">
+-          <div id="modifica">
+-            <div class="bloque_modifica">
+-              <label for="password_actual">Contraseña Actual</label>
+-              <input type="password" name="password_actual" />
+-              <?php if (!empty($errores['password_actual'])): ?>
+-                <p class="error"><?= htmlspecialchars($errores['password_actual']) ?></p>
+-              <?php endif; ?>
++              <label for="password">Contraseña</label>
+             </div>
+-
+             <div class="bloque_modifica">
+-              <label for="password_nueva">Nueva Contraseña</label>
+-              <input type="password" name="password_nueva" />
+-              <?php if (!empty($errores['password_nueva'])): ?>
+-                <p class="error"><?= htmlspecialchars($errores['password_nueva']) ?></p>
+-              <?php endif; ?>
+-            </div>
+-
+-            <div class="bloque_modifica">
+-              <label for="password_confirmar">Confirmar Contraseña</label>
+-              <input type="password" name="password_confirmar" />
+-              <?php if (!empty($errores['password_confirmar'])): ?>
+-                <p class="error"><?= htmlspecialchars($errores['password_confirmar']) ?></p>
+-              <?php endif; ?>
++              <input type="text" name="nombre" value="Juan Dario Gomez Ardila" />
++              <input type="email" name="email" value="jdgomezardila@gmail.com" />
++              <input type="password" name="password" value="123456" />
+             </div>
+           </div>
+           <div class="boton">
+-            <input type="submit" value="Actualizar Contraseña" />
++            <button type="button">Editar datos</button>
+           </div>
+         </form>
+       </article>
+ 
+-      <!-- Darse de baja -->
+       <article>
+         <h2>Darse de baja</h2>
+-        <p><strong>⚠️ OJO:</strong> Esta acción eliminará permanentemente tu cuenta.</p>
++        <p>
++          <strong>OJO:</strong> Esta acción eliminará permanentemente tu
++          cuenta. Recibirás un correo para confirmar la eliminación de tu
++          cuenta.
++        </p>
+         <div class="boton">
+           <a href="confirmar_baja.php">
+             <button type="button">Darse de baja</button>
+           </a>
+         </div>
+       </article>
+-
+-      <!-- Accesos rápidos -->
+       <article>
+         <h3><a href="crear_anuncio.php">Crear nuevo anuncio</a></h3>
+         <h3><a href="mis_anuncios.php">Mis anuncios</a></h3>
+-        <h3><a href="config.php">Configuración</a></h3>
++        <h3><a href="config.php">Configuracion</a></h3>
+         <h3><a href="mis_mensajes.php">Mis mensajes</a></h3>
+       </article>
+     </section>
++
+   </main>
+ 
++  <p><label>o necesitas un anuncio impreso? <a href="form_folleto.php">click aquí</a></label></p>
+   <footer>Todos los derechos reservados ©</footer>
+-
+-  <style>
+-    .error {
+-      color: red;
+-      font-size: 0.9rem;
+-      margin-top: 5px;
+-    }
+-
+-    .mensaje-exito {
+-      background-color: #d4edda;
+-      color: #155724;
+-      padding: 10px;
+-      border-radius: 5px;
+-      margin-bottom: 10px;
+-    }
+-  </style>
+-
+ </body>
+ 
+-</html>
++</html>
+\ No newline at end of file
+diff --git a/views/res_enviar_mensaje.php b/views/res_enviar_mensaje.php
+index 203b6ec..77b2bec 100644
+--- a/views/res_enviar_mensaje.php
++++ b/views/res_enviar_mensaje.php
+@@ -4,53 +4,53 @@
+ <head>
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+-  <title>Confirmación de mensaje</title>
++  <title>Detalle del Anuncio</title>
+   <link rel="stylesheet" href="../styles/global.css" />
+   <link rel="stylesheet" href="../styles/estilo-estandar.css" title="Estilo principal" />
++  <link rel="alternative stylesheet" href="../styles/oscuro.css" title="Modo oscuro" />
++  <link rel="alternative stylesheet" href="../styles/contraste.css" title="Estilo alto contraste" />
++  <link rel="alternative stylesheet" href="../styles/letra-mayor.css" title="Estilo letra mayor" />
+   <link rel="stylesheet" href="../styles/mensaje.css" />
++  <link rel="alternative stylesheet" href="../styles/contraste-letra.css" title="Estilo letra mayor y alto contraste" />
++  <!-- Enlace a Font Awesome -->
++  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+ </head>
+ 
+ <body>
+ 
+   <?php 
+   session_start();
+-  if (!isset($_SESSION["usu"])) {
++  if (!isset($_SESSION["usu"])){
+     header("Location: login.php");
+-    exit();
+-  }
+ 
++}
+   include_once "../modules/cabecera.php";
+-
+-  // Recoger los datos enviados por la URL
+-  $tipoMensaje = $_GET["tipo-mensaje"] ?? 'No especificado';
+-  $mensaje = $_GET["mensaje"] ?? 'No se recibió ningún mensaje';
+   ?>
+-
+   <main>
++    <!--Texto: MENSAJE ENVIADO-->
+     <h1>Confirmación de mensaje</h1>
+     <h3>Los datos almacenados han sido los siguientes:</h3>
+-
+     <form>
+       <label> Tipo de mensaje</label>
++      <br />
+       <select disabled>
+-        <option><?= htmlspecialchars($tipoMensaje) ?></option>
++        <option><?= $_POST["tipo-mensaje"];?></option>
+       </select>
+-
+-      <br /><br />
+-
++      <br />
++      <br />
+       <label>Mensaje</label>
+-      <textarea rows="6" cols="50" disabled><?= htmlspecialchars($mensaje) ?></textarea>
+-
+-      <br /><br />
+-
+-      <label for="">¡Tu mensaje ha sido enviado con éxito!</label>
+-
+-      <br /><br />
+-
+-      <a href="mis_mensajes.php">Ver mis mensajes</a>
++      <br />
++      <textarea rows="6" cols="50" disabled><?= $_POST["mensaje"];?></textarea>
++      <br />
++      <label for="">Tu mensaje ha sido enviado con éxito!</label>
++      <br />
++      <!--<button>Ok</button>-->
++      <a href="index_logeado.php">Ok</a>
+     </form>
++    <!--Tipo de mensaje-->
++    <!--texto-->
+   </main>
+-
+   <footer>Todos los derechos reservados ©</footer>
+ </body>
+-</html>
++
++</html>
+\ No newline at end of file

@@ -1,39 +1,3 @@
-<?php
-session_start();
-if (!isset($_SESSION["usu"])) {
-  header("Location: login.php");
-  exit();
-}
-
-include_once "../controller/connect.php";
-
-$idUsuario = $_SESSION['id_usuario'];
-
-// Obtener mensajes enviados
-$queryEnviados = "SELECT t.NomTMensaje, m.Texto, m.FRegistro, u.NomUsuario AS Receptor 
-                  FROM mensajes m 
-                  JOIN usuarios u ON m.UsuarioDestino = u.IdUsuario 
-                  JOIN tiposmensajes t ON m.TMensaje = t.IdTMensaje 
-                  WHERE m.UsuarioOrigen = ? 
-                  ORDER BY m.FRegistro DESC";
-$stmtEnviados = $conn->prepare($queryEnviados);
-$stmtEnviados->bind_param("i", $idUsuario);
-$stmtEnviados->execute();
-$mensajesEnviados = $stmtEnviados->get_result()->fetch_all(MYSQLI_ASSOC);
-
-// Obtener mensajes recibidos
-$queryRecibidos = "SELECT t.NomTMensaje, m.Texto, m.FRegistro, u.NomUsuario AS Emisor 
-                   FROM mensajes m 
-                   JOIN usuarios u ON m.UsuarioOrigen = u.IdUsuario 
-                   JOIN tiposmensajes t ON m.TMensaje = t.IdTMensaje 
-                   WHERE m.UsuarioDestino = ? 
-                   ORDER BY m.FRegistro DESC";
-$stmtRecibidos = $conn->prepare($queryRecibidos);
-$stmtRecibidos->bind_param("i", $idUsuario);
-$stmtRecibidos->execute();
-$mensajesRecibidos = $stmtRecibidos->get_result()->fetch_all(MYSQLI_ASSOC);
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -54,55 +18,77 @@ $mensajesRecibidos = $stmtRecibidos->get_result()->fetch_all(MYSQLI_ASSOC);
 
 <body>
   <?php
-  include_once "../modules/cabecera.php"; 
-  ?>
+  session_start();
+  if (!isset($_SESSION["usu"])){
+    header("Location: login.php");
+
+}
+  include_once "../modules/cabecera.php" ?>
 
   <main>
-    <h1>Mis Mensajes</h1>
+    <h1>Mis mensajes</h1>
 
-    <h2>Mensajes Enviados</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Tipo de Mensaje</th>
-          <th>Texto</th>
-          <th>Fecha</th>
-          <th>Receptor</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($mensajesEnviados as $mensaje) : ?>
+    <!-- Mensajes enviados -->
+    <section>
+      <h2>Mensajes Enviados</h2>
+      <table>
+        <thead>
           <tr>
-            <td><?= htmlspecialchars($mensaje['NomTMensaje']) ?></td>
-            <td><?= htmlspecialchars($mensaje['Texto']) ?></td>
-            <td><?= htmlspecialchars($mensaje['FRegistro']) ?></td>
-            <td><?= htmlspecialchars($mensaje['Receptor']) ?></td>
+            <th>Tipo de Mensaje</th>
+            <th>Texto</th>
+            <th>Fecha</th>
+            <th>Receptor</th>
           </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Consulta</td>
+            <td>
+              Estoy interesado en el inmueble, ¿podríamos agendar una visita?
+            </td>
+            <td>25 de septiembre de 2024</td>
+            <td>Pedro Martínez</td>
+          </tr>
+          <tr>
+            <td>Oferta</td>
+            <td>Me gustaría hacer una oferta por el inmueble.</td>
+            <td>20 de septiembre de 2024</td>
+            <td>María López</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-    <h2>Mensajes Recibidos</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Tipo de Mensaje</th>
-          <th>Texto</th>
-          <th>Fecha</th>
-          <th>Emisor</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($mensajesRecibidos as $mensaje) : ?>
+    <!-- Mensajes recibidos -->
+    <section>
+      <h2>Mensajes Recibidos</h2>
+      <table>
+        <thead>
           <tr>
-            <td><?= htmlspecialchars($mensaje['NomTMensaje']) ?></td>
-            <td><?= htmlspecialchars($mensaje['Texto']) ?></td>
-            <td><?= htmlspecialchars($mensaje['FRegistro']) ?></td>
-            <td><?= htmlspecialchars($mensaje['Emisor']) ?></td>
+            <th>Tipo de Mensaje</th>
+            <th>Texto</th>
+            <th>Fecha</th>
+            <th>Emisor</th>
           </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Respuesta</td>
+            <td>
+              Gracias por tu interés, podemos agendar la visita el lunes.
+            </td>
+            <td>26 de septiembre de 2024</td>
+            <td>Pedro Martínez</td>
+          </tr>
+          <tr>
+            <td>Aclaración</td>
+            <td>El precio es negociable dependiendo de las condiciones.</td>
+            <td>21 de septiembre de 2024</td>
+            <td>María López</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
   </main>
 
   <footer>Todos los derechos reservados ©</footer>
