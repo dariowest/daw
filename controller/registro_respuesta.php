@@ -96,12 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // 🚀 **Inserción en la base de datos**
     if (empty($errores)) {
-<<<<<<< HEAD
-        // Verifica los nombres reales de las columnas en tu tabla `Usuarios`
-        $query = "INSERT INTO Usuarios (NomUsuario, Email, Clave, Sexo, FNacimiento, Pais, Ciudad, Foto) 
-=======
         $query = "INSERT INTO usuarios (NomUsuario, Email, Clave, Sexo, FNacimiento, Pais, Ciudad, Foto) 
->>>>>>> origin/rama_juanjo
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
 
