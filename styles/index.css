@@ -17,7 +17,7 @@ main {
   section {
     display: grid;
     > article {
-      width: 300px;
+      width: 350px;
       display: flex;
       margin: 20px auto;
       padding: 20px;
@@ -36,6 +36,34 @@ main {
       }
     }
   }
+}
+#recomendacion{
+  >h2, >p{
+    text-align: center;
+  }
+  section {
+    display: flex;
+    > article {
+      width: 350px;
+      display: flex;
+      margin: 20px auto;
+      padding: 20px;
+      border-style: solid;
+      border-radius: 10px;
+
+      > figure {
+        margin: auto;
+      }
+      > aside {
+        margin-left: 8px;
+
+        p {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
 }
 
 @media only screen and (min-width: 750px) {

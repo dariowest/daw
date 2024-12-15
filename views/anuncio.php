@@ -26,10 +26,7 @@
 include_once ("../controller/connect.php");
 
 //leer fichero y guardarlo en variables
-$fichero = "../recomendaciones.txt";
-$contenido = file($fichero, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-$lineaAleatoria = $contenido[array_rand($contenido)];
-list($idAnuncio, $nombreExperto, $comentario) = explode('|', $lineaAleatoria);
+
 
 
 

@@ -23,6 +23,11 @@
   // Leer configuración desde config.ini
   include_once ('controller/connect.php');
 
+  $fichero = "recomendacion.txt";
+  $contenido = file($fichero, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+  $lineaAleatoria = $contenido[array_rand($contenido)];
+  list($idAnuncio, $nombreExperto, $comentario) = explode('|', $lineaAleatoria);
+
   // Consulta para obtener los últimos 5 anuncios
   $query = "
     SELECT 
@@ -74,8 +79,58 @@
     }
     include_once("modules/muestra_index.php");
     ?>
-  </main>
 
+  </main>
+    <div id="recomendacion">
+      <h2>Recomendacion de experto</h2>
+      <?php
+      echo "<p>Recomendacion de: ".$nombreExperto."</p>";
+      echo "<p>Comentario del experto: ".$comentario."</p>";
+      $sql = "
+    SELECT 
+        a.IdAnuncio, 
+        a.Titulo, 
+        a.Ciudad, 
+        a.Precio, 
+        tA.NomTAnuncio AS TipoAnuncio, 
+        tV.NomTVivienda AS TipoVivienda, 
+        a.Foto, 
+        a.FRegistro 
+    FROM anuncios a
+    JOIN tiposanuncios tA ON a.TAnuncio = tA.IdTAnuncio
+    JOIN tiposviviendas tV ON a.TVivienda = tV.IdTVivienda
+    WHERE a.IdAnuncio = ".$idAnuncio;
+    $result = $conn->query($sql);
+    $anuncios = $result->fetch_all(MYSQLI_ASSOC);
+    ?>
+    <section>
+      <?php if (!empty($anuncios)) : ?>
+          <?php foreach ($anuncios as $anuncio) : ?>
+              <article>
+                  <figure>
+                      <img src="img/<?php echo htmlspecialchars($anuncio['Foto']); ?>" 
+                          alt="Foto del anuncio <?php echo htmlspecialchars($anuncio['Titulo']); ?>" width="200" />
+                  </figure>
+                  <aside>
+                      <h2><a href="views/anuncio.php?id=<?php echo $anuncio['IdAnuncio']; ?>">
+                          <?php echo htmlspecialchars($anuncio['Titulo']); ?>
+                      </a></h2>
+                      <p><?php echo htmlspecialchars($anuncio['Ciudad']); ?></p>
+                      <p>€<?php echo number_format($anuncio['Precio'], 2); ?></p>
+                      <p><?php echo htmlspecialchars($anuncio['TipoVivienda']); ?></p>
+                      <p><?php echo htmlspecialchars($anuncio['TipoAnuncio']); ?></p>
+                      <p><?php echo htmlspecialchars($anuncio['FRegistro']); ?></p>
+                  </aside>
+              </article>
+          <?php endforeach; ?>
+      <?php else : ?>
+          <p>No hay anuncios disponibles.</p>
+      <?php endif; ?>
+  </section>
+  <?php
+      ?>
+
+    </div>
   <p id="accesible">
     <a href="views/accesibilidad.php">Accesibilidad</a>
   </p>
