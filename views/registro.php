@@ -117,7 +117,6 @@ unset($_SESSION['errores'], $_SESSION['datos']);
         <?php endif; ?>
       </div>
 
-
       <!-- Ciudad -->
       <div class="form-alineado">
         <label for="ciudad">Ciudad:</label>
@@ -127,10 +126,10 @@ unset($_SESSION['errores'], $_SESSION['datos']);
         <?php endif; ?>
       </div>
 
-      <!-- Foto -->
+      <!-- Foto de perfil -->
       <div class="form-alineado">
         <label for="foto">Foto de perfil:</label>
-        <input type="file" id="foto" name="foto" accept="image/*">
+        <input type="file" id="foto" name="foto" accept="image/jpeg, image/png, image/gif">
         <?php if (isset($errores['foto'])): ?>
           <div style="color: red;"><?= $errores['foto'] ?></div>
         <?php endif; ?>

@@ -1,5 +1,32 @@
 <?php
 include '../controller/recordarme.php';
+
+// Verifica si la sesión no está activa antes de iniciarla
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+// Redirige al login si no hay sesión activa
+if (!isset($_SESSION["usu"])) {
+  header("Location: login.php");
+  exit();
+}
+
+include_once "../controller/connect.php";
+
+// Obtener los errores y el éxito de la sesión
+$errores = $_SESSION['errores'] ?? [];
+$exito = $_GET['success'] ?? null;
+unset($_SESSION['errores']); // Limpiar errores para la próxima vez
+
+// Obtener los datos actuales del usuario
+$idUsuario = $_SESSION['id_usuario'];
+$query = "SELECT NomUsuario, Email, Foto FROM usuarios WHERE IdUsuario = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $idUsuario);
+$stmt->execute();
+$result = $stmt->get_result();
+$usuario = $result->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -51,6 +78,43 @@ include '../controller/recordarme.php';
     <?php endif; ?>
 
     <section id="modificar_datos">
+      
+      <!-- Modificar Foto de Perfil -->
+      <article>
+        <h2>Foto de perfil</h2>
+
+        <div class="foto-perfil">
+          <!-- Mostrar la foto de perfil o un ícono genérico -->
+          <?php if (!empty($usuario['Foto'])): ?>
+            <img src="../img/perfiles/<?= htmlspecialchars($usuario['Foto']) ?>" alt="Foto de perfil" width="150" height="150" />
+          <?php else: ?>
+            <img src="../img/icono-usuario.png" alt="Foto de perfil genérica" width="150" height="150" />
+          <?php endif; ?>
+        </div>
+
+        <!-- Formulario para subir o eliminar la foto de perfil -->
+        <form action="../controller/actualizar_foto.php" method="POST" enctype="multipart/form-data">
+          <div class="bloque_modifica">
+            <label for="foto">Subir nueva foto de perfil</label>
+            <input type="file" name="foto" accept="image/*">
+            <?php if (!empty($errores['foto'])): ?>
+              <p class="error"><?= htmlspecialchars($errores['foto']) ?></p>
+            <?php endif; ?>
+          </div>
+
+          <div class="boton">
+            <input type="submit" value="Actualizar Foto" />
+          </div>
+        </form>
+
+        <form action="../controller/eliminar_foto.php" method="POST">
+          <div class="boton">
+            <input type="submit" value="Eliminar Foto de Perfil" />
+          </div>
+        </form>
+      </article>
+
+      <!-- Modificar Nombre y Email -->
       <article>
         <h2>Modificar mis datos personales</h2>
         <form>
@@ -97,6 +161,27 @@ include '../controller/recordarme.php';
 
   <p><label>o necesitas un anuncio impreso? <a href="form_folleto.php">click aquí</a></label></p>
   <footer>Todos los derechos reservados ©</footer>
+
+  <style>
+    .error {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 5px;
+    }
+
+    .mensaje-exito {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .foto-perfil img {
+      border-radius: 50%;
+    }
+  </style>
+
 </body>
 
 </html>

@@ -1,3 +1,26 @@
+<?php
+session_start();
+if (!isset($_SESSION["usu"])) {
+    header("Location: login.php");
+    exit();
+}
+
+include_once "../controller/connect.php";
+
+// Obtener la lista de anuncios del usuario
+$queryAnuncios = "SELECT IdAnuncio, Titulo FROM anuncios WHERE Usuario = ?";
+$stmt = $conn->prepare($queryAnuncios);
+$idUsuario = $_SESSION['id_usuario'];
+$stmt->bind_param("i", $idUsuario);
+$stmt->execute();
+$resultAnuncios = $stmt->get_result();
+$anuncios = $resultAnuncios->fetch_all(MYSQLI_ASSOC);
+
+// Capturar errores de la sesión si los hay
+$errores = $_SESSION['errores'] ?? [];
+unset($_SESSION['errores']); // Limpiar errores de la sesión para la próxima vez
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,82 +30,56 @@
     <link rel="stylesheet" href="../styles/global.css">
     <link rel="stylesheet" href="../styles/form-buscar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <?php
-  include_once ("../modules/estilo.php");
-  ?>
+    <?php include_once("../modules/estilo.php"); ?>
 </head>
 <body>
-    <?php 
-    if (!isset($_SESSION["usu"])){
-        header("Location: login.php");
 
-    }
-    include_once "../modules/cabecera.php";
-    include_once "../controller/connect.php";
-    ?>
+    <?php include_once "../modules/cabecera.php"; ?>
 
     <main>
         <h1>Añade una foto</h1>
-        <form action="../controller/res_foto.php" method="POST">
+
+        <!-- Mostrar errores -->
+        <?php if (!empty($errores)): ?>
+            <div class="errores">
+                <ul>
+                    <?php foreach ($errores as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
+        <form action="../controller/res_foto.php" method="POST" enctype="multipart/form-data">
             <div class="creafoto">
-                <label for="titulo">Titulo</label>
-                <input type="text" name="titulo" required>
+                <label for="titulo">Título</label>
+                <input type="text" name="titulo" value="<?= htmlspecialchars($_POST['titulo'] ?? '') ?>" maxlength="50">
             </div>
             <div class="creafoto">
-                <label for="alternativo">Alternativo</label>
-                <input type="text" name="alternativo" minlength="10" required>
-
+                <label for="alternativo">Texto alternativo</label>
+                <input type="text" name="alternativo" value="<?= htmlspecialchars($_POST['alternativo'] ?? '') ?>" minlength="10" maxlength="100">
             </div>
             <div class="creafoto">
                 <label for="foto">Foto</label>
-                <input type="file" name="foto" required>
+                <input type="file" name="foto" accept="image/jpeg, image/png, image/gif">
             </div>
             <div class="creafoto">
                 <label for="anuncio">Anuncio</label>
-                <select name="anuncio" required>
-                    <?php
-                    $sql = "SELECT IdAnuncio, Titulo FROM anuncios where Usuario = ".$_SESSION['id_usuario'];
-                    $result = $conn->query($sql);
-                    
-
-                    if(!isset($_GET["id"])){
-                    echo"<option value='' selected>Selecciona un anuncio</option>";
-                    if ($result->num_rows > 0) {
-                        // output data of each row
-                        while ($row = $result->fetch_assoc()) {
-                            echo '<option value="' . $row["IdAnuncio"] . '">' . $row["Titulo"] . '</option>';
-                        }
-                        }
-
-                    }
-                    else{
-                        $id = $_GET["id"];
-
-                        while ($row = $result->fetch_assoc()){
-                            if($row["IdAnuncio"] == $id){
-                                echo"<option value='{$row["IdAnuncio"]}' selected>{$row["Titulo"]}</option>";
-                                
-                            }
-                            else{
-                                echo"<option value='{$row["IdAnuncio"]}'>{$row["Titulo"]}</option>";
-
-                            }
-
-                        }
-
-
-                    }
-
-                    ?>
+                <select name="anuncio">
+                    <option value="">Selecciona un anuncio</option>
+                    <?php foreach ($anuncios as $anuncio): ?>
+                        <option value="<?= $anuncio['IdAnuncio'] ?>" 
+                            <?= (isset($_GET['id']) && $_GET['id'] == $anuncio['IdAnuncio']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($anuncio['Titulo']) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             <div class="creafoto">
-                <input type="submit">
+                <input type="submit" value="Subir Foto">
             </div>
-
         </form>
     </main>
 
-    
 </body>
 </html>
