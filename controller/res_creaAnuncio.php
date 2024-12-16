@@ -2,46 +2,52 @@
 include_once "connect.php";
 session_start();
 
-$titulo = $_GET["titulo"];
-$tipo = $_GET["tipo"];
-$precio = $_GET["precio"];
-$ciudad = $_GET["ciudad"];
-$pais = $_GET["pais"];
-$tipoVivienda = $_GET["tipoVivienda"];
-$descripcion = $_GET["descripcion"];
-$foto = $_GET["foto"];
+$titulo = trim($_POST["titulo"] ?? '');
+$tipo = $_POST["tipo"] ?? null;
+$precio = $_POST["precio"] ?? null;
+$ciudad = trim($_POST["ciudad"] ?? '');
+$pais = $_POST["pais"] ?? null;
+$tipoVivienda = $_POST["tipoVivienda"] ?? null;
+$descripcion = trim($_POST["descripcion"] ?? '');
+$foto = $_FILES['foto'] ?? null;
 
-// Validar si los valores están vacíos y asignar NULL si es necesario
-$precio = empty($precio) ? "NULL" : "'" . addslashes($precio) . "'";
-$foto = empty($foto) ? "NULL" : "'" . addslashes($foto) . "'";
-$ciudad = empty($ciudad) ? "NULL" : "'" . addslashes($ciudad) . "'";
+// Validar y subir la foto
+$foto_nombre = null;
+if ($foto && $foto['error'] === 0) {
+    $extensiones_permitidas = ['jpg', 'jpeg', 'png', 'gif'];
+    $extension = strtolower(pathinfo($foto['name'], PATHINFO_EXTENSION));
+    
+    if (in_array($extension, $extensiones_permitidas)) {
+        if (!is_dir('../img/anuncios')) {
+            mkdir('../img/anuncios', 0775, true);
+        }
+        
+        $foto_nombre = uniqid('anuncio_', true) . '.' . $extension;
+        $ruta_foto = '../img/anuncios/' . $foto_nombre;
 
-// Escapar los demás valores
-$titulo = "'" . addslashes($titulo) . "'";
-$tipo = "'" . addslashes($tipo) . "'";
-$pais = "'" . addslashes($pais) . "'";
-$tipoVivienda = "'" . addslashes($tipoVivienda) . "'";
-$descripcion = "'" . addslashes($descripcion) . "'";
+        if (!move_uploaded_file($foto['tmp_name'], $ruta_foto)) {
+            error_log("Error al mover la imagen del anuncio");
+        }
+    } else {
+        error_log("Extensión no permitida para la foto");
+    }
+}
+
 $usuario = $_SESSION['id_usuario'];
 
 // Crear la consulta SQL
-$sql = "INSERT INTO anuncios (TAnuncio, TVivienda, Foto, Titulo, Precio, Texto, Ciudad, Pais, Usuario) 
-        VALUES ($tipo, $tipoVivienda, $foto, $titulo, $precio, $descripcion, $ciudad, $pais, $usuario)";
+$query = "INSERT INTO anuncios (TAnuncio, TVivienda, Foto, Titulo, Precio, Texto, Ciudad, Pais, Usuario) 
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("iissssssi", $tipo, $tipoVivienda, $foto_nombre, $titulo, $precio, $descripcion, $ciudad, $pais, $usuario);
 
-if ($conn->query($sql) === TRUE) {
-    // Capturar el ID generado
+if ($stmt->execute()) {
     $idAnuncio = $conn->insert_id;
     header("Location: ../views/anuncio_foto.php?id=".$idAnuncio);
 } else {
-    echo "Error al crear el anuncio: " . $conn->error;
+    error_log("Error al crear el anuncio: " . $stmt->error);
+    echo "Error al crear el anuncio.";
 }
 
-
+$stmt->close();
 $conn->close();
-
-
-
-
-
-
-?>

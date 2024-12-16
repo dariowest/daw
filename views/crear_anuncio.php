@@ -15,7 +15,6 @@
     session_start();
     if (!isset($_SESSION["usu"])) {
         header("Location: login.php");
-
     }
     include_once "../modules/cabecera.php";
     include_once "../controller/connect.php";
@@ -23,102 +22,83 @@
 
     <main>
         <h1>Crear anuncio</h1>
-        <form action="../controller/res_creaAnuncio.php" >
+        
+        <!-- Cambiamos GET a POST y añadimos enctype para subir archivos -->
+        <form action="../controller/res_creaAnuncio.php" method="POST" enctype="multipart/form-data">
             <div class="creanuncio">
-                <label for="titulo">Titulo del anuncio</label>
+                <label for="titulo">Título del anuncio</label>
                 <input type="text" name="titulo" required>
-
             </div>
+            
             <div class="creanuncio">
                 <label for="tipo">Tipo de anuncio</label>
                 <select name="tipo">
                     <?php
                     $sql = "SELECT IdTAnuncio, NomTAnuncio FROM tiposanuncios";
                     $result = $conn->query($sql);
-
-
                     if ($result->num_rows > 0) {
-                        // output data of each row
                         while ($row = $result->fetch_assoc()) {
                             echo '<option value="' . $row["IdTAnuncio"] . '">' . $row["NomTAnuncio"] . '</option>';
                         }
-                    } else {
-                        echo '<option value="" disabled selected>No hay anuncios</option>';
                     }
-
                     ?>
                 </select>
-
-
             </div>
+
             <div class="creanuncio">
                 <label for="precio">Precio</label>
                 <input type="number" name="precio">
-
             </div>
+
             <div class="creanuncio">
                 <label for="ciudad">Ciudad</label>
                 <input type="text" name="ciudad">
-
             </div>
+
             <div class="creanuncio">
-                <label for="pais">Pais</label>
+                <label for="pais">País</label>
                 <select name="pais">
                     <?php
                     $sql = "SELECT IdPais, NomPais FROM paises";
                     $result = $conn->query($sql);
-
-
                     if ($result->num_rows > 0) {
-                        // output data of each row
                         while ($row = $result->fetch_assoc()) {
                             echo '<option value="' . $row["IdPais"] . '">' . $row["NomPais"] . '</option>';
                         }
-                    } else {
-                        echo "0 results";
                     }
-
                     ?>
                 </select>
-
             </div>
+
             <div class="creanuncio">
                 <label for="tipoVivienda">Tipo de vivienda</label>
                 <select name="tipoVivienda">
                     <?php
                     $sql = "SELECT IdTVivienda, NomTVivienda FROM tiposviviendas";
                     $result = $conn->query($sql);
-
-
                     if ($result->num_rows > 0) {
-                        // output data of each row
                         while ($row = $result->fetch_assoc()) {
                             echo '<option value="' . $row["IdTVivienda"] . '">' . $row["NomTVivienda"] . '</option>';
                         }
-                    } else {
-                        echo '<option value="" disabled selected>No hay anuncios</option>';
                     }
-
                     ?>
-
                 </select>
-
             </div>
 
             <div class="creanuncio">
-                <label for="descripcion">Descripcion del anuncio</label>
+                <label for="descripcion">Descripción del anuncio</label>
                 <textarea name="descripcion" rows="5" required></textarea>
             </div>
+
             <div class="creanuncio">
                 <label for="foto">Imagen principal</label>
-                <input type="file" name="foto">
+                <input type="file" name="foto" accept="image/*">
             </div>
-            <input type="submit">
 
+            <input type="submit" value="Crear Anuncio">
         </form>
 
     </main>
-
 </body>
 
 </html>

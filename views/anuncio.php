@@ -88,7 +88,7 @@ if ($result && $result->num_rows > 0) {
       <section>
         <article>
           <figure>
-            <img src="../img/<?= htmlspecialchars($anuncio['FotoPrincipal']) ?>" 
+            <img src="../img/anuncios/<?= htmlspecialchars($anuncio['FotoPrincipal']) ?>" 
               alt="Foto principal del anuncio" width="500" />
           </figure>
         </article>
